@@ -1,0 +1,6 @@
+@Shop.Endpoint.Rest_HostAddress = http://localhost:5260
+
+GET {{Shop.Endpoint.Rest_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

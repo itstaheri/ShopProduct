@@ -1,0 +1,8 @@
+D:\Projects\Shop\Shop.Endpoint.Rest\obj\Debug\net8.0\Shop.Endpoint.Rest.csproj.AssemblyReference.cache
+D:\Projects\Shop\Shop.Endpoint.Rest\obj\Debug\net8.0\Shop.Endpoint.Rest.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\Shop\Shop.Endpoint.Rest\obj\Debug\net8.0\Shop.Endpoint.Rest.AssemblyInfoInputs.cache
+D:\Projects\Shop\Shop.Endpoint.Rest\obj\Debug\net8.0\Shop.Endpoint.Rest.AssemblyInfo.cs
+D:\Projects\Shop\Shop.Endpoint.Rest\obj\Debug\net8.0\Shop.Endpoint.Rest.csproj.CoreCompileInputs.cache
+D:\Projects\Shop\Shop.Endpoint.Rest\obj\Debug\net8.0\Shop.Endpoint.Rest.MvcApplicationPartsAssemblyInfo.cs
+D:\Projects\Shop\Shop.Endpoint.Rest\obj\Debug\net8.0\Shop.Endpoint.Rest.MvcApplicationPartsAssemblyInfo.cache
+D:\Projects\Shop\Shop.Endpoint.Rest\obj\Debug\net8.0\Shop.Endpoint.Rest.sourcelink.json

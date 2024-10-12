@@ -1,0 +1,11 @@
+D:\Projects\Shopv1\Shop.Domain.Contract\bin\Debug\net8.0\Shop.Domain.Contract.deps.json
+D:\Projects\Shopv1\Shop.Domain.Contract\bin\Debug\net8.0\Shop.Domain.Contract.dll
+D:\Projects\Shopv1\Shop.Domain.Contract\bin\Debug\net8.0\Shop.Domain.Contract.pdb
+D:\Projects\Shopv1\Shop.Domain.Contract\obj\Debug\net8.0\Shop.Domain.Contract.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\Shopv1\Shop.Domain.Contract\obj\Debug\net8.0\Shop.Domain.Contract.AssemblyInfoInputs.cache
+D:\Projects\Shopv1\Shop.Domain.Contract\obj\Debug\net8.0\Shop.Domain.Contract.AssemblyInfo.cs
+D:\Projects\Shopv1\Shop.Domain.Contract\obj\Debug\net8.0\Shop.Domain.Contract.csproj.CoreCompileInputs.cache
+D:\Projects\Shopv1\Shop.Domain.Contract\obj\Debug\net8.0\Shop.Domain.Contract.dll
+D:\Projects\Shopv1\Shop.Domain.Contract\obj\Debug\net8.0\refint\Shop.Domain.Contract.dll
+D:\Projects\Shopv1\Shop.Domain.Contract\obj\Debug\net8.0\Shop.Domain.Contract.pdb
+D:\Projects\Shopv1\Shop.Domain.Contract\obj\Debug\net8.0\ref\Shop.Domain.Contract.dll
