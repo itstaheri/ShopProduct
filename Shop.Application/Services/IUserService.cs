@@ -23,16 +23,19 @@ namespace Shop.Application.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IGenericRepository<RoleModel> _role;
-        public UserService(IUserRepository userRepository, IGenericRepository<RoleModel> role)
+        private readonly IGenericRepository<PermissionModel> _permission;
+        public UserService(IUserRepository userRepository, IGenericRepository<RoleModel> role, IGenericRepository<PermissionModel> permission)
         {
             _userRepository = userRepository;
             _role = role;
+            _permission = permission;
         }
 
         public OperationResult<UserInfoDto> Login(LoginDto login)
         {
             try
             {
+               
                 var user = _userRepository.CheckUserValid(login.Username, login.Password);
 
                 return user;

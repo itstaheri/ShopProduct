@@ -15,11 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Shop.Endpoint.Rest")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-<<<<<<< HEAD
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bda58c96201ae3ce2ad185db5980da6ba5d2419f")]
-=======
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+935eb0c727367a2e79ee64829ee395b7a3782984")]
->>>>>>> 323e4bf800bedf7b2c7bdacbd258178fe9691866
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2754088e62090bcbe8e1ed7cff9a42b198fe5173")]
 [assembly: System.Reflection.AssemblyProductAttribute("Shop.Endpoint.Rest")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Shop.Endpoint.Rest")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

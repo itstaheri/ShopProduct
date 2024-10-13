@@ -19,7 +19,7 @@ namespace Shop.Domain.Entities.User
             Email = emaill;
         }
 
-        public void ChangeeUsername(string username) => Username = username;
+        public void ChangeUsername(string username) => Username = username;
 
         public void ChangeEmail(string email) => Email = email;
 

@@ -55,6 +55,8 @@ namespace Shop.Infrastructure.Repositories
 
         public async Task AddAsync(T sender)
         {
+           // IEnumerable<string> productnames = _shopDbContext.Provinces.Where(x=>x.Name == "a").Select(x=>x.Name);
+           // IQueryable<string> province = _shopDbContext.Provinces.Where(x => x.Name == "a").Select(x => x.Name).AsQueryable();
             if (sender is null)
                 throw new ArgumentNullException(nameof(sender));
             await _dbSet.AddAsync(sender);
