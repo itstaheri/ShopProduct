@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Shop.Endpoint.Rest.props" />
+</Project>

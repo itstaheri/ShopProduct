@@ -1,4 +1,5 @@
-﻿using Shop.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using Shop.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +11,26 @@ namespace Shop.Domain.Repositories
 {
     public interface IGenericRepository<T> where T : BaseEntity
     {
+        IDbContextTransaction OpenTransaction();
+
         IQueryable<T> GetAll(bool asNoTrack = true);
-        Task<IQueryable<T>> GetAllAsync(bool asNoTrack = true);
+        Task<IQueryable<T>> GetAllAsync(CancellationToken cancellationToken,bool asNoTrack = true);
         T GetById(int id);
-        Task<T> GetByIdAsync(int id);
+        Task<T> GetAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
+        T Get(Expression<Func<T, bool>> predicate);
+        T Get(Expression<Func<T, bool>> predicate, bool asNoTrack = false, params Expression<Func<T, object>>[]? includes);
+        Task<T> GetAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken, bool asNoTrack = false, params Expression<Func<T, object>>[]? includes);
+        Task<T> GetByIdAsync(int id, CancellationToken cancellationToken);
         bool Remove(int id);
         void Add(in T sender);
-        Task AddAsync( T sender);
+        Task<T> AddAsync( T sender, CancellationToken cancellationToken);
         void Update(in T sender);
+        Task<bool> AnyAsync(Expression<Func<T, bool>> predicate,CancellationToken cancellationToken);
         int Save();
-        Task<int> SaveAsync();
+        Task<int> SaveAsync(CancellationToken cancellationToken);
         public IQueryable<T> Select(Expression<Func<T, bool>> predicate, bool asNoTrack = true);
-        public Task<IQueryable<T>> SelectAsync(Expression<Func<T, bool>> predicate,bool asNoTrack = true);
-        public Task<IQueryable<T>> SelectAsync(Expression<Func<T, bool>> predicate,Expression<Func<T,bool>> include, bool asNoTrack = true);
+        public Task<IQueryable<T>> SelectAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken, bool asNoTrack = true);
+        public Task<IQueryable<T>> SelectAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken, Expression<Func<T, object>> include, bool asNoTrack = true);
         public void Dispose();
 
     }

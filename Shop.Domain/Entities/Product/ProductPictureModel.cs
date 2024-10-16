@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shop.Domain.Entities.Product
 {
-    public class ProductPictureModel : ‌BaseEntity
+    public  class ProductPictureModel : BaseEntity
     {
         public ProductPictureModel(long productId, long? productCommentId, string filePicture)
         {

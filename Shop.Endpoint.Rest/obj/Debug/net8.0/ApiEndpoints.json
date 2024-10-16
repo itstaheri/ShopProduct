@@ -1,0 +1,74 @@
+[
+  {
+    "ContainingType": "Shop.Endpoint.Rest.MinimalApis.OTPMinimalApi\u002B\u003C\u003Ec",
+    "Method": "\u003CAddOtpMinimalApi\u003Eb__0_0",
+    "RelativePath": "Send",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Shop.Domain.Dtos.OTP.SendOTPRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Shop.Domain.Dtos.ResponseDto",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Shop.Endpoint.Rest.Controllers.v1.AuthController",
+    "Method": "Login",
+    "RelativePath": "api/Auth/Login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "login",
+        "Type": "Shop.Domain.Dtos.User.LoginDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Shop.Endpoint.Rest.Controllers.v1.AuthController",
+    "Method": "LoginOrSignupWithPhone",
+    "RelativePath": "api/Auth/LoginOrSignupWithPhoneAsync",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Shop.Domain.Dtos.User.LoginOrSignupWithPhoneRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Shop.Endpoint.Rest.Controllers.v1.AuthController",
+    "Method": "SignUp",
+    "RelativePath": "api/Auth/SignUp",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Shop.Domain.Dtos.User.CreateUserDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

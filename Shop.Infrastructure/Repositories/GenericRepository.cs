@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Shop.Application.Interfaces.Database;
 using Shop.Domain.Entities;
 using Shop.Domain.Repositories;
 using Shop.Infrastructure.Database.SqlServer.Efcore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -12,15 +14,15 @@ using System.Threading.Tasks;
 
 namespace Shop.Infrastructure.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity, IDisposable
+    public class GenericRepository<T> : IDisposable, IGenericRepository<T> where T : BaseEntity
     {
 
         private DbSet<T> _dbSet;
         private ShopDbContext _shopDbContext;
         public GenericRepository(ShopDbContext context)
         {
-            _dbSet = context.Set<T>();
             _shopDbContext = context;
+            _dbSet = _shopDbContext.Set<T>();
         }
         private bool _disposed = false;
 
@@ -53,28 +55,33 @@ namespace Shop.Infrastructure.Repositories
 
         }
 
-        public async Task AddAsync(T sender)
+        public async Task<T> AddAsync(T sender, CancellationToken cancellationToken)
         {
-           // IEnumerable<string> productnames = _shopDbContext.Provinces.Where(x=>x.Name == "a").Select(x=>x.Name);
-           // IQueryable<string> province = _shopDbContext.Provinces.Where(x => x.Name == "a").Select(x => x.Name).AsQueryable();
+            // IEnumerable<string> productnames = _shopDbContext.Provinces.Where(x=>x.Name == "a").Select(x=>x.Name);
+            // IQueryable<string> province = _shopDbContext.Provinces.Where(x => x.Name == "a").Select(x => x.Name).AsQueryable();
             if (sender is null)
                 throw new ArgumentNullException(nameof(sender));
-            await _dbSet.AddAsync(sender);
-            await SaveAsync();
-        }
+            var result = await _dbSet.AddAsync(sender, cancellationToken);
+            await SaveAsync(cancellationToken);
 
+            return result.Entity;
+        }
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
+        {
+            return await _dbSet.AnyAsync(predicate, cancellationToken);
+        }
         public IQueryable<T> GetAll(bool asNoTrack = true)
         {
-            if(asNoTrack)
+            if (asNoTrack)
                 return _dbSet.AsNoTracking().AsQueryable();
             else
                 return _dbSet.AsQueryable();
         }
 
-        public async Task<IQueryable<T>> GetAllAsync(bool asNoTrack = true)
+        public async Task<IQueryable<T>> GetAllAsync(CancellationToken cancellationToken, bool asNoTrack = true)
         {
             if (asNoTrack)
-                return  _dbSet.AsNoTracking().AsQueryable();
+                return _dbSet.AsNoTracking().AsQueryable();
             else
                 return _dbSet.AsQueryable();
         }
@@ -84,9 +91,9 @@ namespace Shop.Infrastructure.Repositories
             return _dbSet.Find(id);
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            return await _dbSet.FindAsync(id);
+            return await _dbSet.FindAsync(id, cancellationToken);
         }
 
         public bool Remove(int id)
@@ -94,7 +101,7 @@ namespace Shop.Infrastructure.Repositories
             var entity = _dbSet.Find(id);
             _dbSet.Remove(entity);
             return Convert.ToBoolean(Save());
-            
+
         }
 
         public int Save()
@@ -102,9 +109,9 @@ namespace Shop.Infrastructure.Repositories
             return _shopDbContext.SaveChanges();
         }
 
-        public async Task<int> SaveAsync()
+        public async Task<int> SaveAsync(CancellationToken cancellationToken)
         {
-            return await _shopDbContext.SaveChangesAsync();
+            return await _shopDbContext.SaveChangesAsync(cancellationToken);
 
         }
 
@@ -118,7 +125,7 @@ namespace Shop.Infrastructure.Repositories
 
         }
 
-        public async Task<IQueryable<T>> SelectAsync(Expression<Func<T, bool>> predicate, bool asNoTrack = true)
+        public async Task<IQueryable<T>> SelectAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken, bool asNoTrack = true)
         {
             if (asNoTrack)
                 return _dbSet.AsNoTracking().Where(predicate).AsQueryable();
@@ -127,7 +134,7 @@ namespace Shop.Infrastructure.Repositories
 
         }
 
-        public async Task<IQueryable<T>> SelectAsync(Expression<Func<T, bool>> predicate, Expression<Func<T, bool>> include, bool asNoTrack = true)
+        public async Task<IQueryable<T>> SelectAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken, Expression<Func<T, object>> include, bool asNoTrack = true)
         {
             if (asNoTrack)
                 return _dbSet.AsNoTracking().Include(include).AsSplitQuery().Where(predicate).AsQueryable();
@@ -141,6 +148,58 @@ namespace Shop.Infrastructure.Repositories
             Save();
         }
 
-        
+        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
+        {
+            return await _dbSet.FirstOrDefaultAsync(predicate, cancellationToken);
+
+        }
+
+        public IDbContextTransaction OpenTransaction()
+        {
+            return _shopDbContext.Database.BeginTransaction();
+        }
+
+        public T Get(Expression<Func<T, bool>> predicate)
+        {
+            return _dbSet.FirstOrDefault(predicate);
+        }
+        public T Get(Expression<Func<T, bool>> predicate, bool asNoTrack = false, params Expression<Func<T, object>>[]? includes)
+        {
+            var entity = _dbSet;
+
+            if (asNoTrack)
+                entity.AsNoTracking();
+
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    entity.Include(include);
+                }
+            }
+         
+            return entity.AsSplitQuery().FirstOrDefault(predicate);
+
+        }
+        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken, bool asNoTrack = false, params Expression<Func<T, object>>[]? includes)
+        {
+            var entity = _dbSet;
+
+            if (asNoTrack)
+                entity.AsNoTracking();
+
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    entity.Include(include);
+                }
+            }
+
+            return await entity.AsSplitQuery().FirstOrDefaultAsync(predicate, cancellationToken);
+
+        }
+
+      
     }
 }

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Shop.Application;
+using Shop.Endpoint.Rest.MinimalApis;
 using Shop.Infrastructure;
 using System.Text;
 
@@ -25,6 +26,7 @@ builder.Services.AddSwaggerGen(c =>
         Type = SecuritySchemeType.ApiKey,
         Scheme = "Bearer"
     });
+    builder.Services.AddEndpointsApiExplorer();
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement()
     {
@@ -60,8 +62,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 builder.Services.ResolveApplication();
-builder.Services.ResolveInfrastructure(builder.Configuration.GetConnectionString("SQlServer"));
+builder.Services.ResolveInfrastructure(builder.Configuration.GetConnectionString("SQlServer"), builder.Configuration.GetConnectionString("Redis"));
 var app = builder.Build();
+
+app.AddOtpMinimalApi();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
