@@ -9,7 +9,7 @@ namespace Shop.Domain.Entities.Product
 {
     public class ProductModel : BaseEntity
     {
-        public ProductModel(string name, int categoryId, string description, string exteraDescription, string mainPicture)
+        public ProductModel(string name, long categoryId, string description, string exteraDescription, string mainPicture)
         {
             Name = name; 
             CategoryId = categoryId; 
@@ -18,7 +18,7 @@ namespace Shop.Domain.Entities.Product
             MainPicture = mainPicture;
         }
 
-        public void Edit(string name, int categoryId, string description, string exteraDescription, string mainPicture)
+        public void Edit(string name, long categoryId, string description, string exteraDescription, string mainPicture)
         {
             Name = name;
             CategoryId = categoryId;
@@ -28,7 +28,7 @@ namespace Shop.Domain.Entities.Product
         }
 
         public string Name { get; private set; }
-        public int CategoryId { get; private set;}
+        public long CategoryId { get; private set;}
         public string Description { get; private set; }
         public string ExteraDescription { get; private set; }
         public string MainPicture { get; private set; }

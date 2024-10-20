@@ -1,4 +1,4 @@
-﻿using Shop.Domain.Entities.Category;
+﻿using Shop.Domain.Entities.Property;
 using System;
 using System.Collections.Generic;
 using System.Linq;
