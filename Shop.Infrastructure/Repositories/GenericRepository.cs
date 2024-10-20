@@ -86,17 +86,17 @@ namespace Shop.Infrastructure.Repositories
                 return _dbSet.AsQueryable();
         }
 
-        public T GetById(int id)
+        public T GetById(long id)
         {
             return _dbSet.Find(id);
         }
 
-        public async Task<T> GetByIdAsync(int id, CancellationToken cancellationToken)
+        public async Task<T> GetByIdAsync(long id, CancellationToken cancellationToken)
         {
             return await _dbSet.FindAsync(id, cancellationToken);
         }
 
-        public bool Remove(int id)
+        public bool Remove(long id)
         {
             var entity = _dbSet.Find(id);
             _dbSet.Remove(entity);
@@ -104,12 +104,12 @@ namespace Shop.Infrastructure.Repositories
 
         }
 
-        public int Save()
+        public long Save()
         {
             return _shopDbContext.SaveChanges();
         }
 
-        public async Task<int> SaveAsync(CancellationToken cancellationToken)
+        public async Task<long> SaveAsync(CancellationToken cancellationToken)
         {
             return await _shopDbContext.SaveChangesAsync(cancellationToken);
 
@@ -200,6 +200,9 @@ namespace Shop.Infrastructure.Repositories
 
         }
 
-      
+        public bool Any(Expression<Func<T, bool>> predicate)
+        {
+           return _dbSet.Any(predicate);
+        }
     }
 }
