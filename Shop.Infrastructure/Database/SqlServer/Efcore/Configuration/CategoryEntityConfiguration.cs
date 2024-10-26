@@ -4,6 +4,7 @@ using Shop.Domain.Entities.Category;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,6 +22,11 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore.Configuration
             builder.HasMany(x => x.Products)
                 .WithOne(x => x.Category).HasForeignKey(x => x.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
+            builder
+        .HasOne(c => c)
+        .WithMany(c => c.SubCategories)
+        .HasForeignKey(c => c.CategoryParentId)
+        .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -18,10 +18,10 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore.Configuration
             builder.ToTable("Tbl_Property");
             builder.HasMany(x => x.CategoryProperties)
                 .WithOne(x => x.Property).HasForeignKey(x => x.PropertyId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(x => x.ProductProperties)
                 .WithOne(x => x.Property).HasForeignKey(x => x.PropertyId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

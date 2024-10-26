@@ -17,7 +17,7 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore.Configuration
             builder.ToTable("Tbl_Province");
             builder.HasOne(x => x.City)
                 .WithMany(x => x.Provinces)
-                .HasForeignKey(x => x.CitryId);
+                .HasForeignKey(x => x.CityId);
                 
         }
     }

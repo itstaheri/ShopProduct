@@ -117,7 +117,7 @@ namespace Shop.Application.Services
             try
             {
                 //add user
-                var userModel = new UserModel(createUser.Username, createUser.Password, createUser.Email, createUser.PhoneNumber);
+                var userModel = new UserModel(createUser.Username, createUser.Password.ToSha256(), createUser.Email, createUser.PhoneNumber);
                 var user = await _userRepository.AddAsync(userModel, cancellationToken);
 
                 //add member role for user

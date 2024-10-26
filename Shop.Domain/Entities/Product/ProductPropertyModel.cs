@@ -9,6 +9,11 @@ namespace Shop.Domain.Entities.Product
 {
     public class ProductPropertyModel : BaseEntity
     {
+
+        public ProductPropertyModel()
+        {
+                
+        }
         public ProductPropertyModel(long productId, int propertyId, string value) 
         {
             ProductId = productId;

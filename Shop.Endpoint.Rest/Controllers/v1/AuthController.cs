@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Mvc;
 using Shop.Application.Interfaces.Auth;
 using Shop.Application.Mapper;
 using Shop.Application.MessageResult;
@@ -11,7 +12,8 @@ using Shop.Endpoint.Rest.ActionFilters;
 namespace Shop.Endpoint.Rest.Controllers.v1
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiVersion(1)]
     public class AuthController : ControllerBase
     {
         private readonly IUserService _userService;

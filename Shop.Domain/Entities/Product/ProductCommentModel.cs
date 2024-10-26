@@ -10,6 +10,11 @@ namespace Shop.Domain.Entities.Product
 {
     public class ProductCommentModel : BaseEntity
     {
+
+        public ProductCommentModel()
+        {
+                
+        }
         public ProductCommentModel(long? productCommentParentId, long productId, long userId, string? userFullName,string? userPhoneNumber, string? userEmail, string text, short score,
             long? approvingUserId, CommentStatus status, bool isQuestion)
         {

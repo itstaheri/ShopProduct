@@ -8,14 +8,14 @@ namespace Shop.Domain.Entities.BaseData
 {
     public class ProvinceModel : BaseEntity
     {
-        public ProvinceModel(string name, int citryId)
+        public ProvinceModel(string name, long cityId)
         {
             Name = name;
-            CitryId = citryId;
+            CityId = cityId;
         }
 
         public string  Name { get;private set; }
-        public int CitryId { get;private set; }
+        public long CityId { get;private set; }
         public CityModel City { get; private set; }
     }
 }

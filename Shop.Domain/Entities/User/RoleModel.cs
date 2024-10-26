@@ -12,7 +12,10 @@ namespace Shop.Domain.Entities.User
         {
             Name = name;
         }
-
+        public RoleModel()
+        {
+                
+        }
         public string  Name { get;private set; }
         public List<UserRoleModel> UserRoles { get; private set; }
         public List<RolePermissionModel> RolePermissions { get; private set; }

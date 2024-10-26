@@ -2,7 +2,10 @@
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Shop.Application.Interfaces.Database;
 using Shop.Domain.Entities.BaseData;
+using Shop.Domain.Entities.Category;
+using Shop.Domain.Entities.Product;
 using Shop.Domain.Entities.Profile;
+using Shop.Domain.Entities.Property;
 using Shop.Domain.Entities.User;
 using Shop.Infrastructure.Database.SqlServer.Efcore.Configuration;
 using System;
@@ -26,9 +29,16 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore
         public DbSet<RoleModel> Roles { get; set; }
         public DbSet<PermissionModel> Permissions { get; set; }
         public DbSet<RolePermissionModel> RolePermissions { get; set; }
-        public DbSet<CityModel> Cities { get;set; }
+        public DbSet<CityModel> Cities { get; set; }
         public DbSet<ProvinceModel> Provinces { get; set; }
         public DbSet<UserAddressModel> UserAddresses { get; set; }
+        public DbSet<CategoryModel> Categories { get; set; }
+        public DbSet<PropertyModel> Properties { get; set; }
+        public DbSet<CategoryPropertyModel> CategoriesProperty { get; set; }
+        public DbSet<ProductModel> Products { get; set; }
+        public DbSet<ProductPropertyModel> ProductProperties { get; set; }
+        public DbSet<ProductCommentModel> ProductComments { get; set; }
+        public DbSet<ProductPictureModel> ProductPictures { get; set; }
 
         public override DatabaseFacade Database => base.Database;
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

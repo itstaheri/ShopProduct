@@ -18,10 +18,10 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore.Configuration
             builder.ToTable("Tbl_User");
             builder.HasMany(x => x.UserRoles)
                 .WithOne(x => x.User).HasForeignKey(x=>x.UserId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
             builder.HasOne(x => x.UserInformation).WithOne(x => x.User)
                 .HasForeignKey<UserInformationModel>(x => x.UserId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Cascade);
 
         }
     }

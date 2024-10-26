@@ -10,9 +10,13 @@ namespace Shop.Domain.Entities.Profile
 {
     public class UserInformationModel : BaseEntity
     {
-      
+        public UserInformationModel()
+        {
+                
+        }
+
         public UserInformationModel(long userID) => UserId = userID;
-        public UserInformationModel(string? nationalCode, DateTime? birthDate, Gender? gender, bool? isMarried, string firstname, string lastname, long userId)
+        public UserInformationModel(string? nationalCode, DateTime? birthDate, Gender? gender, bool? isMarried, string? firstname, string? lastname, long userId)
         {
             NationalCode = nationalCode;
             BirthDate = birthDate;
@@ -22,7 +26,7 @@ namespace Shop.Domain.Entities.Profile
             Lastname = lastname;
             UserId = userId;
         }
-        public void Edit(string? nationalCode, DateTime? birthDate, Gender? gender, bool? isMarried, string firstname, string lastname)
+        public void Edit(string? nationalCode, DateTime? birthDate, Gender? gender, bool? isMarried, string? firstname, string? lastname)
         {
             NationalCode = nationalCode;
             BirthDate = birthDate;
@@ -36,8 +40,8 @@ namespace Shop.Domain.Entities.Profile
         public DateTime? BirthDate { get; private set; }
         public Gender? Gender { get; private set; }
         public bool? IsMarried { get; private set; }
-        public string Firstname { get; private set; }
-        public string Lastname { get; private set; }
+        public string? Firstname { get; private set; }
+        public string? Lastname { get; private set; }
         public long UserId { get; private set; }
         public UserModel User { get; private set; }
         public List<UserAddressModel> UserAddresses { get; private set; }

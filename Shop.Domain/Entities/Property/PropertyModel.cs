@@ -11,6 +11,10 @@ namespace Shop.Domain.Entities.Property
 {
     public class PropertyModel : BaseEntity
     {
+        public PropertyModel()
+        {
+                
+        }
         public PropertyModel(string name, MeasurmentsUnit measurmentUnit)
         {
             Name = name;

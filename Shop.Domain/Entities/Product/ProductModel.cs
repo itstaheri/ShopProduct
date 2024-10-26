@@ -9,6 +9,10 @@ namespace Shop.Domain.Entities.Product
 {
     public class ProductModel : BaseEntity
     {
+        public ProductModel()
+        {
+                
+        }
         public ProductModel(string name, long categoryId, string description, string exteraDescription, string mainPicture)
         {
             Name = name; 

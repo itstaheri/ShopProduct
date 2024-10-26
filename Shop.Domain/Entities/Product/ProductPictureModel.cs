@@ -8,6 +8,10 @@ namespace Shop.Domain.Entities.Product
 {
     public  class ProductPictureModel : BaseEntity
     {
+        public ProductPictureModel()
+        {
+                
+        }
         public ProductPictureModel(long productId, long? productCommentId, string filePicture)
         {
             ProductId = productId;

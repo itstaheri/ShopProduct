@@ -9,7 +9,12 @@ namespace Shop.Domain.Entities.Category
 {
     public class CategoryPropertyModel : BaseEntity
     {
-        
+
+        public CategoryPropertyModel()
+        {
+                
+        }
+
         public CategoryPropertyModel(int categoryId, int propertyId)
         {
             PropertyId = propertyId;

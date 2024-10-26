@@ -9,6 +9,10 @@ namespace Shop.Domain.Entities.User
 {
     public class UserModel : BaseEntity
     {
+        public UserModel()
+        {
+                
+        }
         public UserModel(string username, string password,
             string emaill, string phonenumber
             ) 

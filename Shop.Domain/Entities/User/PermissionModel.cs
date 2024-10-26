@@ -8,6 +8,10 @@ namespace Shop.Domain.Entities.User
 {
     public class PermissionModel : BaseEntity
     {
+        public PermissionModel()
+        {
+                
+        }
         public string Name { get;private set; }
         public List<RolePermissionModel> RolePermissions { get; private set; }
 

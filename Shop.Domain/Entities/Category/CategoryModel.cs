@@ -27,9 +27,9 @@ namespace Shop.Domain.Entities.Category
         public string Picture { get;private set; }
         public long CategoryParentId { get; private set; }   
         public List<CategoryPropertyModel> CategoryProperties { get; private set; }
-        public CategoryModel Category { get; private set; }
         public List<ProductModel> Products { get; private set; }
-        public CategoryModel CategoryParent { get; private set;}
+    //    public virtual CategoryModel CategoryParent { get; private set;}
+        public virtual List<CategoryModel> SubCategories { get; private set; }
         
     }
 }

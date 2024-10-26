@@ -16,11 +16,9 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore.Configuration
             builder.HasKey(x => x.Id);
             builder.ToTable("Tbl_ProductProperty");
             builder.HasOne(x => x.Product)
-                .WithMany(x => x.ProductProperties).HasForeignKey(x => x.ProductId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .WithMany(x => x.ProductProperties).HasForeignKey(x => x.ProductId);
             builder.HasOne(x => x.Property)
-                .WithMany(x => x.ProductProperties).HasForeignKey(x => x.PropertyId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .WithMany(x => x.ProductProperties).HasForeignKey(x => x.PropertyId);
 
         }
     }

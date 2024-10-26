@@ -10,6 +10,11 @@ namespace Shop.Domain.Entities.Profile
 {
     public class UserAddressModel : BaseEntity
     {
+
+        public UserAddressModel()
+        {
+                
+        }
         public UserAddressModel(long userId, int provinceId,  string title, string description, string postalCode)
         {
             UserId = userId;

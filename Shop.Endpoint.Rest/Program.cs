@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -46,23 +46,16 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
-            ClockSkew = TimeSpan.Zero
-        };
-    });
+
 builder.Services.ResolveApplication();
-builder.Services.ResolveInfrastructure(builder.Configuration.GetConnectionString("SQlServer"), builder.Configuration.GetConnectionString("Redis"));
+var keyvalues = new Dictionary<string, string>();
+keyvalues.Add("ConnectionString", builder.Configuration.GetConnectionString("ShopDB"));
+keyvalues.Add("RedisConnectionStrig", builder.Configuration.GetConnectionString("Redis"));
+keyvalues.Add("Key", builder.Configuration.GetSection("Jwt").GetSection("Key").Value);
+keyvalues.Add("Issuer", builder.Configuration.GetSection("Jwt").GetSection("Issuer").Value);
+keyvalues.Add("Audience", builder.Configuration.GetSection("Jwt").GetSection("Audience").Value);
+
+builder.Services.ResolveInfrastructure(keyvalues);
 var app = builder.Build();
 
 app.AddOtpMinimalApi();

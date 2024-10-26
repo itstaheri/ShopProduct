@@ -8,8 +8,12 @@ namespace Shop.Domain.Entities.User
 {
     public class RolePermissionModel : BaseEntity
     {
-        public int RoleId { get; set; }
-        public int PermissionId { get; set; }
+        public RolePermissionModel()
+        {
+                
+        }
+        public long RoleId { get; set; }
+        public long PermissionId { get; set; }
         public RoleModel Role { get; set; }
         public PermissionModel Permission { get; set; }
     }
