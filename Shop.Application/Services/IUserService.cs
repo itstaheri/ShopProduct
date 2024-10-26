@@ -77,7 +77,7 @@ namespace Shop.Application.Services
                 {
                     try
                     {
-                        string randomPassword = RandomTextGenerator.Password();
+                        string randomPassword = RandomTextGenerator.GenerateStrongPassword();
                         var result = await SignupWithDetailAsync(new CreateUserDto
                         {
                             PhoneNumber = phoneNumber,
@@ -100,7 +100,7 @@ namespace Shop.Application.Services
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
 

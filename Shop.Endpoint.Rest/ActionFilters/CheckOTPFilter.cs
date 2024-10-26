@@ -11,7 +11,6 @@ namespace Shop.Endpoint.Rest.ActionFilters
     {
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            throw new NotImplementedException();
         }
 
         public void OnActionExecuting(ActionExecutingContext context)
@@ -22,10 +21,10 @@ namespace Shop.Endpoint.Rest.ActionFilters
             {
                 var otp = JsonConvert.DeserializeObject<CheckOTP>(otpHeader);
 
-                var result = otpService.CheckOTP(new Domain.Models.OTP.CheckOTP
+                var result = otpService.CheckOTPCode(new Domain.Models.OTP.CheckOTP
                 {
                     Code = otp.Code,
-                    Key = otp.Key,
+                    Refrence = otp.Refrence,
                 });
 
                 if (!result.Success)

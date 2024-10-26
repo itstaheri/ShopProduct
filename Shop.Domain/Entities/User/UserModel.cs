@@ -14,7 +14,7 @@ namespace Shop.Domain.Entities.User
                 
         }
         public UserModel(string username, string password,
-            string emaill, string phonenumber
+            string? emaill, string phonenumber
             ) 
         {
             Username = username;
@@ -33,7 +33,7 @@ namespace Shop.Domain.Entities.User
         public string Password   { get; private set; }
       
         public string PhoneNumber   { get; private set; }
-        public string Email { get; private set; }
+        public string? Email { get; private set; }
 
         public UserInformationModel UserInformation { get; private set; }
         public List<UserRoleModel> UserRoles { get; private set; }

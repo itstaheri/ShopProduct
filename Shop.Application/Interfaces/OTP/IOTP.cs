@@ -9,8 +9,8 @@ namespace Shop.Application.Interfaces.OTP
 {
     public abstract class OTPAbstraction
     {
-        public abstract string Send(SendOTP otp);
-        public abstract OTPResult CheckOTP(CheckOTP otp);
+        public abstract OTPResult Send(SendOTP otp);
+        public abstract OTPResult CheckOTPCode(CheckOTP otp);
         public abstract void DisableOTP(string key);
         public DateTime ExpireAt ;
 

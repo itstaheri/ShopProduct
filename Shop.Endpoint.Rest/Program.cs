@@ -56,9 +56,9 @@ keyvalues.Add("Issuer", builder.Configuration.GetSection("Jwt").GetSection("Issu
 keyvalues.Add("Audience", builder.Configuration.GetSection("Jwt").GetSection("Audience").Value);
 
 builder.Services.ResolveInfrastructure(keyvalues);
+
 var app = builder.Build();
 
-app.AddOtpMinimalApi();
 
 
 // Configure the HTTP request pipeline.
@@ -67,11 +67,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.AddOtpMinimalApi();
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
 
 app.Run();

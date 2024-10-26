@@ -8,31 +8,44 @@ namespace Common.Generator
 {
     public static class RandomTextGenerator
     {
-        private static char[] specialCharecters = new char[] { '@', '\\', '\\', '!', '#' };
-        private static char[] charecters = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
-        public static string Password()
+        public static string GenerateStrongPassword(int length = 8)
         {
+            const string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const string lowercase = "abcdefghijklmnopqrstuvwxyz";
+            const string numbers = "0123456789";
+            const string specialChars = "!@#$%^&*()-_=+[]{}|;:,.<>?";
+
+            string allChars = uppercase + lowercase + numbers + specialChars;
+            StringBuilder password = new StringBuilder();
             Random random = new Random();
-            int number = random.Next(1000, 99999);
-            char spc1 = specialCharecters[random.Next(0, specialCharecters.Length - 1)];
-            char spc2 = specialCharecters[random.Next(0, specialCharecters.Length - 1)];
-            char lc1 = specialCharecters[random.Next(0, charecters.Length - 1)];
-            char lc2 = specialCharecters[random.Next(0, charecters.Length - 1)];
-            char lc3 = specialCharecters[random.Next(0, charecters.Length - 1)];
 
-            char uc1 = specialCharecters[random.Next(0, charecters.Length - 1)];
-            char uc2 = specialCharecters[random.Next(0, charecters.Length - 1)];
-            char uc3 = specialCharecters[random.Next(0, charecters.Length - 1)];
+            // اطمینان از اینکه حداقل یک کاراکتر از هر دسته استفاده می‌شود
+            password.Append(uppercase[random.Next(uppercase.Length)]);
+            password.Append(lowercase[random.Next(lowercase.Length)]);
+            password.Append(numbers[random.Next(numbers.Length)]);
+            password.Append(specialChars[random.Next(specialChars.Length)]);
 
-            string pass = spc1 + spc2 + number.ToString() + lc1 + lc2 + lc3 + uc1.ToString().ToUpper() + uc2.ToString().ToUpper() + uc3.ToString().ToUpper();
+            for (int i = 4; i < length; i++)
+            {
+                password.Append(allChars[random.Next(allChars.Length)]);
+            }
 
-            random.Shuffle<char>(pass.ToArray());
-
-            return pass;
-
-
+            return ShufflePassword(password.ToString());
         }
 
+        private static string ShufflePassword(string password)
+        {
+            char[] array = password.ToCharArray();
+            Random random = new Random();
+            for (int i = array.Length - 1; i > 0; i--)
+            {
+                int j = random.Next(i + 1);
+                char temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+            return new string(array);
+        }
         public static string OTPCode()
         {
             Random random = new Random();

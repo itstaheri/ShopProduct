@@ -25,36 +25,52 @@ namespace Shop.Infrastructure.Interfaces.OTP
 
         }
 
-        public override OTPResult CheckOTP(CheckOTP otp)
+        private OTPResult CheckOtpRequestAccess(string key)
         {
-            var otpValue = _cache.Get(otp.Key);
+            var otpValue = _cache.Get(key);
+            if (otpValue == null) return new OTPResult(OTPMessageResult.OperationSuccess, true);
+            OTPInfo otpInfo = JsonConvert.DeserializeObject<OTPInfo>(otpValue);
+
+            if (otpInfo.IsActive)
+            {
+                if (otpInfo.ExpireDate > DateTime.Now)
+                {
+                    return new OTPResult(OTPMessageResult.ActiveOtpExist, false);
+                } 
+
+            }
+             
+
+            return new OTPResult(OTPMessageResult.OperationSuccess, true);
+
+
+        }
+        public override OTPResult CheckOTPCode(CheckOTP otp)
+        {
+            var otpValue = _cache.Get(otp.Refrence);
             if (otpValue == null)
             {
                 return new OTPResult(OTPMessageResult.OTPNotExistForThisKey, false);
             }
             else
             {
-                if (otpValue == otp.Code)
+                OTPInfo otpInfo = JsonConvert.DeserializeObject<OTPInfo>(otpValue);
+                if (otp.Refrence != otpInfo.Refrence && otp.Code != otpInfo.Code)
                 {
-                    OTPInfo otpInfo = JsonConvert.DeserializeObject<OTPInfo>(otpValue);
-                    if (otp.Key != otpInfo.Refrence && otp.Code != otpInfo.Code)
-                    {
-                        return new OTPResult(OTPMessageResult.OTPWrong, false);
-                    }
-                    else if (!otpInfo.IsActive)
-                    {
-                        return new OTPResult(OTPMessageResult.OTPNotActive, false);
-
-                    }
-                    else if (otpInfo.ExpireDate > DateTime.Now)
-                    {
-                        return new OTPResult(OTPMessageResult.OTPExpierd, false);
-                    }
-
+                    return new OTPResult(OTPMessageResult.OTPWrong, false);
+                }
+                else if (!otpInfo.IsActive)
+                {
+                    return new OTPResult(OTPMessageResult.OTPNotActive, false);
 
                 }
+                else if (otpInfo.ExpireDate < DateTime.Now)
+                {
+                    return new OTPResult(OTPMessageResult.OTPExpierd, false);
+                }
+
             }
-            DisableOTP(otp.Key);
+            DisableOTP(otp.Refrence);
             return new OTPResult(OTPMessageResult.OperationSuccess, true);
 
         }
@@ -72,9 +88,12 @@ namespace Shop.Infrastructure.Interfaces.OTP
 
         }
 
-        public override string Send(SendOTP otp)
+        public override OTPResult Send(SendOTP otp)
         {
-            string Key = Guid.NewGuid().ToString();
+            var check = CheckOtpRequestAccess(otp.Refrence);
+            if (!check.Success) return check;
+
+            string Key = otp.Refrence;
             OTPInfo otpInfo = new OTPInfo
             {
                 CreateDate = DateTime.Now,
@@ -86,7 +105,7 @@ namespace Shop.Infrastructure.Interfaces.OTP
             };
             _cache.Set(Key, JsonConvert.SerializeObject(otpInfo));
 
-            return Key;
+            return new OTPResult(OTPMessageResult.OperationSuccess,true);
         }
     }
 }

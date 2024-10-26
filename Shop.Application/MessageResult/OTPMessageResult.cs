@@ -12,5 +12,8 @@ namespace Shop.Application.MessageResult
         public const string OTPWrong = "OTPWrong";
         public const string OTPNotExistForThisKey = "OTPNotExistForThisKey";
         public const string OTPNotActive = "OTPNotActive";
+        public const string OTPIsActive = "OTPIsActive";
+        public const string ChannelIsNotDefiend = "ChannelIsNotDefiend";
+        public const string ActiveOtpExist = "ActiveOtpExist";
     }
 }

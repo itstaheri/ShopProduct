@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Asp.Versioning.Builder;
+using Asp.Versioning;
+using Microsoft.AspNetCore.Mvc;
 using Shop.Application.Interfaces.OTP;
 using Shop.Application.MessageResult;
 using Shop.Domain.Dtos;
@@ -11,7 +13,11 @@ namespace Shop.Endpoint.Rest.MinimalApis
     {
         public static void AddOtpMinimalApi(this WebApplication app)
         {
-            var group = app.MapGroup("OTP");
+            ApiVersionSet apiVersionSet = app.NewApiVersionSet()
+    .HasApiVersion(new ApiVersion(1))
+    .ReportApiVersions()
+    .Build();
+            var group = app.MapGroup("api/OTP");
 
             app.MapPost("/Send", (SendOTPRequestDto request, [FromServices] OTPAbstraction otpService) =>
             {
@@ -38,7 +44,7 @@ namespace Shop.Endpoint.Rest.MinimalApis
                     Result = key,
                     StatusCode = 200
                 };
-            }).WithGroupName("OTP");
+            }).WithGroupName("OTP").WithApiVersionSet(apiVersionSet).MapToApiVersion(1);
 
         }
 

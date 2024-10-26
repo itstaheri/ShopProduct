@@ -8,7 +8,7 @@ namespace Shop.Domain.Models.OTP
 {
     public class CheckOTP
     {
-        public string Key { get; set; }
+        public string Refrence { get; set; }
         public string Code { get; set; }
     }
 }
