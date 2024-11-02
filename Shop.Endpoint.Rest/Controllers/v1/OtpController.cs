@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using Azure.Core;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Application.Interfaces.OTP;
 using Shop.Application.MessageResult;
@@ -12,6 +13,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion(1)]
+    [EnableCors("cors")]
     public class OtpController : ControllerBase
     {
 

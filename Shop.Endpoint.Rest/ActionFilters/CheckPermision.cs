@@ -1,0 +1,32 @@
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Shop.Application.Interfaces.Auth;
+using Shop.Domain.Enums;
+
+namespace Shop.Endpoint.Rest.ActionFilters
+{
+    public class CheckPermision : Attribute, IActionFilter
+    {
+        private Permission Permission;
+        public CheckPermision(Permission permission)
+        {
+            Permission = permission;
+        }
+        public void OnActionExecuted(ActionExecutedContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnActionExecuting(ActionExecutingContext context)
+        {
+            var jwtService = context.HttpContext.RequestServices.GetRequiredService<IJwtAuthentication>();
+            var permissions = jwtService.ReadTokenClaims().Permissions;
+            if (!permissions.Contains(nameof(Permission)))
+            {
+                context.Result = new ObjectResult("forbidden");
+            }
+
+        }
+    }
+}

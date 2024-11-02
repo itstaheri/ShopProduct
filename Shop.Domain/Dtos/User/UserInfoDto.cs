@@ -13,5 +13,6 @@ namespace Shop.Domain.Dtos.User
         public bool IsActive { get; set; }
         public DateTime CreateAt { get; set; }
         public List<long> Roles { get; set; }
+        public List<string> Permissions { get; set; }
     }
 }

@@ -13,6 +13,8 @@ namespace Shop.Application.Interfaces.Auth
         TokenResultDto GenerateToken(UserInfoDto userInfo);
         long GetCurrentUserId();
         bool TokenIsValid(string token);
-       
+        UserInfoDto ReadTokenClaims();
+
+
     }
 }

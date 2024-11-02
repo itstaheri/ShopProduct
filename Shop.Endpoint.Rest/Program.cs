@@ -56,7 +56,7 @@ keyvalues.Add("Issuer", builder.Configuration.GetSection("Jwt").GetSection("Issu
 keyvalues.Add("Audience", builder.Configuration.GetSection("Jwt").GetSection("Audience").Value);
 
 builder.Services.ResolveInfrastructure(keyvalues);
-
+builder.Services.AddCors(x=>x.AddPolicy("cors",x=>x.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()));
 var app = builder.Build();
 
 
@@ -72,7 +72,7 @@ app.AddOtpMinimalApi();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
+app.UseCors("cors");
 app.MapControllers();
 
 

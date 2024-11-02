@@ -17,6 +17,8 @@ using Shop.Infrastructure.Interfaces.OTP;
 using Shop.Application.Interfaces.Auth;
 using Shop.Infrastructure.Interfaces.Auth;
 using Shop.Infrastructure.Configs;
+using Shop.Application.Interfaces.Dapper;
+using ODD.Api.Infrastructure.Utility.Interfaces;
 namespace Shop.Infrastructure
 {
     public static class InfrastructureResolver
@@ -30,6 +32,7 @@ namespace Shop.Infrastructure
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IApplicationEfCoreContext, ShopDbContext>();
             services.AddScoped<IDistributedCacheService, RedisCache>();
+            services.AddScoped<IDapperContext, DapperContext>();
             services.AddTransient<OTPAbstraction, OTP>();
 
             services.ConfigVersioning();

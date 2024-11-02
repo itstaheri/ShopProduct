@@ -15,6 +15,9 @@ using Shop.Application.MessageResult;
 using System.Threading;
 using Shop.Domain.Entities.Profile;
 using Common.Generator;
+using Shop.Domain.Dtos.User.Permission;
+using Shop.Application.Interfaces.Dapper;
+using Dapper;
 
 namespace Shop.Application.Services
 {
@@ -30,13 +33,14 @@ namespace Shop.Application.Services
         private readonly IGenericRepository<UserRoleModel> _userRoleRepository;
         private readonly IGenericRepository<PermissionModel> _permission;
         private readonly IGenericRepository<UserInformationModel> _userInformationRepository;
-
-        public UserService(IGenericRepository<UserModel> userRepository, IGenericRepository<UserRoleModel> userRoleRepository, IGenericRepository<PermissionModel> permission, IGenericRepository<UserInformationModel> userInformationRepository)
+        private readonly IDapperContext _dapper;
+        public UserService(IGenericRepository<UserModel> userRepository, IGenericRepository<UserRoleModel> userRoleRepository, IGenericRepository<PermissionModel> permission, IGenericRepository<UserInformationModel> userInformationRepository, IDapperContext dapper)
         {
             _userRepository = userRepository;
             _userRoleRepository = userRoleRepository;
             _permission = permission;
             _userInformationRepository = userInformationRepository;
+            _dapper = dapper;
         }
 
         public OperationResult<UserInfoDto> Login(LoginDto login)
@@ -61,17 +65,35 @@ namespace Shop.Application.Services
             }
         }
 
+        private async Task<List<UserPermisionResultDto>> GetUserPermissions(long userId)
+        {
+            try
+            {
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("UserId", userId);
+                var permissions = await _dapper.CallSPAsync<List<UserPermisionResultDto>>("SP_ReturnUserPermission", parameters);
+
+                return permissions;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
         public async Task<OperationResult> LoginOrSignupWithPhoneAsync(string phoneNumber, CancellationToken cancellationToken)
         {
             try
             {
                 var userInfo = new UserInfoDto();
                 var userExist = await _userRepository.GetAsync(x => x.PhoneNumber == phoneNumber, cancellationToken, true, x => x.UserInformation, x => x.UserRoles);
+
                 if (userExist is not null)
                 {
+                    var permissions = await GetUserPermissions(userInfo.UserId);
                     userInfo = GeneralMapper.Map<UserModel, UserInfoDto>(userExist);
                     userInfo.Roles = userExist.UserRoles.Select(x => x.RoleId).ToList();
-
+                    userInfo.Permissions = permissions.Select(x=>x.PermissionName).ToList();
                 }
                 else
                 {

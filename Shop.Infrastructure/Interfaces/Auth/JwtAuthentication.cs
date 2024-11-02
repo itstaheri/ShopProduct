@@ -11,6 +11,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace Shop.Infrastructure.Interfaces.Auth
 {
@@ -33,8 +34,9 @@ namespace Shop.Infrastructure.Interfaces.Auth
             //create cliams for store useritem data
             var claims = new List<Claim>
             {
-                new Claim("ID",userInfo.UserId.ToString()),
+                new Claim("Id",userInfo.UserId.ToString()),
                 new Claim("Phone",userInfo.PhoneNumber.ToString()),
+                new Claim("Permissions",JsonConvert.SerializeObject(userInfo.Permissions))
             };
 
             string key = _config["Jwt:key"];
@@ -77,6 +79,26 @@ namespace Shop.Infrastructure.Interfaces.Auth
             return long.Parse(_contextAccessor.HttpContext.User.FindFirst("Id").Value);
         }
 
+        public UserInfoDto ReadTokenClaims()
+        {
+            try
+            {
+                var identity = _contextAccessor.HttpContext.User.Identity as ClaimsIdentity;
+                var claims = identity.Claims;
+                return new UserInfoDto
+                {
+                    UserId = Convert.ToInt64(claims.FirstOrDefault(x => x.Type == "Id").Value),
+                    Permissions = JsonConvert.DeserializeObject<List<string>>(claims.FirstOrDefault(x => x.Type == "Permissions").Value).ToList()
+                };
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public bool TokenIsValid(string token)
         {
             try
@@ -95,7 +117,7 @@ namespace Shop.Infrastructure.Interfaces.Auth
 
                 return true;
              }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 return false;
