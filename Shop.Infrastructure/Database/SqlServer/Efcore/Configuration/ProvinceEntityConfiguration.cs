@@ -15,10 +15,11 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore.Configuration
         {
             builder.HasKey(x => x.Id);
             builder.ToTable("Tbl_Province");
-            builder.HasOne(x => x.City)
-                .WithMany(x => x.Provinces)
-                .HasForeignKey(x => x.CityId);
-                
+            builder.HasMany(x => x.Cities)
+                .WithOne(x => x.Province)
+                .HasForeignKey(x => x.ProvinceId);
+            builder.HasMany(x => x.Inventories)
+                .WithOne(x => x.Province).HasForeignKey(x =>x.ProvinceId);
         }
     }
 }

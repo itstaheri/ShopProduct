@@ -9,7 +9,7 @@ namespace Shop.Domain.Entities.Inventory
 {
     public class InventoryModel : BaseEntity
     {
-        public InventoryModel(string name, long provinceId, long cityId, string address, string postCode)
+        public InventoryModel(string name, long provinceId, long cityId, string address, string? postCode)
         {
             Name = name;
             ProvinceId = provinceId;
@@ -18,7 +18,7 @@ namespace Shop.Domain.Entities.Inventory
             PostCode = postCode;
         }
 
-        public void Edit(string name, long provinceId, long cityId, string address, string postCode)
+        public void Edit(string name, long provinceId, long cityId, string address, string? postCode)
         {
             Name = name;
             ProvinceId = provinceId;
@@ -33,6 +33,6 @@ namespace Shop.Domain.Entities.Inventory
         public long CityId { get; set; }
         public CityModel City { get; set; }
         public string Address { get; set; }
-        public string PostCode { get; set; }
+        public string? PostCode { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shop.Domain.Dtos.Inventory
 {
-    public record GetInventoryRequestDto
+    public record GetInventoryRequestDto : PaginationRequestDto
     {
         public string Name { get; set; }
         public long ProvinceId { get; set; }

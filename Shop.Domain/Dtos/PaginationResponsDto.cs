@@ -8,7 +8,7 @@ namespace Shop.Domain.Dtos
 {
     public record PaginationResponsDto<T>
     {
-        public List<T> Result { get; set; }
+        public List<T> List { get; set; }
         public long TotalCount { get; set; }
     }
 }

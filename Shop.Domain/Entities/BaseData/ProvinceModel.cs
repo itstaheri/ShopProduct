@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shop.Domain.Entities.Inventory;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,14 +9,14 @@ namespace Shop.Domain.Entities.BaseData
 {
     public class ProvinceModel : BaseEntity
     {
-        public ProvinceModel(string name, long cityId)
+        public ProvinceModel(string name)
         {
             Name = name;
-            CityId = cityId;
         }
 
         public string  Name { get;private set; }
         public long CityId { get;private set; }
-        public CityModel City { get; private set; }
+        public List<CityModel> Cities { get; private set; }
+        public List<InventoryModel> Inventories { get; private set; }
     }
 }
