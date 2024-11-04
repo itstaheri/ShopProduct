@@ -22,7 +22,7 @@ namespace Shop.Application.Services
         public Task<OperationResult<List<CategoryDto>>> GetCategoryListAsync(GetCategoryRequestDto getCategory, CancellationToken cancellationToken);
         public OperationResult CreateCategory(CreateCategoryDto createCategory);
         public OperationResult UpdateCategory(UpdateCategoryDto updateCategory);
-        public OperationResult DeleteCategory(long categoryId);
+        public OperationResult DeleteCategory(DeleteCategoryRequestDto deleteCategory);
         public Task<OperationResult<CategoryDto>> GetCategoryAsync (long categoryId, CancellationToken cancellationToken);
 
     }
@@ -104,14 +104,14 @@ namespace Shop.Application.Services
             }
         }
 
-        public OperationResult DeleteCategory(long categoryId)
+        public OperationResult DeleteCategory(DeleteCategoryRequestDto deleteCategory)
         {
-            var checkDependency = _productRepository.Any(x => x.CategoryId == categoryId);
+            var checkDependency = _productRepository.Any(x => x.CategoryId == deleteCategory.CategoryId);
             if (!checkDependency) return new OperationResult<CategoryDto>(null, false, CategoryMessageResult.CanNotDeleteCategory);
 
             try
             {
-                _categoryRepository.Remove(categoryId);
+                _categoryRepository.Remove(deleteCategory.CategoryId);
                 return new OperationResult(true, CategoryMessageResult.OperationSuccess);
 
             }

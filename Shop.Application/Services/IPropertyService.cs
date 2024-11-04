@@ -21,7 +21,7 @@ namespace Shop.Application.Services
         public Task<OperationResult<PropertyDto>> GetPropertyAsync(long PropertyId, CancellationToken cancellationToken);
         public OperationResult CreateProperty(CreatePropertyRequestDto createProperty);
         public OperationResult UpdateProperty(UpdatePropertyRequestDto updateProperty);
-        public OperationResult DeleteProperty(long PropertyId);
+        public OperationResult DeleteProperty(DeletePropertyRequestDto deleteProperty);
     }
 
     public class PropertyService : IPropertyService
@@ -89,12 +89,12 @@ namespace Shop.Application.Services
             }
         }
 
-        public OperationResult DeleteProperty(long propertyId)
+        public OperationResult DeleteProperty(DeletePropertyRequestDto deleteProperty)
         {
 
             try
             {
-                _propertyRepository.Remove(propertyId);
+                _propertyRepository.Remove(deleteProperty.PropertyId);
 
                 return new OperationResult(true, PropertyMessageResult.OperationSuccess);
 

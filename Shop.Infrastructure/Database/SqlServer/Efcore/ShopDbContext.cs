@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Shop.Application.Interfaces.Database;
 using Shop.Domain.Entities.BaseData;
 using Shop.Domain.Entities.Category;
+using Shop.Domain.Entities.Inventory;
 using Shop.Domain.Entities.Product;
 using Shop.Domain.Entities.Profile;
 using Shop.Domain.Entities.Property;
@@ -39,8 +40,12 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore
         public DbSet<ProductPropertyModel> ProductProperties { get; set; }
         public DbSet<ProductCommentModel> ProductComments { get; set; }
         public DbSet<ProductPictureModel> ProductPictures { get; set; }
+        public DbSet<InventoryModel> Inventory { get; set; }
 
         public override DatabaseFacade Database => base.Database;
+
+        
+
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             return base.SaveChangesAsync(cancellationToken);
@@ -61,6 +66,14 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore
             modelBuilder.ApplyConfiguration(new ProvinceEntityConfiguration());
             modelBuilder.ApplyConfiguration(new RolePermissionEntityConfiguration());
             modelBuilder.ApplyConfiguration(new PermissionEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryPropertyEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductCommentEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductPictureEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductPropertyEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new PropertyEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new InventoryEntityConfiguration());
 
         }
 

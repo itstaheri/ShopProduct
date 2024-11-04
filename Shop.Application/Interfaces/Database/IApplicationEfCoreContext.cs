@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Shop.Domain.Entities.Product;
 using Shop.Domain.Entities.Property;
+using Shop.Domain.Entities.Inventory;
 
 
 namespace Shop.Application.Interfaces.Database
@@ -32,7 +33,8 @@ namespace Shop.Application.Interfaces.Database
         public DbSet<ProductModel> Products { get; set; }
         public DbSet<ProductPropertyModel> ProductProperties { get; set; }
         public DbSet<ProductCommentModel> ProductComments { get; set; }
-        public DbSet <ProductPictureModel> ProductPictures { get; set; }
+        public DbSet<ProductPictureModel> ProductPictures { get; set; }
+        public DbSet<InventoryModel> Inventory { get; set; }
 
        public DatabaseFacade Database { get; }
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

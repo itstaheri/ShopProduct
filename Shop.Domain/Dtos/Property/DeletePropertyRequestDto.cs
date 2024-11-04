@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shop.Domain.Dtos.Product
+namespace Shop.Domain.Dtos.Property
 {
-    public record DeleteProductDto
+    public record DeletePropertyRequestDto
     {
-        public long ProductId { get; set; }
+        public long PropertyId { get; set; }
     }
 }

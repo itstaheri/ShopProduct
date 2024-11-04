@@ -20,7 +20,7 @@ namespace Shop.Application.Services
         public Task<OperationResult<ProductDto>> GetProductAsync(long productId, CancellationToken cancellationToken);
         public OperationResult CreateProduct(CreateProductDto createProduct);
         public OperationResult UpdateProduct(UpdateProductDto updateProduct);
-        public OperationResult DeleteProduct(long productId);
+        public OperationResult DeleteProduct(DeleteProductDto deleteProduct);
 
     }
     public class ProductService : IProductService
@@ -98,12 +98,12 @@ namespace Shop.Application.Services
             }
         }
 
-        public OperationResult DeleteProduct(long productId)
+        public OperationResult DeleteProduct(DeleteProductDto deleteProduct)
         {
         
             try
             {
-                _productRepository.Remove(productId);
+                _productRepository.Remove(deleteProduct.ProductId);
                     
                 return new OperationResult(true, ProductMessageResult.OperationSuccess);
 

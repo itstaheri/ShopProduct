@@ -11,7 +11,6 @@ namespace Shop.Domain.Entities
         public BaseEntity()
         {
             CreatedAt = DateTime.Now;
-            UpdatedAt = DateTime.Now;
             IsActive = true;
         }
 
@@ -20,7 +19,6 @@ namespace Shop.Domain.Entities
 
         public long Id { get;private set; }
         public DateTime CreatedAt { get;private set; }
-        public DateTime UpdatedAt { get;private set; }
         public bool IsActive { get; private set; }
     }
 }

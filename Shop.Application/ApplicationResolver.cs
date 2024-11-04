@@ -13,6 +13,10 @@ namespace Shop.Application
         public static void ResolveApplication(this IServiceCollection services)
         {
             services.AddTransient<IUserService,UserService>();
+            services.AddTransient<IInventoryService, InventoryService>();
+            services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IPropertyService, PropertyService>();
 
         }
     }
