@@ -17,17 +17,15 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore.Configuration
         {
             builder.HasKey(x => x.Id);
             builder.ToTable("Tbl_Product");
-            builder.HasMany(x => x.ProductProperties)
-                .WithOne(x => x.Product).HasForeignKey(x => x.PropertyId)
-                .OnDelete(DeleteBehavior.SetNull);
+           
 
             builder.HasOne(x => x.Category)
                 .WithMany(x => x.Products).HasForeignKey(x => x.CategoryId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(x => x.ProductComments)
                 .WithOne(x => x.Product).HasForeignKey(x => x.ProductId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(x => x.ProductProperties)
                 .WithOne(x => x.Product).HasForeignKey(x => x.PropertyId)
@@ -35,7 +33,9 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore.Configuration
 
             builder.HasMany(x => x.ProductPictures)
                 .WithOne(x => x.Product).HasForeignKey(x => x.ProductId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(x => x.InventoryItems).WithOne(x => x.Product).HasForeignKey(x => x.ProductId).OnDelete(DeleteBehavior.NoAction);
                 
         }
     }

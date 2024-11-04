@@ -18,8 +18,7 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore.Configuration
             builder.HasMany(x => x.Cities)
                 .WithOne(x => x.Province)
                 .HasForeignKey(x => x.ProvinceId);
-            builder.HasMany(x => x.Inventories)
-                .WithOne(x => x.Province).HasForeignKey(x =>x.ProvinceId);
+           
         }
     }
 }

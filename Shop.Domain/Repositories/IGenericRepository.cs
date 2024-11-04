@@ -24,6 +24,7 @@ namespace Shop.Domain.Repositories
         bool Remove(long id);
         void Add(in T sender);
         Task<T> AddAsync( T sender, CancellationToken cancellationToken);
+        Task AddRangeAsync(IEnumerable<T> sender, CancellationToken cancellationToken);
         void Update(in T sender);
         bool Any(Expression<Func<T, bool>> predicate);
         Task<bool> AnyAsync(Expression<Func<T, bool>> predicate,CancellationToken cancellationToken);

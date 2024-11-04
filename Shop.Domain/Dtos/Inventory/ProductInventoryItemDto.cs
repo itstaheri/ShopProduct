@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Shop.Domain.Dtos.Inventory
 {
-    public record GetInventoryRequestDto : PaginationRequestDto
+    public class ProductInventoryItemDto
     {
-        public string Name { get; set; }
-        public long CityId { get; set; }
+        public long InventoryItemId { get; set; }
     }
 }

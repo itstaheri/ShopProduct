@@ -19,6 +19,19 @@ namespace Shop.Infrastructure.Interfaces.Cache
 
         }
 
+        public bool Delete(string key)
+        {
+            try
+            {
+                return _redis.KeyDelete(key);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
         public string? Get(string key)
         {
             try

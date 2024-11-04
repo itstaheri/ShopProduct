@@ -64,7 +64,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             }
         }
 
-        [HttpPut("Update")]
+        [HttpPost("Update")]
         public virtual IActionResult Update(UpdateCategoryDto updateCategory)
         {
             try
@@ -79,7 +79,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             }
         }
 
-        [HttpDelete("Delete")]
+        [HttpPost("Delete")]
         public virtual IActionResult Delete(DeleteCategoryRequestDto deleteCategory) 
         { 
             try

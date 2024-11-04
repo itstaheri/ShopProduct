@@ -10,7 +10,7 @@ namespace Shop.Endpoint.Rest.ActionFilters
     {
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            
+
         }
 
         public void OnActionExecuting(ActionExecutingContext context)

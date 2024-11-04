@@ -39,8 +39,7 @@ namespace Shop.Application.Services
 
                 if (!string.IsNullOrEmpty(getInventory.Name))
                     inventories = inventories.Where(x => x.Name.Contains(getInventory.Name));
-                if (getInventory.ProvinceId > 0)
-                    inventories = inventories.Where(x => x.ProvinceId == getInventory.ProvinceId);
+              
                 if (getInventory.CityId > 0)
                     inventories = inventories.Where(x => x.CityId == getInventory.CityId);
 
@@ -85,7 +84,7 @@ namespace Shop.Application.Services
         {
             try
             {
-                var inventoryModel = new InventoryModel(createInventory.Name, createInventory.ProvinceId, createInventory.CityId, createInventory.Address, createInventory.PostCode);
+                var inventoryModel = new InventoryModel(createInventory.Name, createInventory.CityId, createInventory.Address, createInventory.PostCode);
 
                 _inventoryRepository.Add(inventoryModel);
 
@@ -106,7 +105,7 @@ namespace Shop.Application.Services
 
             try
             {
-                checkInventory.Edit(updateInventory.Name, updateInventory.ProvinceId, updateInventory.CityId, updateInventory.Address, updateInventory.PostCode);
+                checkInventory.Edit(updateInventory.Name, updateInventory.CityId, updateInventory.Address, updateInventory.PostCode);
 
                 _inventoryRepository.Update(checkInventory);
 

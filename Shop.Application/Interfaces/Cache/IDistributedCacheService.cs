@@ -12,6 +12,7 @@ namespace Shop.Application.Interfaces.Cache
         Task SetAsync(string key, string value);
         Task<string?> GetAsync(string key);
         void Set(string key, string value);
-       string? Get(string key);
+        string? Get(string key);
+        bool Delete(string key);
     }
 }

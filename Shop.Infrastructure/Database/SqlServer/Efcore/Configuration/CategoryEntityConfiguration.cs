@@ -23,10 +23,10 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore.Configuration
                 .WithOne(x => x.Category).HasForeignKey(x => x.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
             builder
-        .HasOne(c => c)
+        .HasOne(c => c.CategoryParent)
         .WithMany(c => c.SubCategories)
         .HasForeignKey(c => c.CategoryParentId)
-        .OnDelete(DeleteBehavior.Cascade);
+        .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

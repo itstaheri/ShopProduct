@@ -21,8 +21,8 @@ namespace Shop.Domain.Entities.Category
             CategoryId = categoryId;
         }
 
-        public int CategoryId {  get; private set; }
-        public int PropertyId { get; private set;}
+        public long CategoryId {  get; private set; }
+        public long PropertyId { get; private set;}
         public CategoryModel Category { get; private set; }
         public PropertyModel Property { get; private set; }
     }

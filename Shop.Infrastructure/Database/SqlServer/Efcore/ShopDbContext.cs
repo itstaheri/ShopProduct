@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Shop.Application.Interfaces.Database;
 using Shop.Domain.Entities.BaseData;
 using Shop.Domain.Entities.Category;
+using Shop.Domain.Entities.General;
 using Shop.Domain.Entities.Inventory;
 using Shop.Domain.Entities.Product;
 using Shop.Domain.Entities.Profile;
@@ -41,7 +42,10 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore
         public DbSet<ProductCommentModel> ProductComments { get; set; }
         public DbSet<ProductPictureModel> ProductPictures { get; set; }
         public DbSet<InventoryModel> Inventory { get; set; }
-
+        public DbSet<AuditLogModel> AuditLogs { get; set; }
+        public DbSet<InventoryItemModel> InventoryItems { get; set; }
+        public DbSet<ColorModel> Colors { get; set; }
+        public DbSet<ProductInventoryModel> ProductInventories { get; set; }
         public override DatabaseFacade Database => base.Database;
 
         
@@ -74,6 +78,8 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore
             modelBuilder.ApplyConfiguration(new ProductPropertyEntityConfiguration());
             modelBuilder.ApplyConfiguration(new PropertyEntityConfiguration());
             modelBuilder.ApplyConfiguration(new InventoryEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new ColorEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new InventoryItemEntityConfiguration());
 
         }
 

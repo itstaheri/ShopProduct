@@ -26,8 +26,8 @@ namespace Shop.Domain.Entities.Product
             Value = value;
         }
 
-        public long ProductId { get; private set; }
-        public int PropertyId { get; private set;}
+        public long? ProductId { get; private set; }
+        public long? PropertyId { get; private set;}
         public string Value { get; private set; }
         public ProductModel Product { get; private set; }
         public PropertyModel Property { get; private set; }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shop.Domain.Dtos.Inventory;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,5 +15,8 @@ namespace Shop.Domain.Dtos.Product
         public long CategoryId {  get; set; }
         public string ExteraDescription { get; set; }
         public string MainPicture { get; set; }
+        public double Amount { get; set; }
+        public bool IsAvaiable { get; set; }
+        public List<ColorDto> Colors { get; set; }
     }
 }

@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace Shop.Domain.Dtos.Inventory
 {
-    public record CreateInventoryRequestDto
+    public class ColorDto
     {
+        public long Id { get; set; }
         public string Name { get; set; }
-        public long CityId { get; set; }
-        public string Address { get; set; }
-        public string PostCode { get; set; }
     }
 }

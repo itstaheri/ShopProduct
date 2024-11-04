@@ -12,8 +12,8 @@ using Shop.Infrastructure.Database.SqlServer.Efcore;
 namespace Shop.Infrastructure.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    [Migration("20241023183257_first")]
-    partial class first
+    [Migration("20241104103132_createDb")]
+    partial class createDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,10 +43,12 @@ namespace Shop.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<long>("ProvinceId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProvinceId");
 
                     b.ToTable("Tbl_City", (string)null);
                 });
@@ -59,9 +61,6 @@ namespace Shop.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("CityId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -72,12 +71,7 @@ namespace Shop.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CityId");
 
                     b.ToTable("Tbl_Province", (string)null);
                 });
@@ -90,10 +84,7 @@ namespace Shop.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long?>("CategoryModelId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("CategoryParentId")
+                    b.Property<long?>("CategoryParentId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
@@ -107,17 +98,13 @@ namespace Shop.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Picture")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryModelId");
+                    b.HasIndex("CategoryParentId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Tbl_Category", (string)null);
                 });
 
             modelBuilder.Entity("Shop.Domain.Entities.Category.CategoryPropertyModel", b =>
@@ -128,10 +115,7 @@ namespace Shop.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<long>("CategoryId1")
+                    b.Property<long>("CategoryId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
@@ -140,22 +124,86 @@ namespace Shop.Infrastructure.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PropertyId")
-                        .HasColumnType("int");
-
-                    b.Property<long>("PropertyId1")
+                    b.Property<long>("PropertyId")
                         .HasColumnType("bigint");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId1");
+                    b.HasIndex("CategoryId");
 
-                    b.HasIndex("PropertyId1");
+                    b.HasIndex("PropertyId");
 
-                    b.ToTable("CategoriesProperty");
+                    b.ToTable("Tbl_CategoryProperty", (string)null);
+                });
+
+            modelBuilder.Entity("Shop.Domain.Entities.General.AuditLogModel", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("ActionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Operation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("RecordId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("TableName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AuditLogs");
+                });
+
+            modelBuilder.Entity("Shop.Domain.Entities.Inventory.InventoryModel", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("CityId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("ProvinceModelId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("ProvinceModelId");
+
+                    b.ToTable("Tbl_Inventory", (string)null);
                 });
 
             modelBuilder.Entity("Shop.Domain.Entities.Product.ProductCommentModel", b =>
@@ -197,9 +245,6 @@ namespace Shop.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("UserEmail")
                         .HasColumnType("nvarchar(max)");
 
@@ -218,7 +263,7 @@ namespace Shop.Infrastructure.Migrations
 
                     b.HasIndex("ProductPictureModelId");
 
-                    b.ToTable("ProductComments");
+                    b.ToTable("Tbl_ProductComment", (string)null);
                 });
 
             modelBuilder.Entity("Shop.Domain.Entities.Product.ProductModel", b =>
@@ -254,14 +299,11 @@ namespace Shop.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Tbl_Product", (string)null);
                 });
 
             modelBuilder.Entity("Shop.Domain.Entities.Product.ProductPictureModel", b =>
@@ -288,14 +330,11 @@ namespace Shop.Infrastructure.Migrations
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductPictures");
+                    b.ToTable("Tbl_ProductPicture", (string)null);
                 });
 
             modelBuilder.Entity("Shop.Domain.Entities.Product.ProductPropertyModel", b =>
@@ -312,17 +351,11 @@ namespace Shop.Infrastructure.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<long>("ProductId")
+                    b.Property<long?>("ProductId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("PropertyId")
-                        .HasColumnType("int");
-
-                    b.Property<long>("PropertyId1")
+                    b.Property<long?>("PropertyId")
                         .HasColumnType("bigint");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Value")
                         .IsRequired()
@@ -332,9 +365,9 @@ namespace Shop.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.HasIndex("PropertyId1");
+                    b.HasIndex("PropertyId");
 
-                    b.ToTable("ProductProperties");
+                    b.ToTable("Tbl_ProductProperty", (string)null);
                 });
 
             modelBuilder.Entity("Shop.Domain.Entities.Profile.UserAddressModel", b =>
@@ -369,9 +402,6 @@ namespace Shop.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
@@ -402,7 +432,6 @@ namespace Shop.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Firstname")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Gender")
@@ -415,14 +444,10 @@ namespace Shop.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Lastname")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NationalCode")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
@@ -456,12 +481,9 @@ namespace Shop.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Properties");
+                    b.ToTable("Tbl_Property", (string)null);
                 });
 
             modelBuilder.Entity("Shop.Domain.Entities.User.PermissionModel", b =>
@@ -481,9 +503,6 @@ namespace Shop.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -507,9 +526,6 @@ namespace Shop.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -536,9 +552,6 @@ namespace Shop.Infrastructure.Migrations
                     b.Property<long>("RoleId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
 
                     b.HasIndex("PermissionId");
@@ -560,7 +573,6 @@ namespace Shop.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
@@ -579,9 +591,6 @@ namespace Shop.Infrastructure.Migrations
 
                     b.Property<long?>("ProductCommentModelId1")
                         .HasColumnType("bigint");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -613,9 +622,6 @@ namespace Shop.Infrastructure.Migrations
                     b.Property<long>("RoleId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
@@ -628,41 +634,58 @@ namespace Shop.Infrastructure.Migrations
                     b.ToTable("Tbl_UserRole", (string)null);
                 });
 
-            modelBuilder.Entity("Shop.Domain.Entities.BaseData.ProvinceModel", b =>
+            modelBuilder.Entity("Shop.Domain.Entities.BaseData.CityModel", b =>
                 {
-                    b.HasOne("Shop.Domain.Entities.BaseData.CityModel", "City")
-                        .WithMany("Provinces")
-                        .HasForeignKey("CityId")
+                    b.HasOne("Shop.Domain.Entities.BaseData.ProvinceModel", "Province")
+                        .WithMany("Cities")
+                        .HasForeignKey("ProvinceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("City");
+                    b.Navigation("Province");
                 });
 
             modelBuilder.Entity("Shop.Domain.Entities.Category.CategoryModel", b =>
                 {
-                    b.HasOne("Shop.Domain.Entities.Category.CategoryModel", null)
+                    b.HasOne("Shop.Domain.Entities.Category.CategoryModel", "CategoryParent")
                         .WithMany("SubCategories")
-                        .HasForeignKey("CategoryModelId");
+                        .HasForeignKey("CategoryParentId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("CategoryParent");
                 });
 
             modelBuilder.Entity("Shop.Domain.Entities.Category.CategoryPropertyModel", b =>
                 {
                     b.HasOne("Shop.Domain.Entities.Category.CategoryModel", "Category")
                         .WithMany("CategoryProperties")
-                        .HasForeignKey("CategoryId1")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Shop.Domain.Entities.Property.PropertyModel", "Property")
                         .WithMany("CategoryProperties")
-                        .HasForeignKey("PropertyId1")
+                        .HasForeignKey("PropertyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
 
                     b.Navigation("Property");
+                });
+
+            modelBuilder.Entity("Shop.Domain.Entities.Inventory.InventoryModel", b =>
+                {
+                    b.HasOne("Shop.Domain.Entities.BaseData.CityModel", "City")
+                        .WithMany("Inventories")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("Shop.Domain.Entities.BaseData.ProvinceModel", null)
+                        .WithMany("Inventories")
+                        .HasForeignKey("ProvinceModelId");
+
+                    b.Navigation("City");
                 });
 
             modelBuilder.Entity("Shop.Domain.Entities.Product.ProductCommentModel", b =>
@@ -707,14 +730,12 @@ namespace Shop.Infrastructure.Migrations
                     b.HasOne("Shop.Domain.Entities.Product.ProductModel", "Product")
                         .WithMany("ProductProperties")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("Shop.Domain.Entities.Property.PropertyModel", "Property")
                         .WithMany("ProductProperties")
-                        .HasForeignKey("PropertyId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PropertyId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Product");
 
@@ -802,7 +823,14 @@ namespace Shop.Infrastructure.Migrations
 
             modelBuilder.Entity("Shop.Domain.Entities.BaseData.CityModel", b =>
                 {
-                    b.Navigation("Provinces");
+                    b.Navigation("Inventories");
+                });
+
+            modelBuilder.Entity("Shop.Domain.Entities.BaseData.ProvinceModel", b =>
+                {
+                    b.Navigation("Cities");
+
+                    b.Navigation("Inventories");
                 });
 
             modelBuilder.Entity("Shop.Domain.Entities.Category.CategoryModel", b =>

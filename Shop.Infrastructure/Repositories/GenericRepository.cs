@@ -17,8 +17,8 @@ namespace Shop.Infrastructure.Repositories
     public class GenericRepository<T> : IDisposable, IGenericRepository<T> where T : BaseEntity
     {
 
-        private DbSet<T> _dbSet;
-        private ShopDbContext _shopDbContext;
+        protected DbSet<T> _dbSet;
+        protected ShopDbContext _shopDbContext;
         public GenericRepository(ShopDbContext context)
         {
             _shopDbContext = context;
@@ -203,6 +203,12 @@ namespace Shop.Infrastructure.Repositories
         public bool Any(Expression<Func<T, bool>> predicate)
         {
            return _dbSet.Any(predicate);
+        }
+
+        public async Task AddRangeAsync(IEnumerable<T> sender,CancellationToken cancellationToken)
+        {
+            await _dbSet.AddRangeAsync(sender);
+            await SaveAsync(cancellationToken);
         }
     }
 }

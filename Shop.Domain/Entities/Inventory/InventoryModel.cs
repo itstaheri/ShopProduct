@@ -9,30 +9,31 @@ namespace Shop.Domain.Entities.Inventory
 {
     public class InventoryModel : BaseEntity
     {
-        public InventoryModel(string name, long provinceId, long cityId, string address, string? postCode)
+        public InventoryModel(string name ,long cityId, string address, string? postCode)
         {
             Name = name;
-            ProvinceId = provinceId;
             CityId = cityId;
             Address = address;
             PostCode = postCode;
         }
 
-        public void Edit(string name, long provinceId, long cityId, string address, string? postCode)
+        public void Edit(string name,  long cityId, string address, string? postCode)
         {
             Name = name;
-            ProvinceId = provinceId;
             CityId = cityId;
             Address = address;
             PostCode = postCode;
         }
+        public InventoryModel()
+        {
+                
+        }
 
-        public string Name { get; set; }
-        public long ProvinceId { get; set; }
-        public ProvinceModel Province { get; set; }
-        public long CityId { get; set; }
-        public CityModel City { get; set; }
-        public string Address { get; set; }
-        public string? PostCode { get; set; }
+        public string Name { get;private set; }
+        public long? CityId { get; private set; }
+        public CityModel City { get; private set; }
+        public string Address { get; private set; }
+        public string? PostCode { get; private set; }
+        public ICollection<InventoryItemModel> Items { get; private set; }
     }
 }

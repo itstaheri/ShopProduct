@@ -28,7 +28,8 @@ namespace Shop.Domain.Entities.Category
         public long? CategoryParentId { get; private set; }   
         public List<CategoryPropertyModel> CategoryProperties { get; private set; }
         public List<ProductModel> Products { get; private set; }
-    //    public virtual CategoryModel CategoryParent { get; private set;}
+
+        public virtual CategoryModel CategoryParent { get; private set;}
         public virtual List<CategoryModel> SubCategories { get; private set; }
         
     }

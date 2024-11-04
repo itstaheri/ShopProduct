@@ -6,66 +6,48 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Shop.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class first : Migration
+    public partial class createDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Categories",
+                name: "AuditLogs",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TableName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Operation = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    RecordId = table.Column<long>(type: "bigint", nullable: false),
+                    ActionDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuditLogs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tbl_Category",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Picture = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CategoryParentId = table.Column<long>(type: "bigint", nullable: false),
-                    CategoryModelId = table.Column<long>(type: "bigint", nullable: true),
+                    Picture = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CategoryParentId = table.Column<long>(type: "bigint", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.PrimaryKey("PK_Tbl_Category", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Categories_Categories_CategoryModelId",
-                        column: x => x.CategoryModelId,
-                        principalTable: "Categories",
+                        name: "FK_Tbl_Category_Tbl_Category_CategoryParentId",
+                        column: x => x.CategoryParentId,
+                        principalTable: "Tbl_Category",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Properties",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MeasurmentUnit = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Properties", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tbl_City",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tbl_City", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -76,12 +58,42 @@ namespace Shop.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tbl_Permission", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tbl_Property",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MeasurmentUnit = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tbl_Property", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tbl_Province",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tbl_Province", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -92,7 +104,6 @@ namespace Shop.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -101,7 +112,7 @@ namespace Shop.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "Tbl_Product",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -112,70 +123,65 @@ namespace Shop.Infrastructure.Migrations
                     ExteraDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MainPicture = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("PK_Tbl_Product", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Categories_CategoryId",
+                        name: "FK_Tbl_Product_Tbl_Category_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Categories",
+                        principalTable: "Tbl_Category",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "CategoriesProperty",
+                name: "Tbl_CategoryProperty",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
-                    PropertyId = table.Column<int>(type: "int", nullable: false),
-                    CategoryId1 = table.Column<long>(type: "bigint", nullable: false),
-                    PropertyId1 = table.Column<long>(type: "bigint", nullable: false),
+                    CategoryId = table.Column<long>(type: "bigint", nullable: false),
+                    PropertyId = table.Column<long>(type: "bigint", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CategoriesProperty", x => x.Id);
+                    table.PrimaryKey("PK_Tbl_CategoryProperty", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CategoriesProperty_Categories_CategoryId1",
-                        column: x => x.CategoryId1,
-                        principalTable: "Categories",
+                        name: "FK_Tbl_CategoryProperty_Tbl_Category_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Tbl_Category",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CategoriesProperty_Properties_PropertyId1",
-                        column: x => x.PropertyId1,
-                        principalTable: "Properties",
+                        name: "FK_Tbl_CategoryProperty_Tbl_Property_PropertyId",
+                        column: x => x.PropertyId,
+                        principalTable: "Tbl_Property",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tbl_Province",
+                name: "Tbl_City",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CityId = table.Column<long>(type: "bigint", nullable: false),
+                    ProvinceId = table.Column<long>(type: "bigint", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tbl_Province", x => x.Id);
+                    table.PrimaryKey("PK_Tbl_City", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tbl_Province_Tbl_City_CityId",
-                        column: x => x.CityId,
-                        principalTable: "Tbl_City",
+                        name: "FK_Tbl_City_Tbl_Province_ProvinceId",
+                        column: x => x.ProvinceId,
+                        principalTable: "Tbl_Province",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -189,7 +195,6 @@ namespace Shop.Infrastructure.Migrations
                     RoleId = table.Column<long>(type: "bigint", nullable: false),
                     PermissionId = table.Column<long>(type: "bigint", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -210,7 +215,7 @@ namespace Shop.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductPictures",
+                name: "Tbl_ProductPicture",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -219,53 +224,80 @@ namespace Shop.Infrastructure.Migrations
                     ProductCommentId = table.Column<long>(type: "bigint", nullable: true),
                     FilePicture = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductPictures", x => x.Id);
+                    table.PrimaryKey("PK_Tbl_ProductPicture", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductPictures_Products_ProductId",
+                        name: "FK_Tbl_ProductPicture_Tbl_Product_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "Products",
+                        principalTable: "Tbl_Product",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductProperties",
+                name: "Tbl_ProductProperty",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<long>(type: "bigint", nullable: false),
-                    PropertyId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<long>(type: "bigint", nullable: true),
+                    PropertyId = table.Column<long>(type: "bigint", nullable: true),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PropertyId1 = table.Column<long>(type: "bigint", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductProperties", x => x.Id);
+                    table.PrimaryKey("PK_Tbl_ProductProperty", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductProperties_Products_ProductId",
+                        name: "FK_Tbl_ProductProperty_Tbl_Product_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "Products",
+                        principalTable: "Tbl_Product",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
-                        name: "FK_ProductProperties_Properties_PropertyId1",
-                        column: x => x.PropertyId1,
-                        principalTable: "Properties",
+                        name: "FK_Tbl_ProductProperty_Tbl_Property_PropertyId",
+                        column: x => x.PropertyId,
+                        principalTable: "Tbl_Property",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductComments",
+                name: "Tbl_Inventory",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CityId = table.Column<long>(type: "bigint", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PostCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProvinceModelId = table.Column<long>(type: "bigint", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tbl_Inventory", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tbl_Inventory_Tbl_City_CityId",
+                        column: x => x.CityId,
+                        principalTable: "Tbl_City",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_Tbl_Inventory_Tbl_Province_ProvinceModelId",
+                        column: x => x.ProvinceModelId,
+                        principalTable: "Tbl_Province",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tbl_ProductComment",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -283,21 +315,20 @@ namespace Shop.Infrastructure.Migrations
                     IsQuestion = table.Column<bool>(type: "bit", nullable: false),
                     ProductPictureModelId = table.Column<long>(type: "bigint", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductComments", x => x.Id);
+                    table.PrimaryKey("PK_Tbl_ProductComment", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductComments_ProductPictures_ProductPictureModelId",
+                        name: "FK_Tbl_ProductComment_Tbl_ProductPicture_ProductPictureModelId",
                         column: x => x.ProductPictureModelId,
-                        principalTable: "ProductPictures",
+                        principalTable: "Tbl_ProductPicture",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ProductComments_Products_ProductId",
+                        name: "FK_Tbl_ProductComment_Tbl_Product_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "Products",
+                        principalTable: "Tbl_Product",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -311,25 +342,24 @@ namespace Shop.Infrastructure.Migrations
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProductCommentModelId = table.Column<long>(type: "bigint", nullable: true),
                     ProductCommentModelId1 = table.Column<long>(type: "bigint", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tbl_User", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tbl_User_ProductComments_ProductCommentModelId",
+                        name: "FK_Tbl_User_Tbl_ProductComment_ProductCommentModelId",
                         column: x => x.ProductCommentModelId,
-                        principalTable: "ProductComments",
+                        principalTable: "Tbl_ProductComment",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Tbl_User_ProductComments_ProductCommentModelId1",
+                        name: "FK_Tbl_User_Tbl_ProductComment_ProductCommentModelId1",
                         column: x => x.ProductCommentModelId1,
-                        principalTable: "ProductComments",
+                        principalTable: "Tbl_ProductComment",
                         principalColumn: "Id");
                 });
 
@@ -343,11 +373,10 @@ namespace Shop.Infrastructure.Migrations
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Gender = table.Column<int>(type: "int", nullable: true),
                     IsMarried = table.Column<bool>(type: "bit", nullable: true),
-                    Firstname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Lastname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Firstname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Lastname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<long>(type: "bigint", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -370,7 +399,6 @@ namespace Shop.Infrastructure.Migrations
                     RoleId = table.Column<long>(type: "bigint", nullable: false),
                     UserId = table.Column<long>(type: "bigint", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -403,7 +431,6 @@ namespace Shop.Infrastructure.Migrations
                     UserInformationId = table.Column<long>(type: "bigint", nullable: false),
                     ProvinceId1 = table.Column<long>(type: "bigint", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -424,51 +451,6 @@ namespace Shop.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Categories_CategoryModelId",
-                table: "Categories",
-                column: "CategoryModelId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CategoriesProperty_CategoryId1",
-                table: "CategoriesProperty",
-                column: "CategoryId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CategoriesProperty_PropertyId1",
-                table: "CategoriesProperty",
-                column: "PropertyId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductComments_ProductId",
-                table: "ProductComments",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductComments_ProductPictureModelId",
-                table: "ProductComments",
-                column: "ProductPictureModelId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductPictures_ProductId",
-                table: "ProductPictures",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductProperties_ProductId",
-                table: "ProductProperties",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductProperties_PropertyId1",
-                table: "ProductProperties",
-                column: "PropertyId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_CategoryId",
-                table: "Products",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Tbl_Address_ProvinceId1",
                 table: "Tbl_Address",
                 column: "ProvinceId1");
@@ -479,9 +461,64 @@ namespace Shop.Infrastructure.Migrations
                 column: "UserInformationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tbl_Province_CityId",
-                table: "Tbl_Province",
+                name: "IX_Tbl_Category_CategoryParentId",
+                table: "Tbl_Category",
+                column: "CategoryParentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tbl_CategoryProperty_CategoryId",
+                table: "Tbl_CategoryProperty",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tbl_CategoryProperty_PropertyId",
+                table: "Tbl_CategoryProperty",
+                column: "PropertyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tbl_City_ProvinceId",
+                table: "Tbl_City",
+                column: "ProvinceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tbl_Inventory_CityId",
+                table: "Tbl_Inventory",
                 column: "CityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tbl_Inventory_ProvinceModelId",
+                table: "Tbl_Inventory",
+                column: "ProvinceModelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tbl_Product_CategoryId",
+                table: "Tbl_Product",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tbl_ProductComment_ProductId",
+                table: "Tbl_ProductComment",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tbl_ProductComment_ProductPictureModelId",
+                table: "Tbl_ProductComment",
+                column: "ProductPictureModelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tbl_ProductPicture_ProductId",
+                table: "Tbl_ProductPicture",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tbl_ProductProperty_ProductId",
+                table: "Tbl_ProductProperty",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tbl_ProductProperty_PropertyId",
+                table: "Tbl_ProductProperty",
+                column: "PropertyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tbl_RolePermission_PermissionId",
@@ -524,13 +561,19 @@ namespace Shop.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CategoriesProperty");
-
-            migrationBuilder.DropTable(
-                name: "ProductProperties");
+                name: "AuditLogs");
 
             migrationBuilder.DropTable(
                 name: "Tbl_Address");
+
+            migrationBuilder.DropTable(
+                name: "Tbl_CategoryProperty");
+
+            migrationBuilder.DropTable(
+                name: "Tbl_Inventory");
+
+            migrationBuilder.DropTable(
+                name: "Tbl_ProductProperty");
 
             migrationBuilder.DropTable(
                 name: "Tbl_RolePermission");
@@ -539,13 +582,13 @@ namespace Shop.Infrastructure.Migrations
                 name: "Tbl_UserRole");
 
             migrationBuilder.DropTable(
-                name: "Properties");
-
-            migrationBuilder.DropTable(
-                name: "Tbl_Province");
-
-            migrationBuilder.DropTable(
                 name: "Tbl_UserInformation");
+
+            migrationBuilder.DropTable(
+                name: "Tbl_City");
+
+            migrationBuilder.DropTable(
+                name: "Tbl_Property");
 
             migrationBuilder.DropTable(
                 name: "Tbl_Permission");
@@ -554,22 +597,22 @@ namespace Shop.Infrastructure.Migrations
                 name: "Tbl_Role");
 
             migrationBuilder.DropTable(
-                name: "Tbl_City");
-
-            migrationBuilder.DropTable(
                 name: "Tbl_User");
 
             migrationBuilder.DropTable(
-                name: "ProductComments");
+                name: "Tbl_Province");
 
             migrationBuilder.DropTable(
-                name: "ProductPictures");
+                name: "Tbl_ProductComment");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Tbl_ProductPicture");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Tbl_Product");
+
+            migrationBuilder.DropTable(
+                name: "Tbl_Category");
         }
     }
 }

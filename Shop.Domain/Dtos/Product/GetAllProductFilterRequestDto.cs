@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Shop.Domain.Dtos.Product
 {
-    public record GetAllProductFilterRequestDto
+    public record GetAllProductFilterRequestDto : PaginationRequestDto
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public long CategoryId { get; set; } = 0;
     }
 }

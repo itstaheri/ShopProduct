@@ -17,7 +17,9 @@ namespace Shop.Endpoint.Rest.Controllers.v1
     public class OtpController : ControllerBase
     {
 
+
         private readonly OTPAbstraction _otp;
+
 
         public OtpController(OTPAbstraction otp)
         {
@@ -26,6 +28,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
         [HttpPost("OtpRequest")]
         public IActionResult OtpRequest([FromBody]SendOTPRequestDto request)
         {
+
             if (!Enum.IsDefined(typeof(OTPChannel), request.Channel))
                 return Ok(new ResponseDto
                 {

@@ -15,7 +15,6 @@ namespace Shop.Domain.Entities.BaseData
         }
 
         public string  Name { get;private set; }
-        public long CityId { get;private set; }
         public List<CityModel> Cities { get; private set; }
         public List<InventoryModel> Inventories { get; private set; }
     }

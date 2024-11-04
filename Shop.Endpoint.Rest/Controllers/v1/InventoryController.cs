@@ -68,7 +68,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             }
         }
 
-        [HttpPut("Update")]
+        [HttpPost("Update")]
         public virtual IActionResult Update(UpdateInventoryRequestDto updateInventory)
         {
             try
@@ -82,7 +82,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             }
         }
 
-        [HttpDelete("Delete")]
+        [HttpPost("Delete")]
         public virtual IActionResult Delete(DeleteInventoryRequestDto deleteInventory)
         {
             try

@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using Shop.Application.Mapper;
 using Shop.Application.Services;
 using Shop.Domain.Dtos.Product;
 using Shop.Endpoint.Rest.ActionFilters;
@@ -20,11 +21,25 @@ namespace Shop.Endpoint.Rest.Controllers.v1
         }
 
         [HttpPost("GetAll")]
-        public virtual async Task<IActionResult> GetAll([FromBody] GetAllProductFilterRequestDto getAllProduct, CancellationToken cancellationToken)
+        public virtual async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             try
             {
-                var result = await _productService.GetAllProductAsync(getAllProduct, cancellationToken);
+                var result = await _productService.GetAllProductsAsync( cancellationToken);
+
+                return Ok(result.Success);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        [HttpPost("Filter")]
+        public virtual async Task<IActionResult> Filter([FromBody] GetAllProductFilterRequestDto getAllProduct, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _productService.FilterAllProductAsync(getAllProduct, cancellationToken);
 
                 return Ok(result.Success);
             }
@@ -50,13 +65,13 @@ namespace Shop.Endpoint.Rest.Controllers.v1
         }
 
         [HttpPost("Create")]
-        public virtual IActionResult Create([FromBody] CreateProductDto createProduct)
+        public virtual async Task<IActionResult> Create([FromBody] CreateProductDto createProduct,CancellationToken cancellationToken)
         {
             try
             {
-                _productService.CreateProduct(createProduct);
+              var result =  await _productService.CreateProductAsync(createProduct, cancellationToken);
 
-                return Ok();
+                return Ok(result.Success());
             }
             catch(Exception ex)
             {
@@ -64,7 +79,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             }
         }
 
-        [HttpPut("Update")]
+        [HttpPost("Update")]
         public virtual IActionResult Update(UpdateProductDto updateProduct)
         {
             try
@@ -79,7 +94,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             }
         }
 
-        [HttpDelete("Delete")]
+        [HttpPost("Delete")]
         public virtual IActionResult Delete(DeleteProductDto deleteProduct)
         {
             try

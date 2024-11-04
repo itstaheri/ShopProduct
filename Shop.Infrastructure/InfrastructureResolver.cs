@@ -19,22 +19,32 @@ using Shop.Infrastructure.Interfaces.Auth;
 using Shop.Infrastructure.Configs;
 using Shop.Application.Interfaces.Dapper;
 using ODD.Api.Infrastructure.Utility.Interfaces;
+using Shop.Domain.Entities.General;
+using Shop.Domain.Repositories.Product;
+using Shop.Infrastructure.Repositories.Product;
 namespace Shop.Infrastructure
 {
     public static class InfrastructureResolver
     {
-        public static void ResolveInfrastructure(this IServiceCollection services,Dictionary<string,string> keyValues)
+        public static void ResolveInfrastructure(this IServiceCollection services, Dictionary<string, string> keyValues)
         {
-
+            var serviceProvider = services.BuildServiceProvider();
             services.AddTransient<IJwtAuthentication, JwtAuthentication>();
 
-            services.AddDbContext<ShopDbContext>(x=>x.UseSqlServer(keyValues["ConnectionString"]),ServiceLifetime.Scoped);
+            services.AddDbContext<ShopDbContext>(x =>
+            {
+                x.UseSqlServer(keyValues["ConnectionString"]);
+                x.AddInterceptors(serviceProvider.CreateScope().ServiceProvider.GetService<AuditInterceptor>());
+
+            }
+
+            , ServiceLifetime.Scoped);
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IApplicationEfCoreContext, ShopDbContext>();
             services.AddScoped<IDistributedCacheService, RedisCache>();
             services.AddScoped<IDapperContext, DapperContext>();
             services.AddTransient<OTPAbstraction, OTP>();
-
             services.ConfigVersioning();
             services.ConfigAuth(keyValues["Issuer"], keyValues["Audience"], keyValues["Key"]);
 
@@ -43,7 +53,7 @@ namespace Shop.Infrastructure
                 IConnectionMultiplexer multiplexer = ConnectionMultiplexer.Connect(keyValues["RedisConnectionStrig"]);
                 return multiplexer.GetDatabase();
             });
-           
+
 
         }
     }

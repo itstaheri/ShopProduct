@@ -15,9 +15,7 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore.Configuration
         {
             builder.HasKey(x => x.Id);
             builder.ToTable("Tbl_Inventory");
-            builder.HasOne(x => x.Province)
-                .WithMany(x => x.Inventories).HasForeignKey(x => x.ProvinceId)
-                .OnDelete(DeleteBehavior.SetNull);
+          
             builder.HasOne(x => x.City)
                 .WithMany(x => x.Inventories).HasForeignKey(x =>x.CityId)
                 .OnDelete(DeleteBehavior.SetNull);

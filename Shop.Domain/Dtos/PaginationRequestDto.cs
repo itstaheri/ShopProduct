@@ -8,9 +8,9 @@ namespace Shop.Domain.Dtos
 {
     public record PaginationRequestDto
     {
-        public string  FromDate { get; set; }
-        public string ToDate { get; set; } = string.Empty;
-        public int Page {  get; set; }
+        public DateTime? FromDate { get; set; } = null;
+        public DateTime? ToDate { get; set; } = null;
+        public int Page {  get; set; } 
         public int PageSize { get; set; }
 
     }

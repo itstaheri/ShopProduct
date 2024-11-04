@@ -1,4 +1,5 @@
 ﻿using Shop.Domain.Entities.Category;
+using Shop.Domain.Entities.Inventory;
 using System;
 using System.Collections.Generic;
 using System.Linq;  
@@ -40,5 +41,6 @@ namespace Shop.Domain.Entities.Product
         public List<ProductPropertyModel> ProductProperties { get; private set; }
         public List<ProductCommentModel> ProductComments { get; private set; }
         public List<ProductPictureModel> ProductPictures { get; private set; }
+       public List<InventoryItemModel> InventoryItems { get; private set; }
     }
 }
