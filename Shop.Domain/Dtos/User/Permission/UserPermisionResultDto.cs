@@ -8,7 +8,7 @@ namespace Shop.Domain.Dtos.User.Permission
 {
     public class UserPermisionResultDto
     {
-        public string PermissionName { get; set; }
-        public long RoleId { get; set; }
+        public long PermissionId { get; set; }    
+        public string Name { get; set; }
     }
 }

@@ -54,6 +54,8 @@ namespace Shop.Application.Services
                 if (!user.IsActive) return new OperationResult<UserInfoDto>(null, false, UserMessageResult.UserIsDeActive);
 
                 var result = GeneralMapper.Map<UserModel, UserInfoDto>(user);
+                var permissions =  GetUserPermissions(user.Id).Result;
+                result.Permissions = permissions.Select(x => (Permission)x.PermissionId).ToList();
 
                 return new OperationResult<UserInfoDto>(result, true, BaseMessageResult.OperationSuccess);
 
@@ -71,9 +73,9 @@ namespace Shop.Application.Services
             {
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("UserId", userId);
-                var permissions = await _dapper.CallSPAsync<List<UserPermisionResultDto>>("SP_ReturnUserPermission", parameters);
+                var permissions = await _dapper.CallSPAsync<UserPermisionResultDto>("SP_ReturnUserPermissions", parameters);
 
-                return permissions;
+                return permissions.ToList();
             }
             catch (Exception ex)
             {
@@ -90,10 +92,10 @@ namespace Shop.Application.Services
 
                 if (userExist is not null)
                 {
-                    var permissions = await GetUserPermissions(userInfo.UserId);
+                    var permissions = await GetUserPermissions(userInfo.Id);
                     userInfo = GeneralMapper.Map<UserModel, UserInfoDto>(userExist);
                     userInfo.Roles = userExist.UserRoles.Select(x => x.RoleId).ToList();
-                    userInfo.Permissions = permissions.Select(x=>x.PermissionName).ToList();
+                    userInfo.Permissions = permissions.Select(x => (Permission)x.PermissionId).ToList();
                 }
                 else
                 {

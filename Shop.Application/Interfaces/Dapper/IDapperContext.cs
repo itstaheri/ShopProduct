@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Shop.Application.Interfaces.Dapper
         Task<object> QueryExecuteReaderToDB(string tableName, DynamicParameters? parameters = null);
         Task<IEnumerable<T>> QueryExecuteReaderToDB<T>(string query, DynamicParameters? parameters = null);
         Task<object> CallSPAsync(string spName, DynamicParameters? parameters = null);
-        Task<T> CallSPAsync<T>(string spName, DynamicParameters? parameters = null);
+        Task<IEnumerable<T>> CallSPAsync<T>(string spName, DynamicParameters? parameters = null);
         object CallSP(string spName, DynamicParameters? parameters = null);
         Task BulkInsertAsync(DataTable dataTable);
         DataTable ToDataTable<T>(List<T> items);

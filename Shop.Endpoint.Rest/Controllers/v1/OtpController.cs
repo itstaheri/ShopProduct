@@ -14,6 +14,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion(1)]
     [EnableCors("cors")]
+   
     public class OtpController : ControllerBase
     {
 

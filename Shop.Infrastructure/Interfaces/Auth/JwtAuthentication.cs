@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Shop.Infrastructure.Interfaces.Auth
 {
@@ -34,7 +35,7 @@ namespace Shop.Infrastructure.Interfaces.Auth
             //create cliams for store useritem data
             var claims = new List<Claim>
             {
-                new Claim("Id",userInfo.UserId.ToString()),
+                new Claim("Id",userInfo.Id.ToString()),
                 new Claim("Phone",userInfo.PhoneNumber.ToString()),
                 new Claim("Permissions",JsonConvert.SerializeObject(userInfo.Permissions))
             };
@@ -76,19 +77,22 @@ namespace Shop.Infrastructure.Interfaces.Auth
 
         public long GetCurrentUserId()
         {
-            return long.Parse(_contextAccessor.HttpContext.User.FindFirst("Id").Value);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var securityToken = (JwtSecurityToken)tokenHandler.ReadToken(_contextAccessor.HttpContext.Request.Headers["Authorization"]);
+            var claimValue = securityToken.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
+            return long.Parse(claimValue);
         }
 
         public UserInfoDto ReadTokenClaims()
         {
             try
             {
-                var identity = _contextAccessor.HttpContext.User.Identity as ClaimsIdentity;
-                var claims = identity.Claims;
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var securityToken = (JwtSecurityToken)tokenHandler.ReadToken(_contextAccessor.HttpContext.Request.Headers["Authorization"]);
                 return new UserInfoDto
                 {
-                    UserId = Convert.ToInt64(claims.FirstOrDefault(x => x.Type == "Id").Value),
-                    Permissions = JsonConvert.DeserializeObject<List<string>>(claims.FirstOrDefault(x => x.Type == "Permissions").Value).ToList()
+                    Id = GetCurrentUserId(),
+                    Permissions = JsonConvert.DeserializeObject<List<Domain.Enums.Permission>>(securityToken.Claims.FirstOrDefault(c => c.Type == "Permissions")?.Value).ToList()
                 };
 
             }

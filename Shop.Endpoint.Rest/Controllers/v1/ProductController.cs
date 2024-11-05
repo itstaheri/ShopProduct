@@ -11,6 +11,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
     [Route("api/v{vesion:apiVersion}/[controller]")]
     [ApiVersion(1)]
     [JWTAuthorize]
+    [CheckPermision(Domain.Enums.Permission.All)]
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;

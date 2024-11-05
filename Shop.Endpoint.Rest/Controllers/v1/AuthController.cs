@@ -31,7 +31,6 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             {
 
                 var result = _userService.Login(login);
-
                 if (result.Success)
                 {
                     var token = _jwtAuthentication.GenerateToken(result.Result);
@@ -40,7 +39,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
 
                 }
 
-                return Ok();
+                return Ok(new ResponseDto { Message = BaseMessageResult.OperationFaild,StatusCode = 401,Result = null});
             }
             catch (Exception ex)
             {

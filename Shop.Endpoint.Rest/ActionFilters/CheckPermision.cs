@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Shop.Application.Interfaces.Auth;
 using Shop.Domain.Enums;
+using System;
+using System.Linq;
 
 namespace Shop.Endpoint.Rest.ActionFilters
 {
@@ -15,14 +17,13 @@ namespace Shop.Endpoint.Rest.ActionFilters
         }
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            throw new NotImplementedException();
         }
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
             var jwtService = context.HttpContext.RequestServices.GetRequiredService<IJwtAuthentication>();
             var permissions = jwtService.ReadTokenClaims().Permissions;
-            if (!permissions.Contains(nameof(Permission)))
+            if (!permissions.Contains(Permission))
             {
                 context.Result = new ObjectResult("forbidden");
             }

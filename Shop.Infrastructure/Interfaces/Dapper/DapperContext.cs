@@ -45,7 +45,7 @@ namespace ODD.Api.Infrastructure.Utility.Interfaces
             try
             {
 
-                connection.ConnectionString = _configuration.GetConnectionString("SSMS");
+                connection.ConnectionString = _configuration.GetConnectionString("ShopDB");
 
 
 
@@ -76,7 +76,7 @@ namespace ODD.Api.Infrastructure.Utility.Interfaces
             try
             {
 
-                connection.ConnectionString = _configuration.GetConnectionString("SSMS");
+                connection.ConnectionString = _configuration.GetConnectionString("ShopDB");
 
 
                 //call stored procedure and fetch result
@@ -104,7 +104,7 @@ namespace ODD.Api.Infrastructure.Utility.Interfaces
 
             try
             {
-                connection.ConnectionString = _configuration.GetConnectionString("SSMS");
+                connection.ConnectionString = _configuration.GetConnectionString("ShopDB");
 
                 connection.Open();
 
@@ -191,7 +191,7 @@ namespace ODD.Api.Infrastructure.Utility.Interfaces
 
             try
             {
-                connection.ConnectionString = _configuration.GetConnectionString("SSMS");
+                connection.ConnectionString = _configuration.GetConnectionString("ShopDB");
 
 
 
@@ -211,31 +211,31 @@ namespace ODD.Api.Infrastructure.Utility.Interfaces
             finally { connection.Close(); connection.Dispose(); }
         }
 
-        public async Task<T> CallSPAsync<T>(string spName, DynamicParameters? parameters = null)
+        public async Task<IEnumerable<T>> CallSPAsync<T>(string spName, DynamicParameters? parameters = null)
         {
-            T queryResult;
+            IEnumerable<T> queryResult;
 
 
             var procedure = spName;
             try
             {
-                connection.ConnectionString = _configuration.GetConnectionString("SSMS");
+                connection.ConnectionString = _configuration.GetConnectionString("ShopDB");
 
 
 
                 //call stored procedure and fetch result
                 if (parameters != null)
                 {
-                    var result = await connection.QueryAsync<T>(procedure, parameters, commandType: CommandType.StoredProcedure, commandTimeout: 480);
-                    queryResult = result.FirstOrDefault();
 
+                    var result = await connection.QueryAsync<T>(procedure, parameters, commandType: CommandType.StoredProcedure, commandTimeout: 480);
+                    queryResult = result;
                 }
                 else
                 {
                     var result = await connection.QueryAsync<T>(procedure, commandType: CommandType.StoredProcedure, commandTimeout: 480);
-                    queryResult = result.FirstOrDefault();
+                    queryResult = result;
                 }
-             
+
 
                 return queryResult;
             }
@@ -246,7 +246,10 @@ namespace ODD.Api.Infrastructure.Utility.Interfaces
             }
             finally { connection.Close(); connection.Dispose(); }
         }
-
+         ~DapperContext()
+        {
+            connection.Close(); connection.Dispose();
+        }
         public async Task<IEnumerable<T>> QueryExecuteReaderToDB<T>(string query, DynamicParameters? parameters = null)
         {
             IEnumerable<T> queryResult;
@@ -255,7 +258,7 @@ namespace ODD.Api.Infrastructure.Utility.Interfaces
 
             try
             {
-                connection.ConnectionString = _configuration.GetConnectionString("SSMS");
+                connection.ConnectionString = _configuration.GetConnectionString("ShopDB");
 
 
                 //call stored procedure and fetch result

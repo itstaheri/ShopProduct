@@ -23,6 +23,11 @@ namespace Shop.Domain.Entities.Inventory
             ColorId = colorId;
             InventoryId = inventoryId;
         }
+        public InventoryItemModel()
+        {
+            
+
+        }
         public void SetProduct(long prodcutId) => ProductId = prodcutId;    
 
         public string ItemName { get; private set; }
@@ -31,8 +36,7 @@ namespace Shop.Domain.Entities.Inventory
         public ColorModel Color { get; private set; }
         public long InventoryId { get; private set; }
         public InventoryModel Inventory { get; private set; }
-        //public long ProductInventoryId { get; private set; }
-        //public ProductInventoryModel ProductInventory { get; private set; }
+
         public long? ProductId { get; private set; }
         public ProductModel Product { get; private set; }
 
