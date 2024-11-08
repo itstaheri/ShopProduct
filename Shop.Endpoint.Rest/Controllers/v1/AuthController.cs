@@ -66,7 +66,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             }
         }
         [CheckOTPFilter]
-        [HttpPost("LoginOrSignupWithPhoneAsync")]
+        [HttpPost("LoginOrSignupWithPhone")]
         public virtual async Task<IActionResult> LoginOrSignupWithPhone(LoginOrSignupWithPhoneRequestDto request, CancellationToken cancellationToken)
         {
             try

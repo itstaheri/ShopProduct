@@ -22,19 +22,21 @@ using ODD.Api.Infrastructure.Utility.Interfaces;
 using Shop.Domain.Entities.General;
 using Shop.Domain.Repositories.Product;
 using Shop.Infrastructure.Repositories.Product;
+using Shop.Application.Interfaces.Sms;
+using Shop.Infrastructure.Interfaces.Sms;
 namespace Shop.Infrastructure
 {
     public static class InfrastructureResolver
     {
         public static void ResolveInfrastructure(this IServiceCollection services, Dictionary<string, string> keyValues)
         {
-            var serviceProvider = services.BuildServiceProvider();
             services.AddTransient<IJwtAuthentication, JwtAuthentication>();
+            services.AddScoped<AuditInterceptor>();
 
-            services.AddDbContext<ShopDbContext>(x =>
+            services.AddDbContext<ShopDbContext>((sp,x) =>
             {
                 x.UseSqlServer(keyValues["ConnectionString"]);
-                x.AddInterceptors(serviceProvider.CreateScope().ServiceProvider.GetService<AuditInterceptor>());
+                x.AddInterceptors(sp.GetRequiredService<AuditInterceptor>());
 
             }
 
@@ -45,6 +47,15 @@ namespace Shop.Infrastructure
             services.AddScoped<IDistributedCacheService, RedisCache>();
             services.AddScoped<IDapperContext, DapperContext>();
             services.AddTransient<OTPAbstraction, OTP>();
+
+            switch (keyValues["SmsProvider"])
+            {
+                case "Kavenegar": services.AddSingleton<ISMS, Kavenegar>();
+                    break;
+                default:
+                    break;
+            }
+
             services.ConfigVersioning();
             services.ConfigAuth(keyValues["Issuer"], keyValues["Audience"], keyValues["Key"]);
 

@@ -61,6 +61,7 @@ namespace Shop.Infrastructure.Repositories
             // IQueryable<string> province = _shopDbContext.Provinces.Where(x => x.Name == "a").Select(x => x.Name).AsQueryable();
             if (sender is null)
                 throw new ArgumentNullException(nameof(sender));
+
             var result = await _dbSet.AddAsync(sender, cancellationToken);
             await SaveAsync(cancellationToken);
 

@@ -248,7 +248,7 @@ namespace ODD.Api.Infrastructure.Utility.Interfaces
         }
          ~DapperContext()
         {
-            connection.Close(); connection.Dispose();
+             connection.Close(); connection.Dispose();
         }
         public async Task<IEnumerable<T>> QueryExecuteReaderToDB<T>(string query, DynamicParameters? parameters = null)
         {

@@ -80,6 +80,7 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore
             modelBuilder.ApplyConfiguration(new InventoryEntityConfiguration());
             modelBuilder.ApplyConfiguration(new ColorEntityConfiguration());
             modelBuilder.ApplyConfiguration(new InventoryItemEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new AuditLogEntityConfiguration());
 
         }
 

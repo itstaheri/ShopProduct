@@ -2,9 +2,12 @@
 using Newtonsoft.Json;
 using Shop.Application.Interfaces.Cache;
 using Shop.Application.Interfaces.OTP;
+using Shop.Application.Interfaces.Sms;
 using Shop.Application.MessageResult;
 using Shop.Domain.CustomException.OTP;
+using Shop.Domain.Enums;
 using Shop.Domain.Models.OTP;
+using Shop.Domain.Models.SMS.Kavenegar;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +20,13 @@ namespace Shop.Infrastructure.Interfaces.OTP
     public class OTP : OTPAbstraction
     {
         private readonly IDistributedCacheService _cache;
-        public OTP(IDistributedCacheService cache)
+        private readonly ISMS _sms;
+        public OTP(IDistributedCacheService cache, ISMS sms)
         {
             _cache = cache;
             if (ExpireAt == null)
                 throw new ExpireAtNullException();
-
+            _sms = sms;
         }
 
         private OTPResult CheckOtpRequestAccess(string key)
@@ -36,10 +40,10 @@ namespace Shop.Infrastructure.Interfaces.OTP
                 if (otpInfo.ExpireDate > DateTime.Now)
                 {
                     return new OTPResult(OTPMessageResult.ActiveOtpExist, false);
-                } 
+                }
 
             }
-             
+
 
             return new OTPResult(OTPMessageResult.OperationSuccess, true);
 
@@ -55,7 +59,7 @@ namespace Shop.Infrastructure.Interfaces.OTP
             else
             {
                 OTPInfo otpInfo = JsonConvert.DeserializeObject<OTPInfo>(otpValue);
-                if (otp.Refrence != otpInfo.Refrence && otp.Code != otpInfo.Code)
+                if (otp.Code != otpInfo.Code)
                 {
                     return new OTPResult(OTPMessageResult.OTPWrong, false);
                 }
@@ -78,7 +82,7 @@ namespace Shop.Infrastructure.Interfaces.OTP
         public override void DisableOTP(string key)
         {
             var otpValue = _cache.Get(key);
-            if(otpValue != null)
+            if (otpValue != null)
             {
                 OTPInfo otpInfo = JsonConvert.DeserializeObject<OTPInfo>(otpValue);
                 otpInfo.IsActive = false;
@@ -103,9 +107,37 @@ namespace Shop.Infrastructure.Interfaces.OTP
                 Refrence = otp.Refrence,
                 OTPAction = Domain.Enums.OTPAction.SignUpLogin,
             };
-            _cache.Set(Key, JsonConvert.SerializeObject(otpInfo));
 
-            return new OTPResult(OTPMessageResult.OperationSuccess,true);
+            try
+            {
+                _cache.Set(Key, JsonConvert.SerializeObject(otpInfo));
+                Console.WriteLine("code : "+otpInfo.Code);
+                //if (OTPChannel.SMS == otp.OTPChannel)
+                //{
+                //    var sendSmsResult = _sms.SendAsync<KavenegarSendSingleSmsRequest>(new KavenegarSendSingleSmsRequest
+                //    {
+                //        Message = $"یکبار رمز : {otpInfo.Code}",
+                //        Receptor = Key
+                //    }).Result;
+                //    if (sendSmsResult.Status is 1)
+                //        _cache.Set(Key, JsonConvert.SerializeObject(otpInfo));
+                //    else
+                //        return new OTPResult(OTPMessageResult.ErrorOnCallSmsApi, false);
+
+                //}
+                //else
+                //{
+
+                //}
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            return new OTPResult(OTPMessageResult.OperationSuccess, true);
         }
     }
 }

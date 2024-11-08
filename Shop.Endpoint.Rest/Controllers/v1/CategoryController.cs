@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using Shop.Application.Mapper;
 using Shop.Application.Services;
 using Shop.Domain.Dtos.Category;
 using Shop.Endpoint.Rest.ActionFilters;
@@ -41,7 +42,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             {
                 var result = await _categoryService.GetCategoryAsync(categoryId, cancellationToken);
 
-                return Ok(result.Success);
+                return Ok(result.Success());
             }
             catch (Exception ex)
             {
@@ -54,9 +55,9 @@ namespace Shop.Endpoint.Rest.Controllers.v1
         {
             try
             {
-                _categoryService.CreateCategory(createCategory);
+               var result =  _categoryService.CreateCategory(createCategory);
 
-                return Ok();
+                return Ok(result.Success());
             }
             catch (Exception ex)
             {
@@ -69,9 +70,9 @@ namespace Shop.Endpoint.Rest.Controllers.v1
         {
             try
             {
-                _categoryService.UpdateCategory(updateCategory);
+               var result = _categoryService.UpdateCategory(updateCategory);
 
-                return Ok();
+                return Ok(result.Success());
             }
             catch (Exception ex)
             {
@@ -84,9 +85,9 @@ namespace Shop.Endpoint.Rest.Controllers.v1
         { 
             try
             {
-                _categoryService.DeleteCategory(deleteCategory);
+              var result =   _categoryService.DeleteCategory(deleteCategory);
 
-                return Ok();
+                return Ok(result.Success());
             }
             catch (Exception ex)
             {

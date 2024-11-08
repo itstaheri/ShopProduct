@@ -78,9 +78,19 @@ namespace Shop.Infrastructure.Interfaces.Auth
         public long GetCurrentUserId()
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var securityToken = (JwtSecurityToken)tokenHandler.ReadToken(_contextAccessor.HttpContext.Request.Headers["Authorization"]);
-            var claimValue = securityToken.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
-            return long.Parse(claimValue);
+            var token = _contextAccessor.HttpContext.Request.Headers["Authorization"];
+            if (!string.IsNullOrEmpty(token))
+            {
+                var securityToken = (JwtSecurityToken)tokenHandler.ReadToken(token);
+                var claimValue = securityToken.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
+                if (!string.IsNullOrEmpty(claimValue))
+                    return long.Parse(claimValue);
+                else
+                    return 0;
+            }
+            else
+                return 0;
+          
         }
 
         public UserInfoDto ReadTokenClaims()
@@ -103,10 +113,12 @@ namespace Shop.Infrastructure.Interfaces.Auth
             }
         }
 
-        public bool TokenIsValid(string token)
+        public bool TokenIsValid(string? token)
         {
             try
             {
+                if (!string.IsNullOrEmpty(token))
+                    return false;
                 string key = _config["Jwt:key"];
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
                 SecurityToken securityToken;

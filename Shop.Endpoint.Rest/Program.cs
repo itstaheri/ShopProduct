@@ -54,6 +54,7 @@ keyvalues.Add("RedisConnectionStrig", builder.Configuration.GetConnectionString(
 keyvalues.Add("Key", builder.Configuration.GetSection("Jwt").GetSection("Key").Value);
 keyvalues.Add("Issuer", builder.Configuration.GetSection("Jwt").GetSection("Issuer").Value);
 keyvalues.Add("Audience", builder.Configuration.GetSection("Jwt").GetSection("Audience").Value);
+keyvalues.Add("SmsProvider", builder.Configuration.GetSection("SmsProvider").Value);
 
 builder.Services.ResolveInfrastructure(keyvalues);
 builder.Services.AddCors(x=>x.AddPolicy("cors",x=>x.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()));

@@ -15,5 +15,6 @@ namespace Shop.Application.MessageResult
         public const string OTPIsActive = "OTPIsActive";
         public const string ChannelIsNotDefiend = "ChannelIsNotDefiend";
         public const string ActiveOtpExist = "ActiveOtpExist";
+        public const string ErrorOnCallSmsApi = "ErrorOnCallSmsApi";
     }
 }

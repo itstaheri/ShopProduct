@@ -92,7 +92,7 @@ namespace Shop.Application.Services
 
                 if (userExist is not null)
                 {
-                    var permissions = await GetUserPermissions(userInfo.Id);
+                    var permissions = await GetUserPermissions(userExist.Id);
                     userInfo = GeneralMapper.Map<UserModel, UserInfoDto>(userExist);
                     userInfo.Roles = userExist.UserRoles.Select(x => x.RoleId).ToList();
                     userInfo.Permissions = permissions.Select(x => (Permission)x.PermissionId).ToList();
