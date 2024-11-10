@@ -14,6 +14,7 @@ namespace Shop.Domain.Models.Api
     {
         public string BaseUrl { get; set; }
         public string SendSmsMethod { get; set; }
+        public string ApiKey { get; set; }
 
     }
 }

@@ -24,6 +24,8 @@ using Shop.Domain.Repositories.Product;
 using Shop.Infrastructure.Repositories.Product;
 using Shop.Application.Interfaces.Sms;
 using Shop.Infrastructure.Interfaces.Sms;
+using Shop.Application.Interfaces.Email;
+using Shop.Infrastructure.Interfaces.Email;
 namespace Shop.Infrastructure
 {
     public static class InfrastructureResolver
@@ -47,10 +49,11 @@ namespace Shop.Infrastructure
             services.AddScoped<IDistributedCacheService, RedisCache>();
             services.AddScoped<IDapperContext, DapperContext>();
             services.AddTransient<OTPAbstraction, OTP>();
+            services.AddTransient<IEmail, EmailService>();
 
             switch (keyValues["SmsProvider"])
             {
-                case "Kavenegar": services.AddSingleton<ISMS, Kavenegar>();
+                case "Kavenegar": services.AddSingleton<ISMS, KavenegarService>();
                     break;
                 default:
                     break;

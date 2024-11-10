@@ -1,6 +1,9 @@
 {
   "SMS": {
     "Kavenegar": {
+      "BaseUrl": "",
+      "SendSmsMethod": "",
+      "ApiKey": "2B7374554B696F6C777857475478756A484B766C6746312B67377A737A3475506F42377A654C4962574B773D"
 
     }
   }
