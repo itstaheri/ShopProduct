@@ -21,10 +21,19 @@ namespace Shop.Endpoint.Rest.Controllers.v1
 
         private readonly OTPAbstraction _otp;
 
-
         public OtpController(OTPAbstraction otp)
         {
             _otp = otp;
+        }
+        [HttpGet("CheckOTPRequestExist")]
+        public IActionResult CheckOTPRequestExist([FromQuery(Name = "key")] string Key)
+        {
+            var result = _otp.CheckOTPRequestExist(Key);
+            return Ok(new ResponseDto
+            {
+                Result = result.Success,
+                Message = result.Message,
+            });
         }
         [HttpPost("OtpRequest")]
         public IActionResult OtpRequest([FromBody]SendOTPRequestDto request)
@@ -40,7 +49,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
 
 
             _otp.ExpireAt = DateTime.Now.AddMinutes(3);
-            var key = _otp.Send(new Domain.Models.OTP.SendOTP
+            var result = _otp.Send(new Domain.Models.OTP.SendOTP
             {
                 OTPChannel = (Domain.Enums.OTPChannel)request.Channel,
                 Refrence = request.Refrence
@@ -49,9 +58,21 @@ namespace Shop.Endpoint.Rest.Controllers.v1
 
             return Ok(new ResponseDto
             {
-                Message = OTPMessageResult.OperationSuccess,
-                Result = key,
+                Message = result.Message,
+                Result = result.Success,
                 StatusCode = 200
+            });
+        }
+        [HttpPost("DisableOTP")]
+        public IActionResult DisableOTP([FromBody] DisableOtpRequestDto otp)
+        {
+            _otp.DisableOTP(otp.Key);
+
+            return Ok(new ResponseDto
+            {
+                Message = BaseMessageResult.OperationSuccess,
+                StatusCode = 200,
+                Result = true
             });
         }
     }

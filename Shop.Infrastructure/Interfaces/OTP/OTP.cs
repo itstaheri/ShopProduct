@@ -62,19 +62,21 @@ namespace Shop.Infrastructure.Interfaces.OTP
             else
             {
                 OTPInfo otpInfo = JsonConvert.DeserializeObject<OTPInfo>(otpValue);
-                if (otp.Code != otpInfo.Code)
+                 if (otpInfo.ExpireDate < DateTime.Now)
                 {
-                    return new OTPResult(OTPMessageResult.OTPWrong, false);
+                    return new OTPResult(OTPMessageResult.OTPExpierd, false);
                 }
+               
                 else if (!otpInfo.IsActive)
                 {
                     return new OTPResult(OTPMessageResult.OTPNotActive, false);
 
                 }
-                else if (otpInfo.ExpireDate < DateTime.Now)
+                else if (otp.Code != otpInfo.Code)
                 {
-                    return new OTPResult(OTPMessageResult.OTPExpierd, false);
+                    return new OTPResult(OTPMessageResult.OTPWrong, false);
                 }
+
 
             }
             DisableOTP(otp.Refrence);
@@ -117,16 +119,17 @@ namespace Shop.Infrastructure.Interfaces.OTP
                 Console.WriteLine("code : " + otpInfo.Code);
                 if (OTPChannel.SMS == otp.OTPChannel)
                 {
-                    //var sendSmsResult = _sms.Send<KavenegarSendSingleSmsRequest>(new KavenegarSendSingleSmsRequest
-                    //{
-                    //    Message = $"یکبار رمز : {otpInfo.Code}",
-                    //    Receptor = Key
-                    //});
-                    //if (sendSmsResult.Status is 1)
-                    //    _cache.Set(Key, JsonConvert.SerializeObject(otpInfo));
-                    //else
-                    //    return new OTPResult(OTPMessageResult.ErrorOnCallSmsApi, false);
-                    _cache.Set(Key, JsonConvert.SerializeObject(otpInfo));
+                    var sendSmsResult = _sms.Send<KavenegarSendSingleSmsRequest>(new KavenegarSendSingleSmsRequest
+                    {
+                        Message = otpInfo.Code,
+                        Receptor = Key
+                    });
+                    if (sendSmsResult.Status is not 5)
+                    {
+                        return new OTPResult(OTPMessageResult.ErrorOnCallSmsApi, false);
+
+                    }
+
 
                 }
                 else if (OTPChannel.Email == OTPChannel.Email)
@@ -137,16 +140,30 @@ namespace Shop.Infrastructure.Interfaces.OTP
                         Subject = "یکبار رمز",
                         To = otp.Refrence
                     });
-                }
-                else
-                {
-                    return new OTPResult(OTPMessageResult.ErrorOnCallSmsApi, false);
+                    return new OTPResult(OTPMessageResult.OperationSuccess, true);
 
                 }
 
+                _cache.Set(Key, JsonConvert.SerializeObject(otpInfo));
                 return new OTPResult(OTPMessageResult.OperationSuccess, true);
 
 
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        public override OTPResult CheckOTPRequestExist(string key)
+        {
+            try
+            {
+                var otp = _cache.Get(key);
+
+                return new OTPResult(!string.IsNullOrEmpty(otp) ? OTPMessageResult.OperationSuccess : OTPMessageResult.OTPNotExistForThisKey, !string.IsNullOrEmpty(otp));
+                
             }
             catch (Exception ex)
             {

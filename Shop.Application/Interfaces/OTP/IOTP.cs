@@ -13,6 +13,7 @@ namespace Shop.Application.Interfaces.OTP
         public abstract OTPResult CheckOTPCode(CheckOTP otp);
         public abstract void DisableOTP(string key);
         public DateTime ExpireAt ;
+        public abstract OTPResult CheckOTPRequestExist(string key);
 
 
     }

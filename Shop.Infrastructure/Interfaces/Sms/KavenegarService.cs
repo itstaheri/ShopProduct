@@ -33,12 +33,11 @@ namespace Shop.Infrastructure.Interfaces.Sms
             {
                 var request = input as KavenegarSendSingleSmsRequest;
                 var kavenegar = new KavenegarApi(Apiconfig.ApiKey);
-                var response = kavenegar.Send("2000500666", request.Receptor, request.Message);
+                var response = kavenegar.VerifyLookup(request.Receptor, request.Message, "verify", Kavenegar.Models.Enums.VerifyLookupType.Sms);
 
                 //var response = await _callApi.PostRequestAsync<KavenegarSendSingleSmsResponse>(Apiconfig.SendSmsMethod, request, ParameterTypeEnum.Jsonbody);
 
-                if (response.Status is not 1)
-                    return new SendSmsResponse { Message = "ErrorOnCallKavenrgar", Status = 0 };
+               ;
                 return new SendSmsResponse
                 {
                     Status = response.Status,
@@ -60,7 +59,7 @@ namespace Shop.Infrastructure.Interfaces.Sms
             {
                 var request = input as KavenegarSendSingleSmsRequest;
                 var kavenegar = new KavenegarApi(Apiconfig.ApiKey);
-                var response =  kavenegar.Send("1000689696", request.Receptor, request.Message);
+                var response = kavenegar.Send("1000689696", request.Receptor, request.Message);
 
                 //var response = await _callApi.PostRequestAsync<KavenegarSendSingleSmsResponse>(Apiconfig.SendSmsMethod, request, ParameterTypeEnum.Jsonbody);
 
