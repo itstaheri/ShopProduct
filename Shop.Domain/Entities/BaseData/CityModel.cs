@@ -1,4 +1,5 @@
 ﻿using Shop.Domain.Entities.Inventory;
+using Shop.Domain.Entities.Profile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +20,6 @@ namespace Shop.Domain.Entities.BaseData
         public long ProvinceId { get; private set; }
         public ProvinceModel Province { get; set; }
         public List<InventoryModel> Inventories { get; private set; }
+        public List<UserAddressModel> Addresses { get; private set; }
     }
 }

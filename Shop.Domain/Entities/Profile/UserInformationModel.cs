@@ -16,22 +16,20 @@ namespace Shop.Domain.Entities.Profile
         }
 
         public UserInformationModel(long userID) => UserId = userID;
-        public UserInformationModel(string? nationalCode, DateTime? birthDate, Gender? gender, bool? isMarried, string? firstname, string? lastname, long userId)
+        public UserInformationModel(string? nationalCode, DateTime? birthDate, Gender? gender, string? firstname, string? lastname, long userId)
         {
             NationalCode = nationalCode;
             BirthDate = birthDate;
             Gender = gender;
-            IsMarried = isMarried;
             Firstname = firstname;
             Lastname = lastname;
             UserId = userId;
         }
-        public void Edit(string? nationalCode, DateTime? birthDate, Gender? gender, bool? isMarried, string? firstname, string? lastname)
+        public void Edit(string? nationalCode, DateTime? birthDate, Gender? gender, string? firstname, string? lastname)
         {
             NationalCode = nationalCode;
             BirthDate = birthDate;
             Gender = gender;
-            IsMarried = isMarried;
             Firstname = firstname;
             Lastname = lastname;
         }
@@ -39,7 +37,6 @@ namespace Shop.Domain.Entities.Profile
         public string? NationalCode { get; private set; }
         public DateTime? BirthDate { get; private set; }
         public Gender? Gender { get; private set; }
-        public bool? IsMarried { get; private set; }
         public string? Firstname { get; private set; }
         public string? Lastname { get; private set; }
         public long UserId { get; private set; }

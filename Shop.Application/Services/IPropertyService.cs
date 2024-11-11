@@ -7,6 +7,8 @@ using Shop.Domain.Entities.Category;
 using Shop.Domain.Entities.Product;
 using Shop.Domain.Entities.Property;
 using Shop.Domain.Repositories;
+using Shop.Domain.Repositories.Category;
+using Shop.Domain.Repositories.IPropertyRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,10 +28,10 @@ namespace Shop.Application.Services
 
     public class PropertyService : IPropertyService
     {
-        private readonly IGenericRepository<PropertyModel> _propertyRepository;
-        private readonly IGenericRepository<CategoryModel> _categoryRepository;
+        private readonly IPropertyRepository _propertyRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public PropertyService(IGenericRepository<PropertyModel> propertyRepository, IGenericRepository<CategoryModel> categoryRepository)
+        public PropertyService(IPropertyRepository propertyRepository, ICategoryRepository categoryRepository)
         {
             _propertyRepository = propertyRepository;
             _categoryRepository = categoryRepository;

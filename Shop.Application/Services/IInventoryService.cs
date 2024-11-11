@@ -5,6 +5,7 @@ using Shop.Domain.Dtos;
 using Shop.Domain.Dtos.Inventory;
 using Shop.Domain.Entities.Inventory;
 using Shop.Domain.Repositories;
+using Shop.Domain.Repositories.Inventory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +25,9 @@ namespace Shop.Application.Services
 
     public class InventoryService : IInventoryService
     {
-        private readonly IGenericRepository<InventoryModel> _inventoryRepository;
+        private readonly IInventoryRepository _inventoryRepository;
 
-        public InventoryService(IGenericRepository<InventoryModel> inventoryRepository)
+        public InventoryService(IInventoryRepository inventoryRepository)
         {
             _inventoryRepository = inventoryRepository;
         }

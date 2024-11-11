@@ -26,12 +26,24 @@ using Shop.Application.Interfaces.Sms;
 using Shop.Infrastructure.Interfaces.Sms;
 using Shop.Application.Interfaces.Email;
 using Shop.Infrastructure.Interfaces.Email;
+using Shop.Domain.Repositories.Profile;
+using Shop.Infrastructure.Repositories.Profile;
+using Shop.Domain.Repositories.Category;
+using Shop.Infrastructure.Repositories.Category;
+using Shop.Infrastructure.Repositories.Inventory;
+using Shop.Domain.Repositories.Inventory;
+using Shop.Infrastructure.Repositories.Property;
+using Shop.Infrastructure.Repositories.User;
+using Shop.Domain.Repositories.IPropertyRepository;
+using Shop.Domain.Repositories.User;
 namespace Shop.Infrastructure
 {
     public static class InfrastructureResolver
     {
         public static void ResolveInfrastructure(this IServiceCollection services, Dictionary<string, string> keyValues)
         {
+            services.ConfigVersioning();
+
             services.AddTransient<IJwtAuthentication, JwtAuthentication>();
             services.AddScoped<AuditInterceptor>();
 
@@ -44,7 +56,24 @@ namespace Shop.Infrastructure
 
             , ServiceLifetime.Scoped);
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            #region repositories
+            services.AddScoped<IProfileRepository, ProfileRepository>();
+            services.AddScoped<IUserAddressRepository, UserAddressRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ICategoryPropertyRepository, CategoryPropertyRepository>();
+            services.AddScoped<IInventoryRepository, InventoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductCommentRepository, ProductCommentRepository>();
+            services.AddScoped<IProductInventoryRepository, ProductInventoryRepository>();
+            services.AddScoped<IProductPictureRepository, ProductPictureRepository>();
+            services.AddScoped<IProductPropertyRepository, ProductPropertyRepository>();
+            services.AddScoped<IPropertyRepository, PropertyRepository>();
+            services.AddScoped<IPermissionRepository, PermissionRepository>();
+            services.AddScoped<IRolePermissionRepository, RolePermissionRepository>();
+            services.AddScoped<IRoleRepository,  RoleRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+            #endregion
             services.AddScoped<IApplicationEfCoreContext, ShopDbContext>();
             services.AddScoped<IDistributedCacheService, RedisCache>();
             services.AddScoped<IDapperContext, DapperContext>();
@@ -59,7 +88,6 @@ namespace Shop.Infrastructure
                     break;
             }
 
-            services.ConfigVersioning();
             services.ConfigAuth(keyValues["Issuer"], keyValues["Audience"], keyValues["Key"]);
 
             services.AddScoped<IDatabase>(cfg =>

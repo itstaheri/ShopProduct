@@ -18,6 +18,7 @@ using Common.Generator;
 using Shop.Domain.Dtos.User.Permission;
 using Shop.Application.Interfaces.Dapper;
 using Dapper;
+using Shop.Domain.Repositories.User;
 
 namespace Shop.Application.Services
 {
@@ -29,12 +30,12 @@ namespace Shop.Application.Services
     }
     public class UserService : IUserService
     {
-        private readonly IGenericRepository<UserModel> _userRepository;
-        private readonly IGenericRepository<UserRoleModel> _userRoleRepository;
-        private readonly IGenericRepository<PermissionModel> _permission;
+        private readonly IUserRepository _userRepository;
+        private readonly IUserRoleRepository _userRoleRepository;
+        private readonly IPermissionRepository _permission;
         private readonly IGenericRepository<UserInformationModel> _userInformationRepository;
         private readonly IDapperContext _dapper;
-        public UserService(IGenericRepository<UserModel> userRepository, IGenericRepository<UserRoleModel> userRoleRepository, IGenericRepository<PermissionModel> permission, IGenericRepository<UserInformationModel> userInformationRepository, IDapperContext dapper)
+        public UserService(IUserRepository userRepository, IUserRoleRepository userRoleRepository, IPermissionRepository permission, IGenericRepository<UserInformationModel> userInformationRepository, IDapperContext dapper)
         {
             _userRepository = userRepository;
             _userRoleRepository = userRoleRepository;

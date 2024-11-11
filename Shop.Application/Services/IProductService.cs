@@ -33,14 +33,14 @@ namespace Shop.Application.Services
     }
     public class ProductService : IProductService
     {
-        private readonly IGenericRepository<ProductPictureModel> _productPictureRepository;
-        private readonly IGenericRepository<ProductCommentModel> _productCommentRepository;
-        private readonly IGenericRepository<ProductPropertyModel> _productPropertyRepository;
-        private readonly IGenericRepository<ProductInventoryModel> _productInventory;
+        private readonly IProductPictureRepository _productPictureRepository;
+        private readonly IProductCommentRepository _productCommentRepository;
+        private readonly IProductPropertyRepository _productPropertyRepository;
+        private readonly IProductInventoryRepository _productInventory;
         private readonly IProductRepository _productRepository;
         private readonly IDistributedCacheService _cache;
 
-        public ProductService(IProductRepository productRepository, IGenericRepository<ProductPictureModel> productPictureRepository, IGenericRepository<ProductCommentModel> productCommentRepository, IGenericRepository<ProductPropertyModel> productPropertyRepository, IDistributedCacheService cache, IGenericRepository<ProductInventoryModel> productInventory)
+        public ProductService(IProductRepository productRepository, IProductPictureRepository productPictureRepository, IProductCommentRepository productCommentRepository, IProductPropertyRepository productPropertyRepository, IDistributedCacheService cache, IProductInventoryRepository productInventory)
         {
             _productRepository = productRepository;
             _productPictureRepository = productPictureRepository;

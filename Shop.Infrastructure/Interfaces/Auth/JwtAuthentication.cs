@@ -117,7 +117,7 @@ namespace Shop.Infrastructure.Interfaces.Auth
         {
             try
             {
-                if (!string.IsNullOrEmpty(token))
+                if (string.IsNullOrEmpty(token))
                     return false;
                 string key = _config["Jwt:key"];
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));

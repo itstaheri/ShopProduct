@@ -11,6 +11,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Shop.Infrastructure.Repositories
 {
@@ -149,9 +150,25 @@ namespace Shop.Infrastructure.Repositories
             Save();
         }
 
-        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
+        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken, bool asNoTrack = false, params Expression<Func<T, object>>[]? includes)
         {
-            return await _dbSet.FirstOrDefaultAsync(predicate, cancellationToken);
+            var entity = _dbSet.AsQueryable();
+
+            if (asNoTrack)
+                entity.AsNoTracking();
+
+
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    entity = includes.Aggregate(entity,
+                  (current, include) => current.Include(include));
+                }
+            }
+            //entity = entity.Where(predicate).AsQueryable();
+
+            return await entity.FirstOrDefaultAsync(predicate, cancellationToken);
 
         }
 
@@ -178,38 +195,26 @@ namespace Shop.Infrastructure.Repositories
                     entity.Include(include);
                 }
             }
-         
+
             return entity.AsSplitQuery().FirstOrDefault(predicate);
 
         }
-        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken, bool asNoTrack = false, params Expression<Func<T, object>>[]? includes)
-        {
-            var entity = _dbSet;
 
-            if (asNoTrack)
-                entity.AsNoTracking();
-
-            if (includes != null)
-            {
-                foreach (var include in includes)
-                {
-                    entity.Include(include);
-                }
-            }
-
-            return await entity.AsSplitQuery().FirstOrDefaultAsync(predicate, cancellationToken);
-
-        }
 
         public bool Any(Expression<Func<T, bool>> predicate)
         {
-           return _dbSet.Any(predicate);
+            return _dbSet.Any(predicate);
         }
 
-        public async Task AddRangeAsync(IEnumerable<T> sender,CancellationToken cancellationToken)
+        public async Task AddRangeAsync(IEnumerable<T> sender, CancellationToken cancellationToken)
         {
             await _dbSet.AddRangeAsync(sender);
             await SaveAsync(cancellationToken);
+        }
+
+        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
+        {
+            return await _dbSet.FirstOrDefaultAsync(predicate, cancellationToken);
         }
     }
 }

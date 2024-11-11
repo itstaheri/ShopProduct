@@ -17,6 +17,7 @@ namespace Shop.Application
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IPropertyService, PropertyService>();
+            services.AddTransient<IProfileService, ProfileService>();
 
         }
     }

@@ -12,6 +12,7 @@ namespace Shop.Infrastructure.Configs
     {
         public static void ConfigVersioning(this IServiceCollection service)
         {
+            
             service.AddApiVersioning(options =>
             {
                 options.DefaultApiVersion = new ApiVersion(1, 0);

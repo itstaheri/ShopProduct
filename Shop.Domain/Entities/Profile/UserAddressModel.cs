@@ -15,32 +15,32 @@ namespace Shop.Domain.Entities.Profile
         {
                 
         }
-        public UserAddressModel(long userId, int provinceId,  string title, string description, string postalCode)
+        public UserAddressModel(long userId,  long city,  string title, string description, string postalCode)
         {
             UserId = userId;
-            ProvinceId = provinceId;
+            CityId = city;
             Title = title;
             Description = description;
             PostalCode = postalCode;
         }
 
-        public void Edit(long userId, int provinceId,string title, string description, string postalCode)
+        public void Edit(long userId,  long city, string title, string description, string postalCode)
         {
             UserId = userId;
-            ProvinceId = provinceId;
+            CityId = city;
             Title = title;
             Description = description;
             PostalCode = postalCode;
         }
 
         public long UserId { get; private set; }
-        public int ProvinceId { get; private set; }
+        public long? CityId { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }
         public string PostalCode { get; private set; }
         public long UserInformationId { get; private set; }
         public UserInformationModel UserInformation { get; private set; }
-        public ProvinceModel Province { get; private set; }
+        public CityModel City { get; private set; }
 
     }
 }

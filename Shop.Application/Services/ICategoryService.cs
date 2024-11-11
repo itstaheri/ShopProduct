@@ -9,6 +9,8 @@ using Shop.Domain.Entities.Profile;
 using Shop.Domain.Entities.User;
 using Shop.Domain.Enums;
 using Shop.Domain.Repositories;
+using Shop.Domain.Repositories.Category;
+using Shop.Domain.Repositories.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,11 +31,11 @@ namespace Shop.Application.Services
 
     public class CategoryService : ICategoryService
     {
-        private readonly IGenericRepository<CategoryModel> _categoryRepository;
-        private readonly IGenericRepository<CategoryPropertyModel> _categoryPropertyRepository;
-        private readonly IGenericRepository<ProductModel> _productRepository;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly ICategoryPropertyRepository _categoryPropertyRepository;
+        private readonly IProductRepository _productRepository;
 
-        public CategoryService(IGenericRepository<CategoryModel> categoryRepository, IGenericRepository<CategoryPropertyModel> categoryPropertyModel,
+        public CategoryService(ICategoryRepository categoryRepository, ICategoryPropertyRepository categoryPropertyModel,
             IGenericRepository<ProductModel> productRepository)
         {
             _categoryRepository = categoryRepository;

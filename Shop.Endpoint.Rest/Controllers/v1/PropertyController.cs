@@ -10,6 +10,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion(1)]
     [JWTAuthorize]
+
     public class PropertyController : ControllerBase
     {
         private readonly IPropertyService _propertyService;
