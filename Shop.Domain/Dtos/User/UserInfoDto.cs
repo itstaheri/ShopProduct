@@ -13,6 +13,7 @@ namespace Shop.Domain.Dtos.User
         public string PhoneNumber { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreateAt { get; set; }
+        public string CreateAtShamsi { get; set; }
         public List<long> Roles { get; set; }
         public List<Enums.Permission> Permissions { get; set; }
     }

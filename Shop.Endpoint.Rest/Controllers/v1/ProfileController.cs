@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Shop.Application.Interfaces.Auth;
 using Shop.Application.Mapper;
 using Shop.Application.Services;
+using Shop.Domain.Dtos.Profile;
 using Shop.Endpoint.Rest.ActionFilters;
 
 namespace Shop.Endpoint.Rest.Controllers.v1
@@ -34,6 +35,13 @@ namespace Shop.Endpoint.Rest.Controllers.v1
         {
             long userId = _jwt.GetCurrentUserId();
             var result = await _profileService.GetUserAddressAsync(userId, cancellationToken);
+            return Ok(result.Success());
+        }
+        [HttpPost("AddAddress")]
+        public async Task<IActionResult> AddAddress(AddUserAddressDto address,CancellationToken cancellationToken)
+        {
+            long userId = _jwt.GetCurrentUserId();
+            var result = await _profileService.AddAddressAsync(address, userId, cancellationToken);
             return Ok(result.Success());
         }
     }

@@ -71,11 +71,17 @@ namespace Shop.Endpoint.Rest.Controllers.v1
         {
             try
             {
-                var result = await _userService.LoginOrSignupWithPhoneAsync(request.PhoneNumber, cancellationToken);
 
-                return Ok(result.Success());
+                var result =await _userService.LoginOrSignupWithPhoneAsync(request.PhoneNumber, cancellationToken);
+                if (result.Success)
+                {
+                    var token = _jwtAuthentication.GenerateToken(result.Result);
 
+                    return Ok(new ResponseDto { Message = BaseMessageResult.OperationSuccess, StatusCode = 200, Result = token });
 
+                }
+
+                return Ok(new ResponseDto { Message = BaseMessageResult.OperationFaild, StatusCode = 401, Result = null });
             }
             catch (Exception ex)
             {

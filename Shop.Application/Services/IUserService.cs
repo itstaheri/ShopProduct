@@ -19,14 +19,16 @@ using Shop.Domain.Dtos.User.Permission;
 using Shop.Application.Interfaces.Dapper;
 using Dapper;
 using Shop.Domain.Repositories.User;
+using Shop.Application.Interfaces.Sms;
+using Shop.Domain.Models.SMS.Kavenegar;
 
 namespace Shop.Application.Services
 {
     public interface IUserService
     {
         public OperationResult<UserInfoDto> Login(LoginDto login);
-        public Task<OperationResult> SignupWithDetailAsync(CreateUserDto createUser, CancellationToken cancellationToken);
-        public Task<OperationResult> LoginOrSignupWithPhoneAsync(string phoneNumber, CancellationToken cancellationToken);
+        public Task<OperationResult<UserInfoDto>> SignupWithDetailAsync(CreateUserDto createUser, CancellationToken cancellationToken);
+        public Task<OperationResult<UserInfoDto>> LoginOrSignupWithPhoneAsync(string phoneNumber, CancellationToken cancellationToken);
     }
     public class UserService : IUserService
     {
@@ -35,13 +37,15 @@ namespace Shop.Application.Services
         private readonly IPermissionRepository _permission;
         private readonly IGenericRepository<UserInformationModel> _userInformationRepository;
         private readonly IDapperContext _dapper;
-        public UserService(IUserRepository userRepository, IUserRoleRepository userRoleRepository, IPermissionRepository permission, IGenericRepository<UserInformationModel> userInformationRepository, IDapperContext dapper)
+        private readonly ISMS _sms;
+        public UserService(IUserRepository userRepository, IUserRoleRepository userRoleRepository, IPermissionRepository permission, IGenericRepository<UserInformationModel> userInformationRepository, IDapperContext dapper, ISMS sms)
         {
             _userRepository = userRepository;
             _userRoleRepository = userRoleRepository;
             _permission = permission;
             _userInformationRepository = userInformationRepository;
             _dapper = dapper;
+            _sms = sms;
         }
 
         public OperationResult<UserInfoDto> Login(LoginDto login)
@@ -55,6 +59,7 @@ namespace Shop.Application.Services
                 if (!user.IsActive) return new OperationResult<UserInfoDto>(null, false, UserMessageResult.UserIsDeActive);
 
                 var result = GeneralMapper.Map<UserModel, UserInfoDto>(user);
+                result.CreateAtShamsi = user.CreatedAt.ToFarsi();
                 var permissions =  GetUserPermissions(user.Id).Result;
                 result.Permissions = permissions.Select(x => (Permission)x.PermissionId).ToList();
 
@@ -84,25 +89,32 @@ namespace Shop.Application.Services
                 throw ex;
             }
         }
-        public async Task<OperationResult> LoginOrSignupWithPhoneAsync(string phoneNumber, CancellationToken cancellationToken)
+        public async Task<OperationResult<UserInfoDto>> LoginOrSignupWithPhoneAsync(string phoneNumber, CancellationToken cancellationToken)
         {
             try
             {
                 var userInfo = new UserInfoDto();
                 var userExist = await _userRepository.GetAsync(x => x.PhoneNumber == phoneNumber, cancellationToken, true, x => x.UserInformation, x => x.UserRoles);
 
+
+
                 if (userExist is not null)
                 {
                     var permissions = await GetUserPermissions(userExist.Id);
                     userInfo = GeneralMapper.Map<UserModel, UserInfoDto>(userExist);
                     userInfo.Permissions = permissions.Select(x => (Permission)x.PermissionId).ToList();
+                    //await _sms.SendAsync<KavenegarSendSingleSmsRequest>(new KavenegarSendSingleSmsRequest
+                    //{
+                    //    Message = $"ورود موفق {DateTime.Now.ToFarsi() + " " + DateTime.Now.ToFarsiHoure()}",
+                    //    Receptor = phoneNumber
+                    //});
                 }
                 else
                 {
                     try
                     {
                         string randomPassword = RandomTextGenerator.GenerateStrongPassword();
-                        var result = await SignupWithDetailAsync(new CreateUserDto
+                        var signupResult = await SignupWithDetailAsync(new CreateUserDto
                         {
                             PhoneNumber = phoneNumber,
                             Password = randomPassword,
@@ -110,6 +122,8 @@ namespace Shop.Application.Services
                             Username = $"Guest{phoneNumber}"
 
                         }, cancellationToken);
+                      
+                        userInfo = signupResult.Result;
                     }
                     catch (Exception ex)
                     {
@@ -128,12 +142,12 @@ namespace Shop.Application.Services
             }
         }
 
-        public async Task<OperationResult> SignupWithDetailAsync(CreateUserDto createUser, CancellationToken cancellationToken)
+        public async Task<OperationResult<UserInfoDto>> SignupWithDetailAsync(CreateUserDto createUser, CancellationToken cancellationToken)
         {
             var checkUser = await _userRepository.AnyAsync(x => x.Username == createUser.Username, cancellationToken);
-            if (checkUser is true) return new OperationResult(false, UserMessageResult.UsernameExist);
+            if (checkUser is true) return new OperationResult<UserInfoDto>(null,false, UserMessageResult.UsernameExist);
             checkUser = await _userRepository.AnyAsync(x => x.PhoneNumber == createUser.PhoneNumber, cancellationToken);
-            if (checkUser is true) return new OperationResult(false, UserMessageResult.PhonenumbeerExist);
+            if (checkUser is true) return new OperationResult<UserInfoDto>(null, false, UserMessageResult.PhonenumbeerExist);
 
             var transaction = _userRepository.OpenTransaction();
 
@@ -156,7 +170,16 @@ namespace Shop.Application.Services
 
                 await transaction.CommitAsync();
 
-                return new OperationResult(true, UserMessageResult.OperationSuccess);
+                var permissions = await GetUserPermissions(user.Id);
+
+                return new OperationResult<UserInfoDto>(new UserInfoDto
+                {
+                    CreateAt = user.CreatedAt,
+                    CreateAtShamsi = user.CreatedAt.ToFarsi(),
+                    Id = user.Id,
+                    IsActive = user.IsActive,
+                    Permissions = permissions.Select(x => (Permission)x.PermissionId).ToList()
+                }, true, UserMessageResult.OperationSuccess);
 
             }
             catch (Exception ex)

@@ -9,7 +9,7 @@ namespace Shop.Application.Mapper
 {
     public class GeneralMapper
     {
-        public static TDestination Map<TSource, TDestination>(TSource source) where TDestination : new()
+        public static TDestination Map<TSource, TDestination>(TSource source,params MapperOption[]? options) where TDestination : new()
         {
             TDestination destination = new TDestination();
 

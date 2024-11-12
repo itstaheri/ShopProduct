@@ -15,22 +15,27 @@ namespace Shop.Domain.Entities.Profile
         {
                 
         }
-        public UserAddressModel(long userId,  long city,  string title, string description, string postalCode)
+        public UserAddressModel(long userId,  long city, string title, string description, string postalCode, string mobile, string? phone)
         {
             UserId = userId;
             CityId = city;
             Title = title;
             Description = description;
             PostalCode = postalCode;
+            Mobile = mobile;
+            Phone = phone;
         }
 
-        public void Edit(long userId,  long city, string title, string description, string postalCode)
+        public void Edit(long userId,  long city, string title, string description, string postalCode,string mobile,string? phone)
         {
             UserId = userId;
             CityId = city;
             Title = title;
             Description = description;
             PostalCode = postalCode;
+            Mobile = mobile;
+            if(!string.IsNullOrEmpty(phone)) 
+                Phone = phone;
         }
 
         public long UserId { get; private set; }
@@ -39,6 +44,8 @@ namespace Shop.Domain.Entities.Profile
         public string Description { get; private set; }
         public string PostalCode { get; private set; }
         public long UserInformationId { get; private set; }
+        public string Mobile {  get; private set; }
+        public string? Phone { get; private set; }
         public UserInformationModel UserInformation { get; private set; }
         public CityModel City { get; private set; }
 

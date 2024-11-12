@@ -13,5 +13,8 @@ namespace Shop.Domain.Dtos.Profile
         public string Title {  get; set; }
         public string Description { get; set; }
         public string PostalCode { get; set; }
+        public string CityTitle { get; set; }
+        public string Mobile {  get; set; }
+        public string? Phone { get; set; }
     }
 }

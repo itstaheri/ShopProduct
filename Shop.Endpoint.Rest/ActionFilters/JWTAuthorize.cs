@@ -20,7 +20,7 @@ namespace Shop.Endpoint.Rest.ActionFilters
             var token = context.HttpContext.Request.Headers["Authorization"];
             if(!string.IsNullOrEmpty(token))
             {
-                if(!jwtServicd.TokenIsValid(token))
+                if(!jwtServicd.TokenIsValid(token.ToString()))
                 {
                     context.Result = new UnauthorizedObjectResult(new ResponseDto
                     {

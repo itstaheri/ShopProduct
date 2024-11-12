@@ -15,7 +15,7 @@ namespace Shop.Domain.Dtos.Profile
         public string LastName { get; set; }
         public string NationalCode { get; set; }
         public Gender Gender { get; set; }
-        public DateTime BirthDate { get; set; }
+        public string BirthDate { get; set; }
         public UserInfoDto UserInfo { get; set; }
     }
 }
