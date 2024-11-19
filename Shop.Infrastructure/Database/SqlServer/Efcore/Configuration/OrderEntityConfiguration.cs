@@ -15,21 +15,27 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore.Configuration
         { 
             builder.HasKey(x => x.Id);
             builder.ToTable("Tbl_Order");
+
             builder.HasOne(x => x.User)
                 .WithMany(x => x.Orders).HasForeignKey(x => x.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
+
             builder.HasOne(x => x.UserAddresse)
                 .WithMany(x => x.Orders).HasForeignKey(x => x.UserAddressId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
+
             builder.HasOne(x => x.DeliveryMethod)
                 .WithMany(x => x.Orders).HasForeignKey(x => x.DeliveryMethodId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
+
             builder.HasOne(x => x.DeliveryMethodTerm)
-                .WithMany(x => x.Orders).HasForeignKey(x =>x.DeliveryMethodTermId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .WithMany(x => x.Orders).HasForeignKey(x => x.DeliveryMethodTermId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             builder.HasOne(x => x.Discount)
                 .WithMany(x => x.Orders).HasForeignKey(x => x.DiscountId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
+
             builder.HasMany(x => x.OrderIthems)
                 .WithOne(x => x.Order).HasForeignKey(x => x.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);

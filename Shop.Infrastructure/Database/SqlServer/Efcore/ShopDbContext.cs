@@ -13,11 +13,6 @@ using Shop.Domain.Entities.Profile;
 using Shop.Domain.Entities.Property;
 using Shop.Domain.Entities.User;
 using Shop.Infrastructure.Database.SqlServer.Efcore.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Shop.Infrastructure.Database.SqlServer.Efcore
 {

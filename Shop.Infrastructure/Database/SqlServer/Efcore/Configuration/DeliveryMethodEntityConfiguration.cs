@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Shop.Domain.Entities.DeliverySetting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Shop.Infrastructure.Database.SqlServer.Efcore.Configuration
 {
@@ -18,9 +13,13 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore.Configuration
             builder.HasOne(x => x.Inventory)
                 .WithMany(x => x.DeliveryMethods).HasForeignKey(x => x.InventoryId)
                 .OnDelete(DeleteBehavior.Cascade);
+
             builder.HasMany(x => x.Terms)
                 .WithOne(x => x.DeliveryMethod).HasForeignKey(x => x.DeliveryMethodId)
                 .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(x => x.Orders)
+                .WithOne(x => x.DeliveryMethod).HasForeignKey(x => x.DeliveryMethodId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

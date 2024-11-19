@@ -1,15 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Shop.Domain.Dtos.UserCart;
 using Shop.Domain.Dtos;
-using Shop.Domain.Entities.UserCart;
 using Shop.Domain.Entities.Profile;
 using Shop.Domain.Repositories.Profile;
 using Shop.Infrastructure.Database.SqlServer.Efcore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Shop.Domain.Dtos.Profile;
 
 namespace Shop.Infrastructure.Repositories.Profile

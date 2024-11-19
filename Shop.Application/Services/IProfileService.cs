@@ -1,5 +1,4 @@
 ﻿using Common;
-using Microsoft.EntityFrameworkCore;
 using Shop.Application.Interfaces.Auth;
 using Shop.Application.Mapper;
 using Shop.Application.MessageResult;
@@ -8,15 +7,7 @@ using Shop.Domain.Dtos.Profile;
 using Shop.Domain.Dtos.User;
 using Shop.Domain.Entities.Profile;
 using Shop.Domain.Entities.User;
-using Shop.Domain.Repositories;
 using Shop.Domain.Repositories.Profile;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Shop.Application.Services
 {
     public interface IProfileService 

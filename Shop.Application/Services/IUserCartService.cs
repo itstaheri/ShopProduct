@@ -26,12 +26,12 @@ namespace Shop.Application.Services
         public Task<OperationResult> RemoveUserCartAsync(long userCartId, CancellationToken cancellationToken);
     }
 
-    public class ProfileService : IProfileService
+    public class UserCartService : IUserCartService
     {
         private readonly IUserCartRepository _userCartRepository;
         private readonly IDistributedCacheService _cache;
 
-        public ProfileService(IUserCartRepository userCartRepository, IDistributedCacheService cache)
+        public UserCartService(IUserCartRepository userCartRepository, IDistributedCacheService cache)
         {
             _userCartRepository = userCartRepository;
             _cache = cache;

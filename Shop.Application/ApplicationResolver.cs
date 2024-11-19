@@ -18,7 +18,7 @@ namespace Shop.Application
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IPropertyService, PropertyService>();
             services.AddTransient<IProfileService, ProfileService>();
-
+            services.AddTransient<IUserCartService, UserCartService>();
         }
     }
 }

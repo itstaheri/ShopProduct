@@ -27,7 +27,7 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore.Configuration
                 .OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(x => x.Orders)
                 .WithOne(x => x.User).HasForeignKey(x => x.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
             builder.HasMany(x => x.UserFavorites)
                 .WithOne(x => x.User).HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.Cascade);

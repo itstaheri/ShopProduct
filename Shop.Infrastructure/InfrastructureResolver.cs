@@ -73,6 +73,7 @@ namespace Shop.Infrastructure
             services.AddScoped<IRoleRepository,  RoleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+            services.AddScoped<IUserCartRepository, UserCartRepository>();
             #endregion
             services.AddScoped<IApplicationEfCoreContext, ShopDbContext>();
             services.AddScoped<IDistributedCacheService, RedisCache>();
