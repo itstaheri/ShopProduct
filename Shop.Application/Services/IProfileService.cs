@@ -24,6 +24,7 @@ namespace Shop.Application.Services
         public Task<OperationResult<UserInformationDto>> GetProfileInformationAsync(long userId, CancellationToken cancellationToken);
         public Task<OperationResult<List<UserAddressDto>>> GetUserAddressAsync(long userId, CancellationToken cancellationToken);
         public Task<OperationResult> AddAddressAsync(AddUserAddressDto commend,long userId, CancellationToken cancellationToken);
+        
     }
 
     public class ProfileService : IProfileService

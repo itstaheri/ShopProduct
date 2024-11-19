@@ -10,4 +10,10 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dtos\DeliverySetting\" />
+    <Folder Include="Dtos\Discount\" />
+    <Folder Include="Dtos\Order\" />
+  </ItemGroup>
+
 </Project>

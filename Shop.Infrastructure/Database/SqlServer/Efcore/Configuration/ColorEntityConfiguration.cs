@@ -15,6 +15,9 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore.Configuration
         {
             builder.ToTable("Tbl_Color");
             builder.HasMany(x=>x.Items).WithOne(x=>x.Color).HasForeignKey(x=>x.ColorId);
+            builder.HasMany(x => x.OrderIthems)
+                .WithOne(x => x.Color).HasForeignKey(x => x.ColorId);
         }
     }
 }
+ 

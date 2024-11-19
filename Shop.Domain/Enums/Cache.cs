@@ -8,7 +8,8 @@ namespace Shop.Domain.Enums
 {
     public enum Cache
     {
-        Product
+        Product,
+        UserCart
         
     }
 }

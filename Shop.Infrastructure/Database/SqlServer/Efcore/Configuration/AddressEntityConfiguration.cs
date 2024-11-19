@@ -19,7 +19,9 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore.Configuration
                 .WithMany(x => x.UserAddresses)
                 .HasForeignKey(x => x.UserInformationId);
             builder.HasOne(x=>x.City).WithMany(x=>x.Addresses).HasForeignKey(x=>x.CityId).OnDelete(DeleteBehavior.SetNull);
-
+            builder.HasMany(x => x.Orders)
+                .WithOne(x => x.UserAddresse).HasForeignKey(x => x.UserAddressId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

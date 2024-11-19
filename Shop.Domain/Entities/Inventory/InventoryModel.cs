@@ -1,4 +1,5 @@
 ﻿using Shop.Domain.Entities.BaseData;
+using Shop.Domain.Entities.DeliverySetting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,5 +36,6 @@ namespace Shop.Domain.Entities.Inventory
         public string Address { get; private set; }
         public string? PostCode { get; private set; }
         public ICollection<InventoryItemModel> Items { get; private set; }
+        public List<DeliveryMethodModel> DeliveryMethods { get; private set; }
     }
 }

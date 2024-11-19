@@ -3,8 +3,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Shop.Application.Interfaces.Database;
 using Shop.Domain.Entities.BaseData;
 using Shop.Domain.Entities.Category;
+using Shop.Domain.Entities.DeliverySetting;
+using Shop.Domain.Entities.Discount;
 using Shop.Domain.Entities.General;
 using Shop.Domain.Entities.Inventory;
+using Shop.Domain.Entities.Order;
 using Shop.Domain.Entities.Product;
 using Shop.Domain.Entities.Profile;
 using Shop.Domain.Entities.Property;
@@ -46,6 +49,15 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore
         public DbSet<InventoryItemModel> InventoryItems { get; set; }
         public DbSet<ColorModel> Colors { get; set; }
         public DbSet<ProductInventoryModel> ProductInventories { get; set; }
+        public DbSet<UserCartModel> UserCart {  get; set; }
+        public DbSet<OrderModel> OrderModel { get; set; }
+        public DbSet<OrderIthemModel> OrderIthem {  get; set; }
+        public DbSet<DeliveryMethodModel> DeliveryMethod { get; set; }
+        public DbSet<DeliveryMethodTermModel> DeliveryMethodTerm { get; set; }
+        public DbSet<DiscountModel> Discount { get; set; }
+        public DbSet<UserFavoriteModel> UserFavorite { get; set; }
+
+
         public override DatabaseFacade Database => base.Database;
 
         
@@ -81,7 +93,13 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore
             modelBuilder.ApplyConfiguration(new ColorEntityConfiguration());
             modelBuilder.ApplyConfiguration(new InventoryItemEntityConfiguration());
             modelBuilder.ApplyConfiguration(new AuditLogEntityConfiguration());
-
+            modelBuilder.ApplyConfiguration(new UserCartEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderIthemEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new DeliveryMethodEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new DeliveryMethodTermEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new DiscountEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new UserFavoriteEntityConfiguration());
         }
 
     }

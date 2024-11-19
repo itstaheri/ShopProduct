@@ -13,7 +13,7 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore.Configuration
     public class UserEntityConfiguration : IEntityTypeConfiguration<UserModel>
     {
         public void Configure(EntityTypeBuilder<UserModel> builder)
-        {
+        { 
             builder.HasKey(x => x.Id);
             builder.ToTable("Tbl_User");
             builder.HasMany(x => x.UserRoles)
@@ -22,7 +22,15 @@ namespace Shop.Infrastructure.Database.SqlServer.Efcore.Configuration
             builder.HasOne(x => x.UserInformation).WithOne(x => x.User)
                 .HasForeignKey<UserInformationModel>(x => x.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
-
+            builder.HasMany(x => x.UserCarts)
+                .WithOne(x => x.User).HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(x => x.Orders)
+                .WithOne(x => x.User).HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(x => x.UserFavorites)
+                .WithOne(x => x.User).HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

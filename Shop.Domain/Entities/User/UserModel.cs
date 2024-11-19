@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Shop.Domain.Entities.Order;
 using Shop.Domain.Entities.Profile;
 
 namespace Shop.Domain.Entities.User
@@ -37,6 +38,9 @@ namespace Shop.Domain.Entities.User
 
         public UserInformationModel UserInformation { get; private set; }
         public List<UserRoleModel> UserRoles { get; private set; }
+        public List<UserCartModel> UserCarts { get; private set; }
+        public List<OrderModel> Orders { get; private set; }
+        public List<UserFavoriteModel> UserFavorites { get; private set; }
 
 
     }

@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shop.Domain.Entities.Cart
+namespace Shop.Domain.Entities.Profile
 {
     public class UserCartModel : BaseEntity
     {
-        public UserCartModel(long userId, long productId, long colorId, long quantity)
+        public UserCartModel(long userId, long productId, long colorId, int quantity)
         {
             UserId = userId;
             ProductId = productId;
@@ -19,16 +19,16 @@ namespace Shop.Domain.Entities.Cart
 
         }
 
-        public void Edit(long quantity)
+        public void Edit(int quantity)
         {
             Quantity = quantity;
         }
 
         public long UserId { get; set; }
-        public List<UserModel> Users { get; set; }
+        public UserModel User { get; set; }
         public long ProductId { get; set; }
-        public List<ProductModel> Products { get; set; }
+        public ProductModel Product { get; set; }
         public long ColorId { get; set; }
-        public long Quantity { get; set; }
+        public int Quantity { get; set; }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using Shop.Domain.Entities.Category;
 using Shop.Domain.Entities.Inventory;
+using Shop.Domain.Entities.Order;
+using Shop.Domain.Entities.Profile;
 using System;
 using System.Collections.Generic;
-using System.Linq;  
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -41,6 +43,9 @@ namespace Shop.Domain.Entities.Product
         public List<ProductPropertyModel> ProductProperties { get; private set; }
         public List<ProductCommentModel> ProductComments { get; private set; }
         public List<ProductPictureModel> ProductPictures { get; private set; }
-       public List<InventoryItemModel> InventoryItems { get; private set; }
+        public List<InventoryItemModel> InventoryItems { get; private set; }
+        public List<UserCartModel> UserCarts { get; private set; }
+        public List<OrderIthemModel> OrderIthems { get; private set; }
+        public List<UserFavoriteModel> UserFavorites { get; private set; }
     }
 }

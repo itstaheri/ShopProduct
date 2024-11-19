@@ -1,4 +1,5 @@
 ﻿using Shop.Domain.Entities.BaseData;
+using Shop.Domain.Entities.Order;
 using Shop.Domain.Entities.User;
 using System;
 using System.Collections.Generic;
@@ -48,6 +49,8 @@ namespace Shop.Domain.Entities.Profile
         public string? Phone { get; private set; }
         public UserInformationModel UserInformation { get; private set; }
         public CityModel City { get; private set; }
+        public List<OrderModel> Orders {  get; private set; }
 
     }
 }
+ 
