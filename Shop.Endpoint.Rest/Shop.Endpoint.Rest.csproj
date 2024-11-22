@@ -9,7 +9,7 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 	
-  <ItemGroup> 
+  <ItemGroup>  
 		  <None Update="ThirdPartyApiConfig.json">
 			  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
