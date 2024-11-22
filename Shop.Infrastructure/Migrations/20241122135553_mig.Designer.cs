@@ -12,8 +12,8 @@ using Shop.Infrastructure.Database.SqlServer.Efcore;
 namespace Shop.Infrastructure.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    [Migration("20241119201702_add usercart, order, favorite and delivery")]
-    partial class addusercartorderfavoriteanddelivery
+    [Migration("20241122135553_mig")]
+    partial class mig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
