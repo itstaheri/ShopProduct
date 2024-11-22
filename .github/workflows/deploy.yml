@@ -3,7 +3,7 @@ name: Deploy to Docker
 on:
   push:
     branches:
-      - branch-name  # نام برنچ مورد نظر شما
+      - publish
 
 jobs:
   build-and-deploy:
