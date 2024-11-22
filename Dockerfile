@@ -9,7 +9,13 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Shop.Endpoint.Rest/Shop.Endpoint.Rest.csproj", "Shop.Endpoint.Rest/"]
+COPY ["ShopProduct/Shop.Endpoint.Rest/Shop.Endpoint.Rest.csproj", "Shop.Endpoint.Rest/"]
+COPY ["ShopProduct/Common/Common.csproj", "Common/"]
+COPY ["ShopProduct/Shop.Application/Shop.Application.csproj", "Shop.Application/"]
+COPY ["ShopProduct/Shop.Domain/Shop.Domain.csproj", "Shop.Domain/"]
+COPY ["ShopProduct/Shop.Domain.Contract/Shop.Domain.Contract.csproj", "Shop.Domain.Contract/"]
+COPY ["ShopProduct/Shop.Infrastructure/Shop.Infrastructure.csproj", "Shop.Infrastructure/"]
+
 RUN dotnet restore "./Shop.Endpoint.Rest/./Shop.Endpoint.Rest.csproj"
 COPY . .
 WORKDIR "/src/Shop.Endpoint.Rest"

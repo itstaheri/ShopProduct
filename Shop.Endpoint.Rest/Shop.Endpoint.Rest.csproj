@@ -8,8 +8,12 @@
     <UserSecretsId>b69604a3-965b-4ef9-901b-6b52e1f677f6</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
-
+	
   <ItemGroup>
+		  <None Update="ThirdPartyApiConfig.json">
+			  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		  </None>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
       <PrivateAssets>all</PrivateAssets>
