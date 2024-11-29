@@ -13,7 +13,6 @@
   <ItemGroup>
     <Folder Include="Dtos\DeliverySetting\" />
     <Folder Include="Dtos\Discount\" />
-    <Folder Include="Dtos\Order\" />
   </ItemGroup>
 
 </Project>
