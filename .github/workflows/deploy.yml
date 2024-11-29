@@ -1,3 +1,8 @@
+
+Ali Taheri <itstaheri1@gmail.com>
+8:45 PM (0 minutes ago)
+to me
+
 name: Deploy to Docker
 
 on:
@@ -29,17 +34,17 @@ jobs:
 
     - name: Build and push Docker image
       run: |
-        docker build -t itstaheri1@gmail.com/ShopProduct:latest
-        docker push itstaheri1@gmail.com/ShopProduct:latest
+        docker build -t agent2303/ShopProduct:latest .
+        docker push agent2303/ShopProduct:latest
 
     - name: Deploy on server
-      uses: appleboy/ssh-action@v1.2.0
+      uses: appleboy/ssh-action@v0.1.11
       with:
         host: ${{ secrets.SERVER_HOST }}
         username: ${{ secrets.SERVER_USER }}
         password: ${{ secrets.SERVER_PASSWORD }}
         script: |
-          docker pull your-docker-repo/your-app:latest
-          docker stop your-app || true
-          docker rm your-app || true
-          docker run -d --name your-app -p 8080:80 your-docker-repo/your-app:latest
+          docker pull agent2303/ShopProduct:latest
+          docker stop ShopProduct || true
+          docker rm ShopProduct || true
+          docker run -d --name ShopProduct -p 6969:6969 agent2303/ShopProduct:latest
