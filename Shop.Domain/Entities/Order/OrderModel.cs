@@ -24,7 +24,7 @@ namespace Shop.Domain.Entities.Order
             DiscountId = discountId;
         }
 
-        public void Edit(long userId, long userAddressId, string? trckingCode, long deliveryMethodId, long deliveryMethodTermId, OrderStatus orderStatus, long? discountId)
+        public void Edit(long userAddressId, string? trckingCode, long deliveryMethodId, long deliveryMethodTermId, OrderStatus orderStatus, long? discountId)
         {
             UserAddressId = userAddressId;
             TrckingCode = trckingCode;
