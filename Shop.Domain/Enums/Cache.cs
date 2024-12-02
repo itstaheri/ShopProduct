@@ -9,9 +9,9 @@ namespace Shop.Domain.Enums
     public enum Cache
     {
         Product,
-        UserCart,
-        UserFavorite,
-        Order
+        //UserCart,
+        //UserFavorite,
+        //Order
 
     }
 }

@@ -29,12 +29,10 @@ namespace Shop.Application.Services
     public class UserCartService : IUserCartService
     {
         private readonly IUserCartRepository _userCartRepository;
-        private readonly IDistributedCacheService _cache;
 
-        public UserCartService(IUserCartRepository userCartRepository, IDistributedCacheService cache)
+        public UserCartService(IUserCartRepository userCartRepository)
         {
             _userCartRepository = userCartRepository;
-            _cache = cache;
         }
 
         public async Task<OperationResult> AddUserCartAsync(AddUserCartRequestDto Cart, CancellationToken cancellationToken)
@@ -63,27 +61,19 @@ namespace Shop.Application.Services
                 //return new OperationResult<List<UserCartDto>>(userCartDto, true, ProfileMessageResult.OperationSuccess);
                 var userCartDto = new List<UserCartDto>();
 
-                if (_cache.GetAsync(Cache.UserCart.ToString()) == null)
-                {
-                    var userCarts = await _userCartRepository.GetAllWithPaginationAsync(new GetUserCartFilterRequestDto
-                        {
-                            Page = 1,
-                            PageSize = 10,
-                            UserId = userCartFilter.UserId,
-                        }, cancellationToken);
 
-                    foreach (var userCart in userCarts.List)
+                var userCarts = await _userCartRepository.GetAllWithPaginationAsync(new GetUserCartFilterRequestDto
                     {
-                        userCartDto.Add(GeneralMapper.Map<UserCartModel, UserCartDto>(userCart));
-                    }
+                        Page = userCartFilter.Page,
+                        PageSize = userCartFilter.PageSize,
+                        UserId = userCartFilter.UserId,
+                    }, cancellationToken);
 
-                    _cache.Set(Cache.UserCart.ToString(), BinarySerializer.SerializeToBinary<List<UserCartDto>>(userCartDto));
-
-                }
-                else
+                foreach (var userCart in userCarts.List)
                 {
-                    userCartDto = BinarySerializer.DeserializeFromBinary<List<UserCartDto>>(_cache.Get(Cache.UserCart.ToString()));
+                    userCartDto.Add(GeneralMapper.Map<UserCartModel, UserCartDto>(userCart));
                 }
+
                 return new OperationResult<List<UserCartDto>>(userCartDto, true, ProfileMessageResult.OperationSuccess);
             }
             catch (Exception ex)

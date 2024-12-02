@@ -36,6 +36,8 @@ using Shop.Infrastructure.Repositories.Property;
 using Shop.Infrastructure.Repositories.User;
 using Shop.Domain.Repositories.IPropertyRepository;
 using Shop.Domain.Repositories.User;
+using Shop.Domain.Repositories.Order;
+using Shop.Infrastructure.Repositories.Order;
 namespace Shop.Infrastructure
 {
     public static class InfrastructureResolver
@@ -74,6 +76,8 @@ namespace Shop.Infrastructure
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             services.AddScoped<IUserCartRepository, UserCartRepository>();
+            services.AddScoped<IUserFavoriteRepository, UserFavoriteRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
             #endregion
             services.AddScoped<IApplicationEfCoreContext, ShopDbContext>();
             services.AddScoped<IDistributedCacheService, RedisCache>();

@@ -26,12 +26,10 @@ namespace Shop.Application.Services
     public class UserFavoriteService : IUserFavoriteService
     {
         private readonly IUserFavoriteRepository _userFavoriteRepository;
-        private readonly IDistributedCache _cache;
 
-        public UserFavoriteService(IUserFavoriteRepository userFavoriteRepository, IDistributedCache cache)
+        public UserFavoriteService(IUserFavoriteRepository userFavoriteRepository)
         {
             _userFavoriteRepository = userFavoriteRepository;
-            _cache = cache;
         }
 
         public async Task<OperationResult> AddUserFavoriteAsync(AddUserFavoriteRequestDto favorite, CancellationToken token)
@@ -54,27 +52,19 @@ namespace Shop.Application.Services
             {
                 var userFavoriteDto = new List<UserFavoriteDto>();
 
-                if (_cache.GetAsync(Cache.UserCart.ToString()) == null)
+
+                var userFavorites = await _userFavoriteRepository.GetAllWithPaginationAsync(new GetUserFavoriteFilterRequestDto
                 {
-                    var userFavorites = await _userFavoriteRepository.GetAllWithPaginationAsync(new GetUserFavoriteFilterRequestDto
-                    {
-                        Page = 1,
-                        PageSize = 10,
-                        UserId = userFavoriteFilter.UserId,
-                    }, cancellationToken);
+                    Page = userFavoriteFilter.Page,
+                    PageSize = userFavoriteFilter.PageSize,
+                    UserId = userFavoriteFilter.UserId,
+                }, cancellationToken);
 
-                    foreach (var userFavorite in userFavorites.List)
-                    {
-                        userFavoriteDto.Add(GeneralMapper.Map<UserFavoriteModel, UserFavoriteDto>(userFavorite));
-                    }
-
-                    _cache.Set(Cache.UserFavorite.ToString(), BinarySerializer.SerializeToBinary<List<UserFavoriteDto>>(userFavoriteDto));
-
-                }
-                else
+                foreach (var userFavorite in userFavorites.List)
                 {
-                    userFavoriteDto = BinarySerializer.DeserializeFromBinary<List<UserFavoriteDto>>(_cache.Get(Cache.UserFavorite.ToString()));
+                    userFavoriteDto.Add(GeneralMapper.Map<UserFavoriteModel, UserFavoriteDto>(userFavorite));
                 }
+
                 return new OperationResult<List<UserFavoriteDto>>(userFavoriteDto, true, ProfileMessageResult.OperationSuccess);
             }
             catch (Exception ex)

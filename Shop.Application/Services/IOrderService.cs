@@ -31,12 +31,10 @@ namespace Shop.Application.Services
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _orderRepository;
-        private readonly IDistributedCache _cache;
 
-        public OrderService(IOrderRepository orderRepository, IDistributedCache cache)
+        public OrderService(IOrderRepository orderRepository)
         {
             _orderRepository = orderRepository;
-            _cache = cache;
         }
 
         public OperationResult AddOrder(AddOrderRequestDto order)
@@ -99,26 +97,18 @@ namespace Shop.Application.Services
             {
                 var result = new List<OrderDto>();
 
-                if (_cache.GetAsync(Cache.Order.ToString()) == null)
+                var orders = await _orderRepository.GetAllWithPaginationAsync(new GetAllOrderFilterRequestDto
                 {
-                    var orders = await _orderRepository.GetAllWithPaginationAsync(new GetAllOrderFilterRequestDto
-                    {
-                        Page = 1,
-                        PageSize = 10,
-                        UserId = orderFilter.UserId,
-                    }, cancellationToken);
+                    Page = orderFilter.Page,
+                    PageSize = orderFilter.PageSize,
+                    UserId = orderFilter.UserId,
+                }, cancellationToken);
 
-                    foreach (var order in orders.List)
-                    {
-                        result.Add(GeneralMapper.Map<OrderModel, OrderDto>(order));
-                    }
-
-                    _cache.Set(Cache.Order.ToString(), BinarySerializer.SerializeToBinary<List<OrderDto>>(result));
-                }
-                else
+                foreach (var order in orders.List)
                 {
-                    result = BinarySerializer.DeserializeFromBinary<List<OrderDto>>(_cache.Get(Cache.Order.ToString()));
+                    result.Add(GeneralMapper.Map<OrderModel, OrderDto>(order));
                 }
+
                 return new OperationResult<List<OrderDto>>(result, true, OrderMessageResult.OperationSuccess);
 
             }
