@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using Shop.Application.Interfaces.Auth;
 using Shop.Application.Services;
 using Shop.Domain.Dtos.Profile;
 using Shop.Endpoint.Rest.ActionFilters;
@@ -13,15 +14,19 @@ namespace Shop.Endpoint.Rest.Controllers.v1
     public class UserCartController : ControllerBase
     {
         private readonly IUserCartService _userCart;
+        private readonly IJwtAuthentication _jwt;
 
-        public UserCartController(IUserCartService userCart)
+        public UserCartController(IUserCartService userCart, IJwtAuthentication jwt)
         {
             _userCart = userCart;
+            _jwt = jwt;
         }
 
         [HttpGet("Get")]
-        public  async Task<IActionResult> Get([FromQuery(Name = "UserId")] GetUserCartFilterRequestDto cart, CancellationToken cancellationToken)
+        public  async Task<IActionResult> Get(GetUserCartFilterRequestDto cart, CancellationToken cancellationToken)
         {
+            long userId = _jwt.GetCurrentUserId();
+
             var result = await _userCart.GetUserCartAsync(cart, cancellationToken);
 
             return Ok(result.Success);
@@ -30,6 +35,8 @@ namespace Shop.Endpoint.Rest.Controllers.v1
         [HttpPost("Add")]
         public async Task<IActionResult> Add([FromBody] AddUserCartRequestDto Cart, CancellationToken cancellationToken)
         {
+            long userId = _jwt.GetCurrentUserId();
+
             var result = await _userCart.AddUserCartAsync(Cart, cancellationToken);
 
             return Ok(result.Success);
