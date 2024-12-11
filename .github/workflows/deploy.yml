@@ -28,8 +28,8 @@ jobs:
 
     - name: Build and push Docker image
       run: |
-        docker build -t agent2303/shopproject:latest .
-        docker push agent2303/shopproject:latest
+        docker build -t dude3303/shopproject:latest .
+        docker push dude3303/shopproject:latest
 
     - name: Deploy on server
       uses:  appleboy/ssh-action@v1.2.0
@@ -38,7 +38,7 @@ jobs:
         username: ${{ secrets.SERVER_USER }}
         password: ${{ secrets.SERVER_PASSWORD }}
         script: |
-          docker pull agent2303/shopproduct:latest
+          docker pull dude3303/shopproduct:latest
           docker stop shopproduct || true
           docker rm shopproduct || true
-          docker run -d --name shopproject -p 6969:6969 agent2303/shopproject:latest
+          docker run -d --name shopproject -p 6969:6969 dude3303/shopproject:latest
