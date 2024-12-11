@@ -3,12 +3,7 @@ name: Deploy to Docker
 on:
   push:
     branches:
-<<<<<<< HEAD
       - publish
-=======
-      - branch-name  publish
->>>>>>> a74a5412aeeafa493b7e8d6e55d1e1576756d780
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
