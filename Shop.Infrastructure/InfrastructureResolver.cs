@@ -36,6 +36,8 @@ using Shop.Infrastructure.Repositories.Property;
 using Shop.Infrastructure.Repositories.User;
 using Shop.Domain.Repositories.IPropertyRepository;
 using Shop.Domain.Repositories.User;
+using Shop.Domain.Repositories.Order;
+using Shop.Infrastructure.Repositories.Order;
 namespace Shop.Infrastructure
 {
     public static class InfrastructureResolver
@@ -47,7 +49,7 @@ namespace Shop.Infrastructure
             services.AddTransient<IJwtAuthentication, JwtAuthentication>();
             services.AddScoped<AuditInterceptor>();
 
-            services.AddDbContext<ShopDbContext>((sp,x) =>
+            services.AddDbContext<ShopDbContext>((sp, x) =>
             {
                 x.UseSqlServer(keyValues["ConnectionString"]);
                 x.AddInterceptors(sp.GetRequiredService<AuditInterceptor>());
@@ -70,10 +72,12 @@ namespace Shop.Infrastructure
             services.AddScoped<IPropertyRepository, PropertyRepository>();
             services.AddScoped<IPermissionRepository, PermissionRepository>();
             services.AddScoped<IRolePermissionRepository, RolePermissionRepository>();
-            services.AddScoped<IRoleRepository,  RoleRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             services.AddScoped<IUserCartRepository, UserCartRepository>();
+            services.AddScoped<IUserFavoriteRepository, UserFavoriteRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
             #endregion
             services.AddScoped<IApplicationEfCoreContext, ShopDbContext>();
             services.AddScoped<IDistributedCacheService, RedisCache>();
@@ -83,7 +87,8 @@ namespace Shop.Infrastructure
 
             switch (keyValues["SmsProvider"])
             {
-                case "Kavenegar": services.AddSingleton<ISMS, KavenegarService>();
+                case "Kavenegar":
+                    services.AddSingleton<ISMS, KavenegarService>();
                     break;
                 default:
                     break;
@@ -93,8 +98,13 @@ namespace Shop.Infrastructure
 
             services.AddScoped<IDatabase>(cfg =>
             {
-                IConnectionMultiplexer multiplexer = ConnectionMultiplexer.Connect(keyValues["RedisConnectionStrig"]);
-                return multiplexer.GetDatabase();
+                //IConnectionMultiplexer multiplexer = ConnectionMultiplexer.Connect(keyValues["RedisConnectionStrig"]);
+                Lazy<ConnectionMultiplexer> multiplexer =
+    new Lazy<ConnectionMultiplexer>(() =>
+    {
+        return ConnectionMultiplexer.Connect(keyValues["RedisConnectionStrig"]);
+    });
+                return multiplexer.Value.GetDatabase();
             });
 
 
