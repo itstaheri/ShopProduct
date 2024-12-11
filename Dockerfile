@@ -12,12 +12,12 @@ RUN ls -la ShopProduct/Shop.Infrastructure/
 
 
 WORKDIR /src
-COPY ["ShopProduct/Shop.Endpoint.Rest/Shop.Endpoint.Rest.csproj", "Shop.Endpoint.Rest/"]
-COPY ["ShopProduct/Common/Common.csproj", "Common/"]
-COPY ["ShopProduct/Shop.Application/Shop.Application.csproj", "Shop.Application/"] 
-COPY ["ShopProduct/Shop.Domain/Shop.Domain.csproj", "Shop.Domain/"]
-COPY ["ShopProduct/Shop.Domain.Contract/Shop.Domain.Contract.csproj", "Shop.Domain.Contract/"]
-COPY ["ShopProduct/Shop.Infrastructure/Shop.Infrastructure.csproj", "Shop.Infrastructure/"]
+COPY ["Shop.Endpoint.Rest/Shop.Endpoint.Rest.csproj", "Shop.Endpoint.Rest/"]
+COPY ["Common/Common.csproj", "Common/"]
+COPY ["Shop.Application/Shop.Application.csproj", "Shop.Application/"] 
+COPY ["Shop.Domain/Shop.Domain.csproj", "Shop.Domain/"]
+COPY ["Shop.Domain.Contract/Shop.Domain.Contract.csproj", "Shop.Domain.Contract/"]
+COPY ["Shop.Infrastructure/Shop.Infrastructure.csproj", "Shop.Infrastructure/"]
 
 RUN dotnet restore "./Shop.Endpoint.Rest/./Shop.Endpoint.Rest.csproj"
 COPY . .
