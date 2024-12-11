@@ -7,6 +7,10 @@ EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
+
+RUN ls -la ShopProduct/Shop.Infrastructure/
+
+
 WORKDIR /src
 COPY ["ShopProduct/Shop.Endpoint.Rest/Shop.Endpoint.Rest.csproj", "Shop.Endpoint.Rest/"]
 COPY ["ShopProduct/Common/Common.csproj", "Common/"]
