@@ -9,9 +9,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 
 
-RUN ls -la /app
-RUN ls -la /app/Shop.Infrastructure
-
+RUN ls
 WORKDIR /src
 COPY ["Shop.Endpoint.Rest/Shop.Endpoint.Rest.csproj", "Shop.Endpoint.Rest/"]
 COPY ["Common/Common.csproj", "Common/"]
