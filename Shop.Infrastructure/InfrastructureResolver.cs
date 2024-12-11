@@ -49,7 +49,7 @@ namespace Shop.Infrastructure
             services.AddTransient<IJwtAuthentication, JwtAuthentication>();
             services.AddScoped<AuditInterceptor>();
 
-            services.AddDbContext<ShopDbContext>((sp,x) =>
+            services.AddDbContext<ShopDbContext>((sp, x) =>
             {
                 x.UseSqlServer(keyValues["ConnectionString"]);
                 x.AddInterceptors(sp.GetRequiredService<AuditInterceptor>());
@@ -72,7 +72,7 @@ namespace Shop.Infrastructure
             services.AddScoped<IPropertyRepository, PropertyRepository>();
             services.AddScoped<IPermissionRepository, PermissionRepository>();
             services.AddScoped<IRolePermissionRepository, RolePermissionRepository>();
-            services.AddScoped<IRoleRepository,  RoleRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             services.AddScoped<IUserCartRepository, UserCartRepository>();
@@ -87,7 +87,8 @@ namespace Shop.Infrastructure
 
             switch (keyValues["SmsProvider"])
             {
-                case "Kavenegar": services.AddSingleton<ISMS, KavenegarService>();
+                case "Kavenegar":
+                    services.AddSingleton<ISMS, KavenegarService>();
                     break;
                 default:
                     break;
@@ -97,8 +98,13 @@ namespace Shop.Infrastructure
 
             services.AddScoped<IDatabase>(cfg =>
             {
-                IConnectionMultiplexer multiplexer = ConnectionMultiplexer.Connect(keyValues["RedisConnectionStrig"]);
-                return multiplexer.GetDatabase();
+                //IConnectionMultiplexer multiplexer = ConnectionMultiplexer.Connect(keyValues["RedisConnectionStrig"]);
+                Lazy<ConnectionMultiplexer> multiplexer =
+    new Lazy<ConnectionMultiplexer>(() =>
+    {
+        return ConnectionMultiplexer.Connect(keyValues["RedisConnectionStrig"]);
+    });
+                return multiplexer.Value.GetDatabase();
             });
 
 
