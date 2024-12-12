@@ -38,6 +38,8 @@ using Shop.Domain.Repositories.IPropertyRepository;
 using Shop.Domain.Repositories.User;
 using Shop.Domain.Repositories.Order;
 using Shop.Infrastructure.Repositories.Order;
+using Shop.Domain.Repositories.BaseData;
+using Shop.Infrastructure.Repositories.BaseData;
 namespace Shop.Infrastructure
 {
     public static class InfrastructureResolver
@@ -78,6 +80,8 @@ namespace Shop.Infrastructure
             services.AddScoped<IUserCartRepository, UserCartRepository>();
             services.AddScoped<IUserFavoriteRepository, UserFavoriteRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IProvinceBaseDataRepository, ProvinceBaseDataRepository>();
+            services.AddScoped<ICityBaseDataRepository, CityBaseDataRepository>();
             #endregion
             services.AddScoped<IApplicationEfCoreContext, ShopDbContext>();
             services.AddScoped<IDistributedCacheService, RedisCache>();
