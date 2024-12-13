@@ -39,6 +39,6 @@ jobs:
         password: ${{ secrets.SERVER_PASSWORD }}
         script: |
           
-          docker stop shopproduct 
-          docker rm shopproduct
+          docker stop shopproject 
+          docker rm shopproject
           docker run -d --name shopproject -p 8081:8081 -p 8080:8080 agent2303/shopproject:latest
