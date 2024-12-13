@@ -4,14 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shop.Domain.Enums
+namespace Shop.Application.MessageResult
 {
-    public enum Cache
+    public class LookupMessageResult : BaseMessageResult
     {
-        Product,
-        //UserCart,
-        //UserFavorite,
-        //Order
-
     }
 }

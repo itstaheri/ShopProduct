@@ -83,7 +83,7 @@ namespace Shop.Application.Services
         {
             try
             {
-                var addresModel = new UserAddressModel(userId, commend.CityId, commend.Title,commend.Description, commend.PostalCode,commend.ReciverMobile,commend.ReciverPhoneNumber);
+                var addresModel = new UserAddressModel(userId, commend.CityId, commend.Title,commend.Description, commend.PostalCode,commend.ReciverMobile,commend.ReciverPhoneNumber,commend.FirstName,commend.LastName);
                 await _userAddressRepository.AddAsync(addresModel, cancellationToken);
                 return new OperationResult(true,ProfileMessageResult.OperationSuccess);
 

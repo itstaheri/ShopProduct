@@ -1,4 +1,3 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
@@ -8,8 +7,17 @@ EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
+
+
+RUN ls
 WORKDIR /src
 COPY ["Shop.Endpoint.Rest/Shop.Endpoint.Rest.csproj", "Shop.Endpoint.Rest/"]
+COPY ["Common/Common.csproj", "Common/"]
+COPY ["Shop.Application/Shop.Application.csproj", "Shop.Application/"] 
+COPY ["Shop.Domain/Shop.Domain.csproj", "Shop.Domain/"]
+COPY ["Shop.Domain.Contract/Shop.Domain.Contract.csproj", "Shop.Domain.Contract/"]
+COPY ["Shop.Infrastructure/Shop.Infrastructure.csproj", "Shop.Infrastructure/"]
+
 RUN dotnet restore "./Shop.Endpoint.Rest/./Shop.Endpoint.Rest.csproj"
 COPY . .
 WORKDIR "/src/Shop.Endpoint.Rest"
