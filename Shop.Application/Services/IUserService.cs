@@ -62,7 +62,7 @@ namespace Shop.Application.Services
                 result.CreateAtShamsi = user.CreatedAt.ToFarsi();
                 var permissions =  GetUserPermissions(user.Id).Result;
                 result.Permissions = permissions.Select(x => (Permission)x.PermissionId).ToList();
-
+                result.ProfileId = user.UserInformation.Id;
                 return new OperationResult<UserInfoDto>(result, true, BaseMessageResult.OperationSuccess);
 
             }
@@ -103,6 +103,7 @@ namespace Shop.Application.Services
                     var permissions = await GetUserPermissions(userExist.Id);
                     userInfo = GeneralMapper.Map<UserModel, UserInfoDto>(userExist);
                     userInfo.Permissions = permissions.Select(x => (Permission)x.PermissionId).ToList();
+                    userInfo.ProfileId = userExist.UserInformation.Id;
                     //await _sms.SendAsync<KavenegarSendSingleSmsRequest>(new KavenegarSendSingleSmsRequest
                     //{
                     //    Message = $"ورود موفق {DateTime.Now.ToFarsi() + " " + DateTime.Now.ToFarsiHoure()}",

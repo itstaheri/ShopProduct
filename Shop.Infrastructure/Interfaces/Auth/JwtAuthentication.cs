@@ -36,6 +36,7 @@ namespace Shop.Infrastructure.Interfaces.Auth
             var claims = new List<Claim>
             {
                 new Claim("Id",userInfo.Id.ToString()),
+                new Claim("ProfileId",userInfo.ProfileId.ToString()),
                 new Claim("Phone",userInfo.PhoneNumber.ToString()),
                 new Claim("Permissions",JsonConvert.SerializeObject(userInfo.Permissions))
             };
@@ -92,6 +93,15 @@ namespace Shop.Infrastructure.Interfaces.Auth
                 return 0;
           
         }
+
+        public string ReadTokenCalim(string type)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var securityToken = (JwtSecurityToken)tokenHandler.ReadToken(_contextAccessor.HttpContext.Request.Headers["Authorization"]);
+            return securityToken.Claims.FirstOrDefault(c => c.Type == type)?.Value;
+        }
+
+       
 
         public UserInfoDto ReadTokenClaims()
         {

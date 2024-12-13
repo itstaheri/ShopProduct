@@ -16,5 +16,7 @@ namespace Shop.Domain.Dtos.Profile
         public string CityTitle { get; set; }
         public string Mobile {  get; set; }
         public string? Phone { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

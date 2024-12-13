@@ -41,7 +41,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
         public async Task<IActionResult> AddAddress(AddUserAddressDto address,CancellationToken cancellationToken)
         {
             long userId = _jwt.GetCurrentUserId();
-            var result = await _profileService.AddAddressAsync(address, userId, cancellationToken);
+            var result = await _profileService.AddAddressAsync(address, cancellationToken);
             return Ok(result.Success());
         }
     }

@@ -16,7 +16,7 @@ namespace Shop.Domain.Entities.Profile
         {
                 
         }
-        public UserAddressModel(long userId,  long city, string title, string description, string postalCode, string mobile, string? phone, string firstname, string lastname)
+        public UserAddressModel(long userId,  long city, string title, string description, string postalCode, string mobile, string? phone, string firstname, string lastname,long profileId)
         {
             UserId = userId;
             CityId = city;
@@ -27,6 +27,7 @@ namespace Shop.Domain.Entities.Profile
             Phone = phone;
             Firstname = firstname;
             Lastname = lastname;
+            UserInformationId = profileId;
         }
 
         public void Edit(long userId,  long city, string title, string description, string postalCode,string mobile,string? phone, string firstname, string lastname)
@@ -41,6 +42,7 @@ namespace Shop.Domain.Entities.Profile
                 Phone = phone;
             Firstname = firstname;
             Lastname=lastname;
+
         }
 
         public long UserId { get; private set; }

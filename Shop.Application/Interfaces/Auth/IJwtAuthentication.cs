@@ -14,6 +14,7 @@ namespace Shop.Application.Interfaces.Auth
         long GetCurrentUserId();
         bool TokenIsValid(string token);
         UserInfoDto ReadTokenClaims();
+        string ReadTokenCalim(string type);
 
 
     }

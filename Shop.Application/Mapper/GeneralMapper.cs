@@ -20,7 +20,7 @@ namespace Shop.Application.Mapper
             {
                 foreach (var destinationProperty in destinationProperties)
                 {
-                    if (sourceProperty.Name == destinationProperty.Name &&
+                    if (sourceProperty.Name.ToLower() == destinationProperty.Name.ToLower() &&
                         destinationProperty.CanWrite &&
                         destinationProperty.PropertyType == sourceProperty.PropertyType)
                     {
