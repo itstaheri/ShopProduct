@@ -41,4 +41,4 @@ jobs:
           docker pull agent2303/shopproduct:latest
           docker stop shopproduct || true
           docker rm shopproduct || true
-          docker run -d --name shopproject -p 6969:6969 agent2303/shopproject:latest
+          docker run -d --name shopproject -p 8081:8081 -p 8080:8080 agent2303/shopproject:latest
