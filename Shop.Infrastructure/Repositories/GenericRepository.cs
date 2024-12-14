@@ -139,9 +139,9 @@ namespace Shop.Infrastructure.Repositories
         public async Task<IQueryable<T>> SelectAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken, Expression<Func<T, object>> include, bool asNoTrack = true)
         {
             if (asNoTrack)
-                return _dbSet.AsNoTracking().Include(include).AsSplitQuery().Where(predicate).AsQueryable();
+                return _dbSet.AsNoTracking().Include(include).AsSplitQuery().Where(predicate).OrderByDescending(x => x.CreatedAt).AsQueryable();
             else
-                return _dbSet.Include(include).AsSplitQuery().Where(predicate).AsQueryable();
+                return _dbSet.Include(include).AsSplitQuery().Where(predicate).OrderByDescending(x => x.CreatedAt).AsQueryable();
         }
 
         public void Update(in T sender)
