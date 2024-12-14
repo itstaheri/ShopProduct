@@ -22,7 +22,7 @@ jobs:
 
     - name: Archive Docker image
       run: |
-        docker build -t shopproject:latest  .
+        docker build -t shopproject:latest .
         docker save shopproject:latest -o shopproject.tar
 
     - name: Transfer image to server
@@ -32,7 +32,7 @@ jobs:
         username: ${{ secrets.SERVER_USER }}
         password: ${{ secrets.SERVER_PASSWORD }}
         source: shopproject.tar
-        target: /home/${{ secrets.SERVER_USER }}/shopproject.tar
+        target: /home/${{ secrets.SERVER_USER }}/
 
     - name: Deploy on server
       uses:  appleboy/ssh-action@v1.2.0
