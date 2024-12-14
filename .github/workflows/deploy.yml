@@ -22,7 +22,7 @@ jobs:
 
     - name: Archive Docker image
       run: |
-        docker build -t shopproject:latest -f DOCKERFILE .
+        docker build -t shopproject:latest  .
         docker save shopproject:latest -o shopproject.tar
 
     - name: Transfer image to server
