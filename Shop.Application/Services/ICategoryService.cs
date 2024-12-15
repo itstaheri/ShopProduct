@@ -21,7 +21,7 @@ namespace Shop.Application.Services
 {
     public interface ICategoryService
     {
-        public Task<OperationResult<List<CategoryDto>>> GetCategoryListAsync(GetCategoryRequestDto getCategory, CancellationToken cancellationToken);
+        public Task<OperationResult<PaginationResponsDto<CategoryDto>>> GetCategoryListAsync(GetCategoryRequestDto getCategory, CancellationToken cancellationToken);
         public OperationResult CreateCategory(CreateCategoryDto createCategory);
         public OperationResult UpdateCategory(UpdateCategoryDto updateCategory);
         public OperationResult DeleteCategory(DeleteCategoryRequestDto deleteCategory);
@@ -43,7 +43,7 @@ namespace Shop.Application.Services
             _categoryPropertyRepository = categoryPropertyModel;
         }
 
-        public async Task<OperationResult<List<CategoryDto>>> GetCategoryListAsync (GetCategoryRequestDto getCategory, CancellationToken cancellationToken)
+        public async Task<OperationResult<PaginationResponsDto<CategoryDto>>> GetCategoryListAsync(GetCategoryRequestDto getCategory, CancellationToken cancellationToken)
         {
             try
             {
@@ -57,7 +57,11 @@ namespace Shop.Application.Services
                 }
 
 
-                return new OperationResult<List<CategoryDto>>(categoryresult, true, BaseMessageResult.OperationSuccess);
+                return new OperationResult<PaginationResponsDto<CategoryDto>>(new PaginationResponsDto<CategoryDto>
+                {
+                    List = categoryresult,
+                    TotalCount = categoryresult.Count
+                }, true, CategoryMessageResult.OperationSuccess);
 
             }
             catch (Exception ex)
