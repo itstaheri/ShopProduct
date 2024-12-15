@@ -9,7 +9,7 @@ namespace Shop.Domain.Dtos.Profile
     public record UserAddressDto
     {
         public long Id { get; set; }
-        public long? CityId {  get; set; }
+        public long CityId {  get; set; }
         public string Title {  get; set; }
         public string Description { get; set; }
         public string PostalCode { get; set; }
