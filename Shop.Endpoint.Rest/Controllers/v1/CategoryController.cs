@@ -94,5 +94,11 @@ namespace Shop.Endpoint.Rest.Controllers.v1
                 throw ex;
             }
         }
+        [HttpGet("GetMainCategoryList")]
+        public async Task<IActionResult> GetMainCategoryList(CancellationToken cancellationToken)
+        {
+            var result = await _categoryService.GetMainCategoryListAsync(cancellationToken);
+            return Ok(result.Success());
+        }
     }
 }
