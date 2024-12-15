@@ -43,7 +43,6 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message, ex.InnerException);
             }
         }
@@ -61,7 +60,6 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message, ex.InnerException);
             }
         }
@@ -85,7 +83,6 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message, ex.InnerException);
             }
         }

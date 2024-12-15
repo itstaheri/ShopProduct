@@ -52,7 +52,11 @@ namespace Shop.Application.Services
         {
             try
             {
+<<<<<<< HEAD
                 var user = _userRepository.Get(x => x.Username == login.Username && x.Password == login.Password.ToSha256(),false,x=>x.UserInformation);
+=======
+                var user = _userRepository.Get(x => x.Username == login.Username && x.Password == login.Password.ToSha256(),true,x=>x.UserInformation);
+>>>>>>> master
 
 
                 if (user is null) return new OperationResult<UserInfoDto>(null, false, UserMessageResult.UserInvalid);

@@ -8,5 +8,6 @@ namespace Shop.Application.MessageResult
 {
     public class ProfileMessageResult : BaseMessageResult
     {
+        public const string UserAddressNotFound = "UserAddressNotFound";
     }
 }
