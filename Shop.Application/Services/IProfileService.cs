@@ -61,7 +61,9 @@ namespace Shop.Application.Services
             try
             {
                 var userProfiel = await _profileRepository.GetAsync(x => x.UserId == userId, cancellationToken, true, x => x.User);
+
                 var userInformationDto = GeneralMapper.Map<UserInformationModel, UserInformationDto>(userProfiel);
+                userInformationDto.PhoneNumber = userProfiel.User.PhoneNumber;
                 userInformationDto.BirthDate = userProfiel.BirthDate.ToFarsi();
 
 
