@@ -15,6 +15,8 @@ namespace Shop.Application.Services
         public Task<OperationResult<UserInformationDto>> GetProfileInformationAsync(long userId, CancellationToken cancellationToken);
         public Task<OperationResult<List<UserAddressDto>>> GetUserAddressAsync(long userId, CancellationToken cancellationToken);
         public Task<OperationResult> AddAddressAsync(AddUserAddressDto commend, CancellationToken cancellationToken);
+        public OperationResult UpdateProfile(UpdateProfileRequestDto commend);
+
 
     }
 
@@ -59,9 +61,7 @@ namespace Shop.Application.Services
             try
             {
                 var userProfiel = await _profileRepository.GetAsync(x => x.UserId == userId, cancellationToken, true, x => x.User);
-                var userDto = GeneralMapper.Map<UserModel, UserInfoDto>(userProfiel.User);
                 var userInformationDto = GeneralMapper.Map<UserInformationModel, UserInformationDto>(userProfiel);
-                userInformationDto.UserInfo = userDto;
                 userInformationDto.BirthDate = userProfiel.BirthDate.ToFarsi();
 
 
@@ -90,6 +90,29 @@ namespace Shop.Application.Services
                 throw;
             }
         }
+
+        public  OperationResult UpdateProfile(UpdateProfileRequestDto commend)
+        {
+            try
+            {
+                long profileId = Convert.ToInt64(_auth.ReadTokenCalim("ProfileId"));
+                var profile =  _profileRepository.Get(x=>x.Id == profileId);
+                if(profile == null) return new OperationResult(false, ProfileMessageResult.NotFound);
+
+                profile.Edit(commend.NationalCode, commend.BirthDate, commend.Gender, commend.Firstname, commend.Lastname);
+
+                _profileRepository.Update(profile);
+
+                return new OperationResult(true, ProfileMessageResult.OperationSuccess);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+      
     }
 
 }
