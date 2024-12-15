@@ -26,6 +26,7 @@ namespace Shop.Application.Services
         public OperationResult UpdateCategory(UpdateCategoryDto updateCategory);
         public OperationResult DeleteCategory(DeleteCategoryRequestDto deleteCategory);
         public Task<OperationResult<CategoryDto>> GetCategoryAsync (long categoryId, CancellationToken cancellationToken);
+        public Task<OperationResult<List<CategoryDto>>> GetMainCategoryListAsync(CancellationToken cancellationToken);
 
     }
 
@@ -46,7 +47,7 @@ namespace Shop.Application.Services
         {
             try
             {
-                var categories = await _categoryRepository.SelectAsync(x => x.IsActive || x.CategoryParentId == getCategory.CategoryParentId, cancellationToken);
+                var categories = await _categoryRepository.SelectAsync(x => x.IsActive && x.CategoryParentId == getCategory.CategoryParentId, cancellationToken);
 
                 var categoryresult = new List<CategoryDto>();
 
@@ -140,5 +141,26 @@ namespace Shop.Application.Services
             }
         }
 
+        public async Task<OperationResult<List<CategoryDto>>> GetMainCategoryListAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var categories = await _categoryRepository.GetMainCategoryListAsync(cancellationToken);
+                var categoryresult = new List<CategoryDto>();
+
+                foreach (var category in categories)
+                {
+                    categoryresult.Add(GeneralMapper.Map<CategoryModel, CategoryDto>(category));
+                }
+
+
+                return new OperationResult<List<CategoryDto>>(categoryresult, true, BaseMessageResult.OperationSuccess);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }
