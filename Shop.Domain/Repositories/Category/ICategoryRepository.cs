@@ -9,5 +9,6 @@ namespace Shop.Domain.Repositories.Category
 {
     public interface ICategoryRepository : IGenericRepository<CategoryModel>
     {
+        Task<List<CategoryModel>> GetMainCategoryListAsync(CancellationToken cancellationToken);
     }
 }
