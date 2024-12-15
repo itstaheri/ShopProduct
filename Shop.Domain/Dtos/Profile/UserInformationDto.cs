@@ -10,12 +10,12 @@ namespace Shop.Domain.Dtos.Profile
 {
     public record UserInformationDto 
     {
-        public long Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string NationalCode { get; set; }
         public Gender Gender { get; set; }
         public string BirthDate { get; set; }
-        public UserInfoDto UserInfo { get; set; }
+        public string PhoneNumber { get; set; }
+
     }
 }

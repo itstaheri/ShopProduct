@@ -10,7 +10,6 @@ namespace Shop.Endpoint.Rest.Controllers.v1
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion(1)]
-    [JWTAuthorize]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
@@ -49,7 +48,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
                 throw ex;
             }
         }
-
+        [JWTAuthorize]
         [HttpPost("Create")]
         public virtual IActionResult Create([FromBody] CreateCategoryDto createCategory)
         {
@@ -64,6 +63,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
                 throw ex;
             }
         }
+        [JWTAuthorize]
 
         [HttpPost("Update")]
         public virtual IActionResult Update(UpdateCategoryDto updateCategory)
@@ -79,6 +79,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
                 throw ex;
             }
         }
+        [JWTAuthorize]
 
         [HttpPost("Delete")]
         public virtual IActionResult Delete(DeleteCategoryRequestDto deleteCategory) 
@@ -93,6 +94,12 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             {
                 throw ex;
             }
+        }
+        [HttpGet("GetMainCategoryList")]
+        public async Task<IActionResult> GetMainCategoryList(CancellationToken cancellationToken)
+        {
+            var result = await _categoryService.GetMainCategoryListAsync(cancellationToken);
+            return Ok(result.Success());
         }
     }
 }

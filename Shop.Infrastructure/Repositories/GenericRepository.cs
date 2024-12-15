@@ -10,6 +10,7 @@ using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -139,9 +140,9 @@ namespace Shop.Infrastructure.Repositories
         public async Task<IQueryable<T>> SelectAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken, Expression<Func<T, object>> include, bool asNoTrack = true)
         {
             if (asNoTrack)
-                return _dbSet.AsNoTracking().Include(include).AsSplitQuery().Where(predicate).AsQueryable();
+                return _dbSet.AsNoTracking().Include(include).AsSplitQuery().Where(predicate).OrderByDescending(x => x.CreatedAt).AsQueryable();
             else
-                return _dbSet.Include(include).AsSplitQuery().Where(predicate).AsQueryable();
+                return _dbSet.Include(include).AsSplitQuery().Where(predicate).OrderByDescending(x => x.CreatedAt).AsQueryable();
         }
 
         public void Update(in T sender)
@@ -183,20 +184,23 @@ namespace Shop.Infrastructure.Repositories
         }
         public T Get(Expression<Func<T, bool>> predicate, bool asNoTrack = false, params Expression<Func<T, object>>[]? includes)
         {
-            var entity = _dbSet;
+            var entity = _dbSet.AsQueryable();
 
             if (asNoTrack)
                 entity.AsNoTracking();
+
 
             if (includes != null)
             {
                 foreach (var include in includes)
                 {
-                    entity.Include(include);
+                    entity = includes.Aggregate(entity,
+                  (current, include) => current.Include(include));
                 }
             }
+            //entity = entity.Where(predicate).AsQueryable();
 
-            return entity.AsSplitQuery().FirstOrDefault(predicate);
+            return  entity.FirstOrDefault(predicate);
 
         }
 

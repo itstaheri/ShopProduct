@@ -21,11 +21,12 @@ namespace Shop.Application.Services
 {
     public interface ICategoryService
     {
-        public Task<OperationResult<List<CategoryDto>>> GetCategoryListAsync(GetCategoryRequestDto getCategory, CancellationToken cancellationToken);
+        public Task<OperationResult<PaginationResponsDto<CategoryDto>>> GetCategoryListAsync(GetCategoryRequestDto getCategory, CancellationToken cancellationToken);
         public OperationResult CreateCategory(CreateCategoryDto createCategory);
         public OperationResult UpdateCategory(UpdateCategoryDto updateCategory);
         public OperationResult DeleteCategory(DeleteCategoryRequestDto deleteCategory);
         public Task<OperationResult<CategoryDto>> GetCategoryAsync (long categoryId, CancellationToken cancellationToken);
+        public Task<OperationResult<List<CategoryDto>>> GetMainCategoryListAsync(CancellationToken cancellationToken);
 
     }
 
@@ -42,11 +43,11 @@ namespace Shop.Application.Services
             _categoryPropertyRepository = categoryPropertyModel;
         }
 
-        public async Task<OperationResult<List<CategoryDto>>> GetCategoryListAsync (GetCategoryRequestDto getCategory, CancellationToken cancellationToken)
+        public async Task<OperationResult<PaginationResponsDto<CategoryDto>>> GetCategoryListAsync(GetCategoryRequestDto getCategory, CancellationToken cancellationToken)
         {
             try
             {
-                var categories = await _categoryRepository.SelectAsync(x => x.IsActive || x.CategoryParentId == getCategory.CategoryParentId, cancellationToken);
+                var categories = await _categoryRepository.SelectAsync(x => x.IsActive && x.CategoryParentId == getCategory.CategoryParentId, cancellationToken);
 
                 var categoryresult = new List<CategoryDto>();
 
@@ -56,7 +57,11 @@ namespace Shop.Application.Services
                 }
 
 
-                return new OperationResult<List<CategoryDto>>(categoryresult, true, BaseMessageResult.OperationSuccess);
+                return new OperationResult<PaginationResponsDto<CategoryDto>>(new PaginationResponsDto<CategoryDto>
+                {
+                    List = categoryresult,
+                    TotalCount = categoryresult.Count
+                }, true, CategoryMessageResult.OperationSuccess);
 
             }
             catch (Exception ex)
@@ -140,5 +145,26 @@ namespace Shop.Application.Services
             }
         }
 
+        public async Task<OperationResult<List<CategoryDto>>> GetMainCategoryListAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var categories = await _categoryRepository.GetMainCategoryListAsync(cancellationToken);
+                var categoryresult = new List<CategoryDto>();
+
+                foreach (var category in categories)
+                {
+                    categoryresult.Add(GeneralMapper.Map<CategoryModel, CategoryDto>(category));
+                }
+
+
+                return new OperationResult<List<CategoryDto>>(categoryresult, true, BaseMessageResult.OperationSuccess);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }

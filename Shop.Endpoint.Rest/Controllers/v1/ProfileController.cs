@@ -44,5 +44,11 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             var result = await _profileService.AddAddressAsync(address, cancellationToken);
             return Ok(result.Success());
         }
+        [HttpPost("UpdateProfile")]
+        public IActionResult UpdateProfile(UpdateProfileRequestDto request)
+        {
+            var result = _profileService.UpdateProfile(request);
+            return Ok(result.Success());
+        }
     }
 }
