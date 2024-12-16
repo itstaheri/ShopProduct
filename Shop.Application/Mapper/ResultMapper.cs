@@ -45,5 +45,23 @@ namespace Shop.Application.Mapper
                 StatusCode = 200
             };
         }
+        public static ResponseDto BadRequest<T>(this OperationResult<T> result)
+        {
+            return new ResponseDto
+            {
+                Message = result.Message,
+                Result = result.Result,
+                StatusCode = 200
+            };
+        }
+        public static ResponseDto BadRequest(this OperationResult result)
+        {
+            return new ResponseDto
+            {
+                Message = result.Message,
+                Result = null,
+                StatusCode = 200
+            };
+        }
     }
 }

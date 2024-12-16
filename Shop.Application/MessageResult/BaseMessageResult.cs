@@ -11,5 +11,6 @@ namespace Shop.Application.MessageResult
         public const string OperationSuccess = "OperationSuccess";
         public const string OperationFaild = "OperationFaild";
         public const string NotFound = "NotFound";
+        public const string InternalServerError = "InternalServerError";
     }
 }

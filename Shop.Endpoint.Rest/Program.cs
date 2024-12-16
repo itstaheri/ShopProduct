@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Shop.Application;
+using Shop.Endpoint.Rest.ActionFilters;
 using Shop.Endpoint.Rest.MinimalApis;
 using Shop.Infrastructure;
 using System.Text;
@@ -10,12 +11,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(x =>
+{
+    x.Filters.Add<ParamValidatorAttribute>();
+});
+builder.Services.AddScoped<ParamValidatorAttribute>();
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new() { Title = "Pappa´s API", Version = "v1" });
+    c.SwaggerDoc("v1", new() { Title = "Shop API", Version = "v1" });
 
     // Define the OAuth2.0 scheme that's in use (i.e., Implicit Flow)
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -47,6 +53,16 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+builder.Services.AddCors(option =>
+{
+    option.AddPolicy("CORS", policy =>
+    {
+        policy.AllowAnyHeader();
+        policy.AllowAnyOrigin();
+        policy.AllowAnyMethod();
+    });
+});
+
 builder.Services.ResolveApplication();
 var keyvalues = new Dictionary<string, string>();
 keyvalues.Add("ConnectionString", builder.Configuration.GetConnectionString("ShopDB"));
@@ -57,20 +73,19 @@ keyvalues.Add("Audience", builder.Configuration.GetSection("Jwt").GetSection("Au
 keyvalues.Add("SmsProvider", builder.Configuration.GetSection("SmsProvider").Value);
 
 builder.Services.ResolveInfrastructure(keyvalues);
-builder.Services.AddCors(x=>x.AddPolicy("cors",x=>x.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()));
 var app = builder.Build();
 
 
+app.UseCors("CORS");
 
 // Configure the HTTP request pipeline.
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.AddOtpMinimalApi();
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthorization();
-app.UseCors("cors");
 app.MapControllers();
 
 

@@ -7,14 +7,13 @@ using Shop.Application.MessageResult;
 using Shop.Domain.Dtos;
 using Shop.Domain.Dtos.OTP;
 using Shop.Domain.Enums;
-
+using Shop.Endpoint.Rest.ActionFilters;
 namespace Shop.Endpoint.Rest.Controllers.v1
 {
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion(1)]
-    [EnableCors("cors")]
-   
+
     public class OtpController : ControllerBase
     {
 
@@ -35,6 +34,8 @@ namespace Shop.Endpoint.Rest.Controllers.v1
                 Message = result.Message,
             });
         }
+        [ParamValidatorAttribute]
+
         [HttpPost("OtpRequest")]
         public IActionResult OtpRequest([FromBody]SendOTPRequestDto request)
         {
@@ -48,7 +49,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
                 });
 
 
-            _otp.ExpireAt = DateTime.Now.AddMinutes(3);
+            _otp.ExpireAt = DateTime.Now.AddMinutes(2);
             var result = _otp.Send(new Domain.Models.OTP.SendOTP
             {
                 OTPChannel = (Domain.Enums.OTPChannel)request.Channel,

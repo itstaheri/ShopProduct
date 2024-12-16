@@ -14,6 +14,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion(1)]
+    [ParamValidatorAttribute]
     public class AuthController : ControllerBase
     {
         private readonly IUserService _userService;
