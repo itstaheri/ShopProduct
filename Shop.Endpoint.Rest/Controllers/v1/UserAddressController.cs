@@ -26,7 +26,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
         {
             long userId = _jwt.GetCurrentUserId();
             var result = await _userAddressService.GetUserAddressAsync(userId, cancellationToken);
-            return Ok(result.Success);
+            return Ok(result);
         }
 
         [HttpPost("Add")]

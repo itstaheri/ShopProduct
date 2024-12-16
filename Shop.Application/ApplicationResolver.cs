@@ -22,6 +22,7 @@ namespace Shop.Application
             services.AddTransient<IUserFavoriteService, UserFavoriteService>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<ILookupService, LookupService>();
+            services.AddTransient<IUserAddressService, UserAddressService>();
         }
     }
 }
