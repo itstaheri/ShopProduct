@@ -41,7 +41,14 @@ jobs:
         username: ${{ secrets.SERVER_USER }}
         password: ${{ secrets.SERVER_PASSWORD }}
         script: |
+<<<<<<< HEAD
           docker load -i /home/${{ secrets.SERVER_USER }}/shopproject.tar/shopproject.tar
           docker stop shopproject || true 
           docker rm shopproject || true
           docker run -d --name shopproject -p 8081:8081 -p 8080:8080 shopproject:latest
+=======
+          
+          docker stop shopproject 
+          docker rm shopproject
+          docker run -d --name shopproject -p 8081:8081 -p 8080:8080 agent2303/shopproject:latest
+>>>>>>> 4eb1b5f53b383a12eb5b54a9b52ff9ba92ad7f58
