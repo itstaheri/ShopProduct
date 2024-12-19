@@ -61,7 +61,7 @@ namespace Shop.Application.Services
                 {
                     List = categoryresult,
                     TotalCount = categoryresult.Count
-                }, true, CategoryMessageResult.OperationSuccess);
+                }, true, OperationMessageResult.OperationSuccess);
 
             }
             catch (Exception ex)
@@ -82,7 +82,7 @@ namespace Shop.Application.Services
                 _categoryRepository.Save();
 
 
-                return new OperationResult(true, CategoryMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
 
             }
             catch (Exception ex)
@@ -103,7 +103,7 @@ namespace Shop.Application.Services
                 checkCategory.Edit(updateCategory.Name, updateCategory.Picture, updateCategory.CategoryParentId);
                 _categoryRepository.Save();
 
-                return new OperationResult(true, CategoryMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {
@@ -119,7 +119,7 @@ namespace Shop.Application.Services
             try
             {
                 _categoryRepository.Remove(deleteCategory.CategoryId);
-                return new OperationResult(true, CategoryMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
 
             }
             catch (Exception ex)
@@ -137,7 +137,7 @@ namespace Shop.Application.Services
                 var category = await _categoryRepository.GetAsync(x => x.Id == categoryId, cancellationToken);
 
                 
-                return new OperationResult<CategoryDto>(GeneralMapper.Map<CategoryModel,CategoryDto>(category), true, BaseMessageResult.OperationSuccess);
+                return new OperationResult<CategoryDto>(GeneralMapper.Map<CategoryModel,CategoryDto>(category), true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex) 
             {
@@ -158,7 +158,7 @@ namespace Shop.Application.Services
                 }
 
 
-                return new OperationResult<List<CategoryDto>>(categoryresult, true, BaseMessageResult.OperationSuccess);
+                return new OperationResult<List<CategoryDto>>(categoryresult, true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {

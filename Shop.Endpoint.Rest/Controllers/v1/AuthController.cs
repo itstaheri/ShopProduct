@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using Shop.Application.Interfaces.Auth;
 using Shop.Application.Mapper;
 using Shop.Application.MessageResult;
@@ -35,7 +36,6 @@ namespace Shop.Endpoint.Rest.Controllers.v1
                 if (result.Success)
                 {
                     var token = _jwtAuthentication.GenerateToken(result.Result);
-
                     return Ok(new ResponseDto { Message = BaseMessageResult.OperationSuccess, StatusCode = 200, Result = token });
 
                 }
@@ -72,15 +72,9 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             {
 
                 var result =await _userService.LoginOrSignupWithPhoneAsync(request.PhoneNumber, cancellationToken);
-                if (result.Success)
-                {
-                    var token = _jwtAuthentication.GenerateToken(result.Result);
+                return Ok(result);
 
-                    return Ok(new ResponseDto { Message = BaseMessageResult.OperationSuccess, StatusCode = 200, Result = token });
 
-                }
-
-                return Ok(new ResponseDto { Message = BaseMessageResult.OperationFaild, StatusCode = 401, Result = null });
             }
             catch (Exception ex)
             {

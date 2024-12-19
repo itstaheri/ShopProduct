@@ -13,5 +13,7 @@ namespace Shop.Application.MessageResult
         public const string UsernameExist = "UsernameExist";
         public const string PhonenumbeerExist = "PhonenumbeerExist";
 
+       
+
     }
 }

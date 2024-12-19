@@ -21,6 +21,7 @@ using Dapper;
 using Shop.Domain.Repositories.User;
 using Shop.Application.Interfaces.Sms;
 using Shop.Domain.Models.SMS.Kavenegar;
+using Shop.Application.Interfaces.Auth;
 
 namespace Shop.Application.Services
 {
@@ -28,7 +29,7 @@ namespace Shop.Application.Services
     {
         public OperationResult<UserInfoDto> Login(LoginDto login);
         public Task<OperationResult<UserInfoDto>> SignupWithDetailAsync(CreateUserDto createUser, CancellationToken cancellationToken);
-        public Task<OperationResult<UserInfoDto>> LoginOrSignupWithPhoneAsync(string phoneNumber, CancellationToken cancellationToken);
+        public Task<OperationResult<TokenResultDto>> LoginOrSignupWithPhoneAsync(string phoneNumber, CancellationToken cancellationToken);
     }
     public class UserService : IUserService
     {
@@ -38,7 +39,8 @@ namespace Shop.Application.Services
         private readonly IGenericRepository<UserInformationModel> _userInformationRepository;
         private readonly IDapperContext _dapper;
         private readonly ISMS _sms;
-        public UserService(IUserRepository userRepository, IUserRoleRepository userRoleRepository, IPermissionRepository permission, IGenericRepository<UserInformationModel> userInformationRepository, IDapperContext dapper, ISMS sms)
+        private readonly IJwtAuthentication _auth;
+        public UserService(IUserRepository userRepository, IUserRoleRepository userRoleRepository, IPermissionRepository permission, IGenericRepository<UserInformationModel> userInformationRepository, IDapperContext dapper, ISMS sms, IJwtAuthentication auth)
         {
             _userRepository = userRepository;
             _userRoleRepository = userRoleRepository;
@@ -46,6 +48,7 @@ namespace Shop.Application.Services
             _userInformationRepository = userInformationRepository;
             _dapper = dapper;
             _sms = sms;
+            _auth = auth;
         }
 
         public OperationResult<UserInfoDto> Login(LoginDto login)
@@ -55,15 +58,15 @@ namespace Shop.Application.Services
                 var user = _userRepository.Get(x => x.Username == login.Username && x.Password == login.Password.ToSha256(),false,x=>x.UserInformation);
 
 
-                if (user is null) return new OperationResult<UserInfoDto>(null, false, UserMessageResult.UserInvalid);
-                if (!user.IsActive) return new OperationResult<UserInfoDto>(null, false, UserMessageResult.UserIsDeActive);
+                if (user is null) return new OperationResult<UserInfoDto>(null, false,OperationMessageResult.UserInvalid);
+                if (!user.IsActive) return new OperationResult<UserInfoDto>(null, false, OperationMessageResult.UserIsDeActive);
 
                 var result = GeneralMapper.Map<UserModel, UserInfoDto>(user);
                 result.CreateAtShamsi = user.CreatedAt.ToFarsi();
                 var permissions =  GetUserPermissions(user.Id).Result;
                 result.Permissions = permissions.Select(x => (Permission)x.PermissionId).ToList();
                 result.ProfileId = user.UserInformation.Id;
-                return new OperationResult<UserInfoDto>(result, true, BaseMessageResult.OperationSuccess);
+                return new OperationResult<UserInfoDto>(result, true, OperationMessageResult.OperationSuccess);
 
             }
             catch (Exception ex)
@@ -89,7 +92,7 @@ namespace Shop.Application.Services
                 throw ex;
             }
         }
-        public async Task<OperationResult<UserInfoDto>> LoginOrSignupWithPhoneAsync(string phoneNumber, CancellationToken cancellationToken)
+        public async Task<OperationResult<TokenResultDto>> LoginOrSignupWithPhoneAsync(string phoneNumber, CancellationToken cancellationToken)
         {
             try
             {
@@ -120,7 +123,7 @@ namespace Shop.Application.Services
                             PhoneNumber = phoneNumber,
                             Password = randomPassword,
                             RePassword = randomPassword,
-                            Username = $"Guest{phoneNumber}"
+                            Username = phoneNumber
 
                         }, cancellationToken);
                       
@@ -133,8 +136,9 @@ namespace Shop.Application.Services
                     }
 
                 }
+                var token = _auth.GenerateToken(userInfo);
 
-                return new OperationResult<UserInfoDto>(userInfo, true, UserMessageResult.OperationSuccess);
+                return new OperationResult<TokenResultDto>(token, true,OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {
