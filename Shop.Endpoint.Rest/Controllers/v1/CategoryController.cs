@@ -26,7 +26,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             {
                 var result = await _categoryService.GetCategoryListAsync(getCategory, cancellationToken);
 
-                return Ok(result.Success);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -41,7 +41,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             {
                 var result = await _categoryService.GetCategoryAsync(categoryId, cancellationToken);
 
-                return Ok(result.Success());
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -56,7 +56,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             {
                var result =  _categoryService.CreateCategory(createCategory);
 
-                return Ok(result.Success());
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -72,7 +72,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             {
                var result = _categoryService.UpdateCategory(updateCategory);
 
-                return Ok(result.Success());
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -88,7 +88,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             {
               var result =   _categoryService.DeleteCategory(deleteCategory);
 
-                return Ok(result.Success());
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -99,7 +99,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
         public async Task<IActionResult> GetMainCategoryList(CancellationToken cancellationToken)
         {
             var result = await _categoryService.GetMainCategoryListAsync(cancellationToken);
-            return Ok(result.Success());
+            return Ok(result);
         }
     }
 }
