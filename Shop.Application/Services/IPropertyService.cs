@@ -6,6 +6,7 @@ using Shop.Domain.Dtos.Property;
 using Shop.Domain.Entities.Category;
 using Shop.Domain.Entities.Product;
 using Shop.Domain.Entities.Property;
+using Shop.Domain.Enums;
 using Shop.Domain.Repositories;
 using Shop.Domain.Repositories.Category;
 using Shop.Domain.Repositories.IPropertyRepository;
@@ -51,7 +52,7 @@ namespace Shop.Application.Services
                 foreach (var property in properties)
                     propertyResult.Add(GeneralMapper.Map<PropertyModel, PropertyDto>(property));
 
-                return new OperationResult<List<PropertyDto>>(propertyResult, true, PropertyMessageResult.OperationSuccess);
+                return new OperationResult<List<PropertyDto>>(propertyResult, true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {
@@ -65,7 +66,7 @@ namespace Shop.Application.Services
             {
                 var property = await _propertyRepository.GetAsync(x => x.Id == propertyId, cancellationToken, true);
 
-                return new OperationResult<PropertyDto>(GeneralMapper.Map<PropertyModel, PropertyDto>(property), true, PropertyMessageResult.OperationSuccess);
+                return new OperationResult<PropertyDto>(GeneralMapper.Map<PropertyModel, PropertyDto>(property), true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {
@@ -83,7 +84,7 @@ namespace Shop.Application.Services
 
                 _propertyRepository.Save();
 
-                return new OperationResult(true, PropertyMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {
@@ -98,7 +99,7 @@ namespace Shop.Application.Services
             {
                 _propertyRepository.Remove(deleteProperty.PropertyId);
 
-                return new OperationResult(true, PropertyMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
 
             }
             catch (Exception ex)
@@ -112,7 +113,7 @@ namespace Shop.Application.Services
         public OperationResult UpdateProperty(UpdatePropertyRequestDto updateProperty)
         {
             var checkProperty = _propertyRepository.Get(x => x.Id == updateProperty.Id);
-            if (checkProperty is null) return new OperationResult<PropertyDto>(null, false, PropertyMessageResult.PropertyNotFound);
+            if (checkProperty is null) return new OperationResult<PropertyDto>(null, false, OperationMessageResult.PropertyNotFound);
 
             try
             {
@@ -120,7 +121,7 @@ namespace Shop.Application.Services
                 checkProperty.Edit(updateProperty.Name, updateProperty.MeasurmentsUnit);
                 _propertyRepository.Save();
 
-                return new OperationResult(true, PropertyMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {

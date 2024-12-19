@@ -7,6 +7,7 @@ using Shop.Domain.Dtos.Profile;
 using Shop.Domain.Dtos.User;
 using Shop.Domain.Entities.Profile;
 using Shop.Domain.Entities.User;
+using Shop.Domain.Enums;
 using Shop.Domain.Repositories.Profile;
 namespace Shop.Application.Services
 {
@@ -46,7 +47,7 @@ namespace Shop.Application.Services
                     userAddressesResult.Add(ua);
                 }
 
-                return new OperationResult<List<UserAddressDto>>(userAddressesResult, true, ProfileMessageResult.OperationSuccess);
+                return new OperationResult<List<UserAddressDto>>(userAddressesResult, true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {
@@ -63,7 +64,7 @@ namespace Shop.Application.Services
                 long profileId = Convert.ToInt64(_auth.ReadTokenCalim("ProfileId"));
                 var addresModel = new UserAddressModel(userId, commend.CityId, commend.Title, commend.Description, commend.PostalCode, commend.ReciverMobile, commend.ReciverPhoneNumber, commend.FirstName, commend.LastName, profileId);
                 await _userAddressRepository.AddAsync(addresModel, cancellationToken);
-                return new OperationResult(true, ProfileMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
 
             }
             catch (Exception ex)
@@ -79,7 +80,7 @@ namespace Shop.Application.Services
             {
                 _userAddressRepository.Remove(userAddressId);
 
-                return new OperationResult(true, ProfileMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {
@@ -90,7 +91,7 @@ namespace Shop.Application.Services
         public OperationResult UpdateAddress(UpdateUserAddressDto updateAddress)
         {
             var checkAddress = _userAddressRepository.Get(x => x.Id == updateAddress.UserAddressId);
-            if (checkAddress == null) return new OperationResult(false,  ProfileMessageResult.UserAddressNotFound);
+            if (checkAddress == null) return new OperationResult(false, OperationMessageResult.UserAddressNotFound);
 
             try
             {
@@ -99,7 +100,7 @@ namespace Shop.Application.Services
 
                 _userAddressRepository.Save();
 
-                return new OperationResult(true, ProfileMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {

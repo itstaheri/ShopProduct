@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Shop.Domain.Enums
 {
@@ -24,7 +25,22 @@ namespace Shop.Domain.Enums
         [Display(Name ="کاربر یافت نشد.")]
         UserInvalid = 4,
         [Display(Name ="کاربر غیرفعال است.")]
-        UserIsDeActive = 5
+        UserIsDeActive = 5,
+        #endregion
+
+        #region Inventory
+        [Display(Name = "انبار یافت نشد.")]
+        InventoryNotFound = 6,
+        #endregion
+
+        #region Property
+        [Display(Name = "ویژگی یافت نشد.")]
+        PropertyNotFound = 7,
+        #endregion
+
+        #region UserAddress
+        [Display(Name = "آدرس کاربر یافت نشد.")]
+        UserAddressNotFound = 8,
         #endregion
     }
 }

@@ -41,7 +41,7 @@ namespace Shop.Application.Services
             {
                 var userCartModel = new UserCartModel(Cart.UserId, Cart.ProductId, Cart.ColorId, Cart.Quantity);
                 await _userCartRepository.AddAsync(userCartModel, cancellationToken);
-                return new OperationResult(true, ProfileMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {
@@ -74,7 +74,7 @@ namespace Shop.Application.Services
                     userCartDto.Add(GeneralMapper.Map<UserCartModel, UserCartDto>(userCart));
                 }
 
-                return new OperationResult<List<UserCartDto>>(userCartDto, true, ProfileMessageResult.OperationSuccess);
+                return new OperationResult<List<UserCartDto>>(userCartDto, true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {
@@ -87,7 +87,7 @@ namespace Shop.Application.Services
             try
             {
                 _userCartRepository.Remove(userCartId);
-                return new OperationResult(true, ProfileMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
 
             }
             catch (Exception ex)

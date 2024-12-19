@@ -7,6 +7,7 @@ using Shop.Domain.Dtos.Profile;
 using Shop.Domain.Dtos.User;
 using Shop.Domain.Entities.Profile;
 using Shop.Domain.Entities.User;
+using Shop.Domain.Enums;
 using Shop.Domain.Repositories.Profile;
 namespace Shop.Application.Services
 {
@@ -48,7 +49,7 @@ namespace Shop.Application.Services
                     userAddressesResult.Add(ua);
                 }
 
-                return new OperationResult<List<UserAddressDto>>(userAddressesResult, true, ProfileMessageResult.OperationSuccess);
+                return new OperationResult<List<UserAddressDto>>(userAddressesResult, true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {
@@ -67,7 +68,7 @@ namespace Shop.Application.Services
                 userInformationDto.BirthDate = userProfiel.BirthDate.ToFarsi();
 
 
-                return new OperationResult<UserInformationDto>(userInformationDto, true, ProfileMessageResult.OperationSuccess);
+                return new OperationResult<UserInformationDto>(userInformationDto, true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {
@@ -83,7 +84,7 @@ namespace Shop.Application.Services
                 long profileId = Convert.ToInt64(_auth.ReadTokenCalim("ProfileId"));
                 var addresModel = new UserAddressModel(userId, commend.CityId, commend.Title, commend.Description, commend.PostalCode, commend.ReciverMobile, commend.ReciverPhoneNumber, commend.FirstName, commend.LastName, profileId);
                 await _userAddressRepository.AddAsync(addresModel, cancellationToken);
-                return new OperationResult(true, ProfileMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
 
             }
             catch (Exception ex)
@@ -105,7 +106,7 @@ namespace Shop.Application.Services
 
                 _profileRepository.Update(profile);
 
-                return new OperationResult(true, ProfileMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {

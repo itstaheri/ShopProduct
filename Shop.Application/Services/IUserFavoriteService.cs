@@ -38,7 +38,7 @@ namespace Shop.Application.Services
             {
                 var userFavoriteModel = new UserFavoriteModel(favorite.UserId, favorite.ProductId);
                 await _userFavoriteRepository.AddAsync(userFavoriteModel, token);
-                return new OperationResult(true, ProfileMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {
@@ -65,7 +65,7 @@ namespace Shop.Application.Services
                     userFavoriteDto.Add(GeneralMapper.Map<UserFavoriteModel, UserFavoriteDto>(userFavorite));
                 }
 
-                return new OperationResult<List<UserFavoriteDto>>(userFavoriteDto, true, ProfileMessageResult.OperationSuccess);
+                return new OperationResult<List<UserFavoriteDto>>(userFavoriteDto, true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {
@@ -78,7 +78,7 @@ namespace Shop.Application.Services
             try
             {
                 _userFavoriteRepository.Remove(userFavoriteId);
-                return new OperationResult(true, ProfileMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
 
             }
             catch (Exception ex)

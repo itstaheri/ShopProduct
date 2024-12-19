@@ -67,7 +67,7 @@ namespace Shop.Application.Services
                 {
                     List = productResultDto,
                     TotalCount = productResultDto.Count
-                }, true, ProductMessageResult.OperationSuccess);
+                }, true, OperationMessageResult.OperationSuccess);
 
 
             }
@@ -91,7 +91,7 @@ namespace Shop.Application.Services
                     Name = x.Color.Name
                 }).ToList();
 
-                return new OperationResult<ProductDto>(prodcutDto, true, ProductMessageResult.OperationSuccess);
+                return new OperationResult<ProductDto>(prodcutDto, true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {
@@ -118,7 +118,7 @@ namespace Shop.Application.Services
                 transaction.Commit();
 
 
-                return new OperationResult(true, ProductMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {
@@ -134,7 +134,7 @@ namespace Shop.Application.Services
             {
                 _productRepository.Remove(deleteProduct.ProductId);
                 _cache.Delete(Cache.Product.ToString());
-                return new OperationResult(true, ProductMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
 
             }
             catch (Exception ex)
@@ -156,7 +156,7 @@ namespace Shop.Application.Services
                 checkProduct.Edit(updateProduct.Name, updateProduct.CategoryId, updateProduct.Description, updateProduct.ExteraDescription, updateProduct.MainPicture);
                 _productRepository.Save();
 
-                return new OperationResult(true, ProductMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {
@@ -198,7 +198,7 @@ namespace Shop.Application.Services
                 {
                     productResultDto = BinarySerializer.DeserializeFromBinary<List<ProductDto>>(_cache.Get(Cache.Product.ToString()));
                 }
-                return new OperationResult<List<ProductDto>>(productResultDto, true, ProductMessageResult.OperationSuccess);
+                return new OperationResult<List<ProductDto>>(productResultDto, true, OperationMessageResult.OperationSuccess);
 
             }
             catch (Exception ex)

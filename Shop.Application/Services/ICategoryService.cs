@@ -95,7 +95,7 @@ namespace Shop.Application.Services
         public OperationResult UpdateCategory(UpdateCategoryDto updateCategory)
         {
             var checkCategory = _categoryRepository.Get(x => x.Id == updateCategory.CategoryId);
-            if (checkCategory is null) return new OperationResult<CategoryDto>(null, false, CategoryMessageResult.CategoryNotFound);
+            if (checkCategory is null) return new OperationResult<CategoryDto>(null, false, OperationMessageResult.OperationSuccess);
 
             try
             {

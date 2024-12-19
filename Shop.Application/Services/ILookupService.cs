@@ -51,7 +51,7 @@ namespace Shop.Application.Services
 
 
 
-                return new OperationResult<List<LookupResponseDto>>(cityListDto, true, LookupMessageResult.OperationSuccess);
+                return new OperationResult<List<LookupResponseDto>>(cityListDto, true, OperationMessageResult.OperationSuccess);
 
 
 
@@ -81,12 +81,12 @@ namespace Shop.Application.Services
 
                    await _distributedCacheService.SetAsync(Cache.ProvinceLookup.ToString(), BinarySerializer.SerializeToBinary<List<LookupResponseDto>>(provinceListDto));
 
-                    return new OperationResult<List<LookupResponseDto>>(provinceListDto, true, LookupMessageResult.OperationSuccess);
+                    return new OperationResult<List<LookupResponseDto>>(provinceListDto, true, OperationMessageResult.OperationSuccess);
                 }
                 else
                 {
                     var provinceListDto = BinarySerializer.DeserializeFromBinary<List<LookupResponseDto>>(cityLookupCache);
-                    return new OperationResult<List<LookupResponseDto>>(provinceListDto, true, LookupMessageResult.OperationSuccess);
+                    return new OperationResult<List<LookupResponseDto>>(provinceListDto, true, OperationMessageResult.OperationSuccess);
 
                 }
 

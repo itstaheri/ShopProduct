@@ -47,7 +47,7 @@ namespace Shop.Application.Services
 
                 _orderRepository.Save();
 
-                return new OperationResult(true, OrderMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {
@@ -59,7 +59,7 @@ namespace Shop.Application.Services
         {
             var checkOrder = _orderRepository.Get(x => x.Id == order.Id);
             if (checkOrder == null)
-                return new OperationResult<OrderDto>(null, false, OrderMessageResult.OrderNotFound);
+                return new OperationResult<OrderDto>(null, false, OperationMessageResult.OrderNotFound);
 
             try
             {
@@ -67,7 +67,7 @@ namespace Shop.Application.Services
                     order.DeliveryMethodTermId, order.OrderStatus, order.DiscountId);
                 _orderRepository.Save();
 
-                return new OperationResult(true, OrderMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {
@@ -82,7 +82,7 @@ namespace Shop.Application.Services
             {
                 _orderRepository.Remove(orderId);
 
-                return new OperationResult(true, OrderMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {
@@ -109,7 +109,7 @@ namespace Shop.Application.Services
                     result.Add(GeneralMapper.Map<OrderModel, OrderDto>(order));
                 }
 
-                return new OperationResult<List<OrderDto>>(result, true, OrderMessageResult.OperationSuccess);
+                return new OperationResult<List<OrderDto>>(result, true, OperationMessageResult.OperationSuccess);
 
             }
             catch (Exception ex)
@@ -125,7 +125,7 @@ namespace Shop.Application.Services
             {
                 var order = await _orderRepository.GetAsync(x => x.Id == orderId, cancellationToken);
 
-                return new OperationResult<OrderDto>(GeneralMapper.Map<OrderModel, OrderDto>(order), true, OrderMessageResult.OperationSuccess);
+                return new OperationResult<OrderDto>(GeneralMapper.Map<OrderModel, OrderDto>(order), true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {

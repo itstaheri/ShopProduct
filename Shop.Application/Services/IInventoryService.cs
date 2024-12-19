@@ -4,6 +4,7 @@ using Shop.Application.MessageResult;
 using Shop.Domain.Dtos;
 using Shop.Domain.Dtos.Inventory;
 using Shop.Domain.Entities.Inventory;
+using Shop.Domain.Enums;
 using Shop.Domain.Repositories;
 using Shop.Domain.Repositories.Inventory;
 using System;
@@ -59,7 +60,7 @@ namespace Shop.Application.Services
                 {
                     List = inventoryResult,
                     TotalCount = count
-                },true,InventoryMessageResult.OperationSuccess);
+                },true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex) 
             {
@@ -73,7 +74,7 @@ namespace Shop.Application.Services
             {
                 var inventory = await _inventoryRepository.GetAsync(x => x.Id == inventoryId, cancellationToken, true);
 
-                return new OperationResult<InventoryDto>(GeneralMapper.Map<InventoryModel, InventoryDto>(inventory), true, InventoryMessageResult.OperationSuccess);
+                return new OperationResult<InventoryDto>(GeneralMapper.Map<InventoryModel, InventoryDto>(inventory), true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {
@@ -91,7 +92,7 @@ namespace Shop.Application.Services
 
                 _inventoryRepository.Save();
 
-                return new OperationResult(true, InventoryMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {
@@ -102,7 +103,7 @@ namespace Shop.Application.Services
         public OperationResult UpdateInventory(UpdateInventoryRequestDto updateInventory)
         {
             var checkInventory = _inventoryRepository.Get(x => x.Id == updateInventory.Id);
-            if (checkInventory is null) return new OperationResult(false, InventoryMessageResult.InventoryNotFound);
+            if (checkInventory is null) return new OperationResult(false, OperationMessageResult.InventoryNotFound);
 
             try
             {
@@ -111,7 +112,7 @@ namespace Shop.Application.Services
                 _inventoryRepository.Update(checkInventory);
 
                 _inventoryRepository.Save();
-                return new OperationResult(true, InventoryMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {
@@ -125,7 +126,7 @@ namespace Shop.Application.Services
             {
                 _inventoryRepository.Remove(deleteInventory.InventoryId);
 
-                return new OperationResult(true, InventoryMessageResult.OperationSuccess);
+                return new OperationResult(true, OperationMessageResult.OperationSuccess);
             }
             catch (Exception ex)
             {
