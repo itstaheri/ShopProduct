@@ -27,7 +27,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             {
                 var result = await _propertyService.GetAllPropertyAsync(name, cancellationToken);
 
-                return Ok(result.Success);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -42,7 +42,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             {
                 var result = await _propertyService.GetPropertyAsync(PropertyId, cancellationToken);
 
-                return Ok(result.Success);
+                return Ok(result);
             }
             catch (Exception ex)
             {

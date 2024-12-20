@@ -100,7 +100,7 @@ namespace Shop.Application.Services
             {
                 long profileId = Convert.ToInt64(_auth.ReadTokenCalim("ProfileId"));
                 var profile =  _profileRepository.Get(x=>x.Id == profileId);
-                if(profile == null) return new OperationResult(false, ProfileMessageResult.NotFound);
+                if(profile == null) return new OperationResult(false, OperationMessageResult.ProfileNotFound);
 
                 profile.Edit(commend.NationalCode, commend.BirthDate, commend.Gender, commend.Firstname, commend.Lastname);
 

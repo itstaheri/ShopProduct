@@ -29,7 +29,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
         {
             var result = await _order.GetOrderAsync(orderId, cancellationToken);
 
-            return Ok(result.Success);
+            return Ok(result);
         }
 
         [HttpGet("GetList")]
@@ -39,7 +39,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
 
             var result = await _order.GetAllOrderWithPaginationAsync(order, cancellationToken);
 
-            return Ok(result.Success);
+            return Ok(result);
         }
 
         [HttpPost("Add")]
@@ -49,7 +49,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
 
             var result = _order.AddOrder(order);
 
-            return Ok(result.Success);
+            return Ok(result);
         }
 
         [HttpDelete("Remove")]

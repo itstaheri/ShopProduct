@@ -29,7 +29,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
 
             var result = await _userFavorite.GetUserFavoriteAsync(Favorite, cancellationToken);
 
-            return Ok(result.Success);
+            return Ok(result);
         }
 
         [HttpPost("Add")]
@@ -39,7 +39,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
 
             var result = await _userFavorite.AddUserFavoriteAsync(Favorite, cancellationToken);
 
-            return Ok(result.Success);
+            return Ok(result);
         }
 
         [HttpDelete("Remove")]

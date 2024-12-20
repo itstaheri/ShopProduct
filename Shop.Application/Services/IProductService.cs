@@ -148,7 +148,7 @@ namespace Shop.Application.Services
         public OperationResult UpdateProduct(UpdateProductDto updateProduct)
         {
             var checkProduct = _productRepository.Get(x => x.Id == updateProduct.Id);
-            if (checkProduct is null) return new OperationResult<ProductDto>(null, false, ProductMessageResult.ProductNotFound);
+            if (checkProduct is null) return new OperationResult<ProductDto>(null, false, OperationMessageResult.ProductNotFound);
 
             try
             {

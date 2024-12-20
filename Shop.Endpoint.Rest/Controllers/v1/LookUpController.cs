@@ -23,13 +23,13 @@ namespace Shop.Endpoint.Rest.Controllers.v1
         public async Task<IActionResult> GetCityList([FromQuery(Name = "provinceId")] long provinceId, CancellationToken cancellationToken)
         {
             var result = await _lookupService.GetCityListAsync(provinceId, cancellationToken);
-            return Ok(result.Success());
+            return Ok(result);
         }
         [HttpGet("GetProvinceList")]
         public async Task<IActionResult> GetProvinceList(CancellationToken cancellationToken)
         {
             var result = await _lookupService.GetProvinceListAsync(cancellationToken);
-            return Ok(result.Success());
+            return Ok(result);
         }
 
     }

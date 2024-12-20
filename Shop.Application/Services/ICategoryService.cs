@@ -95,7 +95,7 @@ namespace Shop.Application.Services
         public OperationResult UpdateCategory(UpdateCategoryDto updateCategory)
         {
             var checkCategory = _categoryRepository.Get(x => x.Id == updateCategory.CategoryId);
-            if (checkCategory is null) return new OperationResult<CategoryDto>(null, false, OperationMessageResult.OperationSuccess);
+            if (checkCategory is null) return new OperationResult<CategoryDto>(null, false, OperationMessageResult.CategoryNotFound);
 
             try
             {
@@ -114,7 +114,7 @@ namespace Shop.Application.Services
         public OperationResult DeleteCategory(DeleteCategoryRequestDto deleteCategory)
         {
             var checkDependency = _productRepository.Any(x => x.CategoryId == deleteCategory.CategoryId);
-            if (!checkDependency) return new OperationResult<CategoryDto>(null, false, CategoryMessageResult.CanNotDeleteCategory);
+            if (!checkDependency) return new OperationResult<CategoryDto>(null, false, OperationMessageResult.CanNotDeleteCategory);
 
             try
             {

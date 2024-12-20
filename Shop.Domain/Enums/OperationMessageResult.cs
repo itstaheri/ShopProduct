@@ -26,21 +26,47 @@ namespace Shop.Domain.Enums
         UserInvalid = 4,
         [Display(Name ="کاربر غیرفعال است.")]
         UserIsDeActive = 5,
+        [Display(Name = "نام کاربری وجود ندارد.")]
+        UserNameExist = 6,
+        [Display(Name = "شماره موبایل وجود ندارد.")]
+        PhoneNumberExist = 7,
         #endregion
 
         #region Inventory
         [Display(Name = "انبار یافت نشد.")]
-        InventoryNotFound = 6,
+        InventoryNotFound = 8,
         #endregion
 
         #region Property
         [Display(Name = "ویژگی یافت نشد.")]
-        PropertyNotFound = 7,
+        PropertyNotFound = 9,
         #endregion
 
         #region UserAddress
         [Display(Name = "آدرس کاربر یافت نشد.")]
-        UserAddressNotFound = 8,
+        UserAddressNotFound = 10,
+        #endregion
+
+        #region Category
+        [Display(Name = "دسته بندی کاربر یافت نشد.")]
+        CategoryNotFound = 11,
+        [Display(Name = "امکان حذف دسته بندی نمی باشد")]
+        CanNotDeleteCategory = 12,
+        #endregion
+
+        #region Order
+        [Display(Name = "سفارش یافت نشد.")]
+        OrderNotFound = 13,
+        #endregion
+
+        #region Product
+        [Display(Name = "محصول یافت نشد.")]
+        ProductNotFound = 14,
+        #endregion
+
+        #region Profile
+        [Display(Name = "اطلاعات کاربر یافت نشد.")]
+        ProfileNotFound = 15,
         #endregion
     }
 }

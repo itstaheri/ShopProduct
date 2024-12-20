@@ -28,7 +28,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             {
                 var result = await _productService.GetAllProductsAsync( cancellationToken);
 
-                return Ok(result.Success);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -42,7 +42,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             {
                 var result = await _productService.FilterAllProductAsync(getAllProduct, cancellationToken);
 
-                return Ok(result.Success);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -57,7 +57,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             {
                 var result = await _productService.GetProductAsync(productId, cancellationToken);
 
-                return Ok(result.Success);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -72,7 +72,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             {
               var result =  await _productService.CreateProductAsync(createProduct, cancellationToken);
 
-                return Ok(result.Success());
+                return Ok(result);
             }
             catch(Exception ex)
             {

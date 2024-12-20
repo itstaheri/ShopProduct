@@ -29,7 +29,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
 
             var result = await _userCart.GetUserCartAsync(cart, cancellationToken);
 
-            return Ok(result.Success);
+            return Ok(result);
         }
 
         [HttpPost("Add")]
@@ -39,7 +39,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
 
             var result = await _userCart.AddUserCartAsync(Cart, cancellationToken);
 
-            return Ok(result.Success);
+            return Ok(result);
         }
 
         [HttpDelete("Remove")]

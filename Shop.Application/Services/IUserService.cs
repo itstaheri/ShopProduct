@@ -150,9 +150,9 @@ namespace Shop.Application.Services
         public async Task<OperationResult<UserInfoDto>> SignupWithDetailAsync(CreateUserDto createUser, CancellationToken cancellationToken)
         {
             var checkUser = await _userRepository.AnyAsync(x => x.Username == createUser.Username, cancellationToken);
-            if (checkUser is true) return new OperationResult<UserInfoDto>(null,false, UserMessageResult.UsernameExist);
+            if (checkUser is true) return new OperationResult<UserInfoDto>(null,false, OperationMessageResult.UserNameExist);
             checkUser = await _userRepository.AnyAsync(x => x.PhoneNumber == createUser.PhoneNumber, cancellationToken);
-            if (checkUser is true) return new OperationResult<UserInfoDto>(null, false, UserMessageResult.PhonenumbeerExist);
+            if (checkUser is true) return new OperationResult<UserInfoDto>(null, false, OperationMessageResult.PhoneNumberExist);
 
             var transaction = _userRepository.OpenTransaction();
 
@@ -184,7 +184,7 @@ namespace Shop.Application.Services
                     Id = user.Id,
                     IsActive = user.IsActive,
                     Permissions = permissions.Select(x => (Permission)x.PermissionId).ToList()
-                }, true, UserMessageResult.OperationSuccess);
+                }, true, OperationMessageResult.OperationSuccess);
 
             }
             catch (Exception ex)

@@ -34,7 +34,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
         {
             long userId = _jwt.GetCurrentUserId();
             var result = await _userAddressService.AddAddressAsync(address, cancellationToken);
-            return Ok(result.Success);
+            return Ok(result);
         }
 
         [HttpDelete("Remove")]
@@ -60,7 +60,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
             {
                 var result = _userAddressService.UpdateAddress(address);
 
-                return Ok(result.Success);
+                return Ok(result);
             }
             catch (Exception ex)
             {

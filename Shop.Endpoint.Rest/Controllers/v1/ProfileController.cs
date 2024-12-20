@@ -27,7 +27,7 @@ namespace Shop.Endpoint.Rest.Controllers.v1
         {
             long userId = _jwt.GetCurrentUserId();
             var result = await _profileService.GetProfileInformationAsync(userId, cancellationToken);
-            return Ok(result.Success());
+            return Ok(result);
         }
 
         [HttpGet("GetUserAddress")]
@@ -35,20 +35,20 @@ namespace Shop.Endpoint.Rest.Controllers.v1
         {
             long userId = _jwt.GetCurrentUserId();
             var result = await _profileService.GetUserAddressAsync(userId, cancellationToken);
-            return Ok(result.Success());
+            return Ok(result);
         }
         [HttpPost("AddAddress")]
         public async Task<IActionResult> AddAddress(AddUserAddressDto address,CancellationToken cancellationToken)
         {
             long userId = _jwt.GetCurrentUserId();
             var result = await _profileService.AddAddressAsync(address, cancellationToken);
-            return Ok(result.Success());
+            return Ok(result);
         }
         [HttpPost("UpdateProfile")]
         public IActionResult UpdateProfile(UpdateProfileRequestDto request)
         {
             var result = _profileService.UpdateProfile(request);
-            return Ok(result.Success());
+            return Ok(result);
         }
     }
 }
